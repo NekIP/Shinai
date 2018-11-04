@@ -10,10 +10,13 @@
 					{{ (selectedIds.length == 1) ? selectedIds[0] : `count: ${selectedIds.length}`}}
 				</span>
 			</vue-select>
+			<custom-checkbox :value="true">
+				Hello world
+			</custom-checkbox>
 			<div v-if="showChart">
 				<vue-chart :data="getDataForChart()" :typeXAxis="'time'"></vue-chart>
 			</div>
-			<button @click="showChart = true">test data draw</button>
+			<!--<button @click="showChart = true">test data draw</button>-->
 			<vue-table
 				:items="data"
 				:columns="columns"

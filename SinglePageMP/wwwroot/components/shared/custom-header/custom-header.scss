@@ -47,6 +47,54 @@ $fontelloPath: "../../../fonts/fontello/fontello";
 			display: flex;
 			flex-direction: row;
 
+			.my-consumers {
+				.dropdown-container {
+					.dropdown {
+						width: 280px;
+
+						.item {
+							min-width: 280px;
+						}
+					}
+				}
+			}
+
+			.financial-details {
+				.dropdown-container {
+					.dropdown {
+						width: 260px;
+
+						.item {
+							min-width: 260px;
+						}
+					}
+				}
+			}
+
+			.performance-reporting {
+				.dropdown-container {
+					.dropdown {
+						width: 270px;
+
+						.item {
+							min-width: 270px;
+						}
+					}
+				}
+			}
+
+			.my-websites {
+				.dropdown-container {
+					.dropdown {
+						width: 212px;
+
+						.item {
+							min-width: 212px;
+						}
+					}
+				}
+			}
+
 			[class^="icon-"]:before,
 			[class*=" icon-"]:before {
 				display: inline-block;

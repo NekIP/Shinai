@@ -20,32 +20,35 @@
 	body {
 		padding-left: 0px;
 		padding-right: 0px;
+		height: 100%;
 	}
 
-	.app-content {
-		overflow: auto;
-		height: calc(100% - 57px);
-		font-family: Roboto;
-		scroll-behavior: smooth;
+	.app-container {
+		height: 100%;
 
-		&::-webkit-scrollbar-track
-		{
-			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-			//border-radius: 10px;
-			background-color: #F5F5F5;
-		}
+		.app-content {
+			overflow: auto;
+			height: 93%;
+			height: calc(100% - 57px);
+			height: -moz-calc(100% - 57px);
+			height: -webkit-calc(100% - 57px);
+			font-family: Roboto;
+			scroll-behavior: smooth;
 
-		&::-webkit-scrollbar
-		{
-			width: 10px;
-			background-color: #F5F5F5;
-		}
+			&::-webkit-scrollbar-track {
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+				background-color: #F5F5F5;
+			}
 
-		&::-webkit-scrollbar-thumb
-		{
-			//border-radius: 10px;
-			-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-			background-color: rgb(194, 194, 194);
+			&::-webkit-scrollbar {
+				width: 10px;
+				background-color: #F5F5F5;
+			}
+
+			&::-webkit-scrollbar-thumb {
+				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+				background-color: rgb(194, 194, 194);
+			}
 		}
 	}
 </style>

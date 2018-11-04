@@ -7,28 +7,28 @@
 				</div>
 			</div>
 			<div class="header-items-container">
-				<custom-header-dropdown :data="headerItems.performanceReporting">
+				<custom-header-dropdown class="performance-reporting" :data="headerItems.performanceReporting">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-performance-reporting">
 						{{headerName}}
 					</span>
 				</custom-header-dropdown>
-				<custom-header-dropdown :data="headerItems.myWebsites">
+				<custom-header-dropdown class="my-websites" :data="headerItems.myWebsites">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-my-websites">
 						{{headerName}}
 					</span>
 				</custom-header-dropdown>
-				<custom-header-dropdown :data="headerItems.financialDetails">
+				<custom-header-dropdown class="financial-details" :data="headerItems.financialDetails">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-financial-details">
 						{{headerName}}
 					</span>
 				</custom-header-dropdown>
-				<custom-header-dropdown :data="headerItems.myConsumers">
+				<custom-header-dropdown class="my-consumers" :data="headerItems.myConsumers">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-my-consumers">

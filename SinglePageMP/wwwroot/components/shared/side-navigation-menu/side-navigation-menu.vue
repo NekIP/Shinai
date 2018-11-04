@@ -1,6 +1,6 @@
 <template>
 	<div class="side-navigation-menu">
-		<template v-for="item in navMenuItems()">
+		<template v-for="item in navMenuItems">
 			<div v-if="item.type == 'single'" 
 					:key="item.name" 
 					class="menu-item"
@@ -23,15 +23,17 @@
 						<i class="fa fa-caret-right" aria-hidden="true" v-show="!item.show"></i>
 					</div>
 				</div>
-				<div class="dropdown-content" v-show="item.show">
-					<div v-for="child in item.children" 
-							:key="child.name" 
-							class="children"
-							:class="child.current ? 'selected-menu-item' : ''">
-						<a :href="child.url" v-if="!child.current">{{child.name}}</a>
-						<template v-if="child.current">{{child.name}}</template>
+				<transition name="dropdown-content">
+					<div class="dropdown-content" v-show="item.show">
+						<div v-for="child in item.children" 
+								:key="child.name" 
+								class="children"
+								:class="child.current ? 'selected-menu-item' : ''">
+							<a :href="child.url" v-if="!child.current">{{child.name}}</a>
+							<template v-if="child.current">{{child.name}}</template>
+						</div>
 					</div>
-				</div>
+				</transition>
 			</div>
 		</template>
 	</div>
@@ -55,16 +57,7 @@
 			}
 		},
 		computed: {
-			
-		},
-		methods: {
-			showHide(item) {
-				item.show = !item.show;
-				this.$forceUpdate();
-			},
-
 			navMenuItems() {
-				console.log(this.$route);
 				return this.items.map(x => {
 					let type = x.type || 'single';
 					x.type = type;
@@ -74,6 +67,17 @@
 					return x;
 				})
 			}
+		},
+		methods: {
+			showHide(item) {
+				item.show = !item.show;
+				for (let i in this.navMenuItems) {
+					if (this.navMenuItems[i] != item) {
+						this.navMenuItems[i].show = false;
+					}
+				}
+				this.$forceUpdate();
+			},
 		}
 	}
 </script>
@@ -88,7 +92,10 @@
 
 		z-index: 100;
 		width: 188px;
+		height: 93%;
 		height: calc(100% - 57px);
+		height: -moz-calc(100% - 57px);
+		height: -webkit-calc(100% - 57px);
 		background: #efefef;
 		-ms-user-select: none;
 		-moz-user-select: none;
@@ -103,6 +110,7 @@
     		border-bottom: solid 1px #d1d1d1;
 			box-shadow: 0 1px 0 0 #fff;
 			padding: 14px 28px 14px 16px;
+			overflow-y: hidden;
 			cursor: pointer;
 
 			.name {
@@ -199,6 +207,23 @@
 			a {
 				color: rgb(0, 0, 0);
 			}
+		}
+
+	/* ANIMATIONS */
+		.dropdown-content-enter, .dropdown-content-leave-to{
+			max-height: 0px;
+		}
+
+		.dropdown-content-leave, .dropdown-content-enter-to{
+			max-height: 100px;
+		}
+
+		.dropdown-content-enter-active  {
+			transition: max-height .2s;
+		}
+
+		.dropdown-content-leave-active {
+			transition: max-height .2s;
 		}
 	}
 </style>

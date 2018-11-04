@@ -6,21 +6,23 @@
 			</slot>
 		</div>
 		<div class="dropdown-container">
-			<div class="dropdown" v-show="data.show">
-				<div class="item" v-for="item in data.children" :key="item.name">
-					<div v-if="item.type == 'single'" class="single">
-						<a :href="item.url">{{item.name}}</a>	
+			<transition name="dropdown">
+				<div class="dropdown" v-show="data.show">
+					<div class="item" v-for="item in items" :key="item.name">
+						<div v-if="item.type == 'single'" class="single">
+							<a :href="item.url">{{item.name}}</a>	
+						</div>
+						<template v-if="item.type == 'group'">
+							<div class="group">
+								{{item.name}}
+							</div>
+							<div v-for="child in item.children" class="group-child">
+								<a :href="child.url">{{child.name}}</a>	
+							</div>
+						</template>
 					</div>
-					<template v-if="item.type == 'group'">
-						<div class="group">
-							{{item.name}}
-						</div>
-						<div v-for="child in item.children" class="group-child">
-							<a :href="child.url">{{child.name}}</a>	
-						</div>
-					</template>
 				</div>
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -31,6 +33,16 @@
 			'data': {
 				type: Object,
 				required: true
+			}
+		},
+		computed: {
+			items() {
+				return this.data.children.map(x => {
+					if (!x.type) {
+						x.type = 'single';
+					}
+					return x;
+				});
 			}
 		},
 		methods: {
@@ -69,7 +81,7 @@
 
 			.dropdown {
 				position: absolute;
-				min-width: 300px;
+				/*min-width: 300px;*/
 				z-index: 1000;
 				float: left;
 				padding: 5px 0 20px 0;
@@ -82,24 +94,26 @@
 				-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 				box-shadow: 0 6px 12px rgba(0,0,0,.175);
 				font-size: 14px;
+				overflow-x: hidden;
+				overflow-y: hidden;
 
 				.item {
 					color: #255297;
 
 					.single {
-						font-size: 1.2em;
+						font-size: 1.3em;
 						font-weight: normal;
 						text-transform: uppercase;
-						padding: 15px 25px 0 25px;
-						font-weight: 600;
+						padding: 5px 25px 0 25px;
+						font-weight: 400;
 					}
 
 					.group {
-						font-size: 1.2em;
+						font-size: 1.3em;
 						font-weight: normal;
 						text-transform: uppercase;
-						padding: 15px 25px 0 25px;
-						font-weight: 600;
+						padding: 5px 25px 0 25px;
+						font-weight: 400;
 					}
 
 					.group-child {
@@ -116,6 +130,27 @@
 					}
 				}
 			}
+		}
+
+	/* ANIMATIONS */
+		.dropdown-enter, .dropdown-leave-to{
+			max-height: 0px;
+			max-width: 190px;
+			z-index: 800;
+		}
+
+		.dropdown-leave, .dropdown-enter-to{
+			max-height: 500px;
+			max-width: 300px;
+			z-index: 700;
+		}
+
+		.dropdown-enter-active  {
+			transition: max-height .3s, max-width .3s;
+		}
+
+		.dropdown-leave-active {
+			transition: max-height .0s, max-width .0s;
 		}
 	}
 </style>

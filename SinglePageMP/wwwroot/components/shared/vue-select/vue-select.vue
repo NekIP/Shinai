@@ -1,7 +1,7 @@
 <template>
-	<div class="vueselect" v-click-outside="hide">
+	<div class="vue-select" v-click-outside="hide">
 		<div class="select-box" v-on:click="changeIsExpandedState">
-			<select class="form-control">
+			<select class="select" :class="isExpanded ? 'expanded-select' : ''">
 				<option>
 					<slot name="header" :selectedIds="selectedIds">
 						{{title}}
@@ -11,43 +11,45 @@
 			<div class="over-select"></div>
 		</div>
     	<div class="checkboxes-container">
-        	<div class="checkboxes" v-show="isExpanded">
-            	<div class="row">
-                	<div class="col col-md-12">
-                    	<input v-model="searchString" 
-							   @input="searchTermChanged"
-							   class="search-text-box" 
-							   type="text" 
-							   placeholder="Search">
-					</div>
-					<div class="col col-md-12">
-						<button type="button" 
-								class="btn btn-link segpay-btn-link" 
-								@click="selectAllOrUnselectAll">
-							{{isAllOptionsSelected ? 'Unselect all' : 'Select all'}}
-						</button>
-					</div>
-                </div>
-                <div class="options-group" v-for="optGroup in optionGroups">
-                    <p class="group-header">{{optGroup.groupHeader}}</p>
-					<button type="button" 
-								class="btn btn-link segpay-btn-link" 
-								@click="selectOrUnselectAllItemsInGroup(optGroup.key)">
-						{{groupToIsAllOptionsSelectedMap[optGroup.key] ? 'Unselect all' : 'Select all'}}
-					</button>
-                    <template v-for="opt in optGroup.groupItems">
-                        <template v-if="!searchString || (opt.isSelected) || matchedItems.includes(opt.value)">
-                            <label v-bind:class="{ selected: opt.isSelected }">
-								<input type="checkbox" 
-									   :value="opt.value"
-									   :checked="opt.isSelected"
-									   @click="changeOptionState(opt)" />
-								{{opt.text}}		
-							</label>
+            <transition name="select-body">
+                <div class="checkboxes" v-show="isExpanded">
+                    <div class="toolbar">
+                        <div class="search">
+                            <input v-model="searchString" 
+                                @input="searchTermChanged"
+                                class="search-text-box" 
+                                type="text" 
+                                placeholder="Search">
+                        </div>
+                        <div class="selector">
+                            <button type="button" 
+                                    class="btn btn-link segpay-btn-link" 
+                                    @click="selectAllOrUnselectAll">
+                                {{isAllOptionsSelected ? 'Unselect all' : 'Select all'}}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="options-group" v-for="optGroup in optionGroups" :key="optGroup.groupHeader">
+                        <p class="group-header">{{optGroup.groupHeader}}</p>
+                        <button type="button" 
+                                    class="btn btn-link segpay-btn-link" 
+                                    @click="selectOrUnselectAllItemsInGroup(optGroup.key)">
+                            {{groupToIsAllOptionsSelectedMap[optGroup.key] ? 'Unselect all' : 'Select all'}}
+                        </button>
+                        <template v-for="opt in optGroup.groupItems">
+                            <template v-if="!searchString || (opt.isSelected) || matchedItems.includes(opt.value)">
+                                <label v-bind:class="{ selected: opt.isSelected }">
+                                    <input type="checkbox" 
+                                        :value="opt.value"
+                                        :checked="opt.isSelected"
+                                        @click="changeOptionState(opt)" />
+                                    {{opt.text}}		
+                                </label>
+                            </template>
                         </template>
-                    </template>
+                    </div>
                 </div>
-            </div>
+            </transition>
         </div>
     </div>
 </template>
@@ -234,105 +236,170 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.segpay-btn-link {
-    padding: 0;
-
-    &:hover {
-        text-decoration: underline;
-        color: orange;
-    }
-}
-
-.vueselect {
-    width: 100%;
-    max-width: 450px;
-    padding: 1em;
-}
-
-.over-select {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-}
-
-.select-box {
-    position: relative;
-
-	&:hover {
-		select {
-			cursor: pointer;
-			background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
-		}
-	}
-
-    select {
+    .vue-select {
         width: 100%;
-        color: white;
-        background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
-    }
-}
+        max-width: 450px;
+        margin: 0.2em;
 
-.checkboxes-container {
-    position: relative;
-    width: 100%;
-    z-index: 100;
-
-    .checkboxes {
-        background-color: #ffffff;
-        border: 1px #dadada solid;
-        padding-left: 0.5em;
-        padding-top: 0.5em;
-        max-height: 200px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        overflow-y: scroll;
-
-		.options-group {
-			padding-top: 1em;
-			padding-bottom: 1em;	
-		}
-
-        .search-text-box {
-            width: 100%;
-        }
-
-		.group-header {
-			margin: 0;
-			font-weight: bold;
-		}
-
-        label {
-            display: block;
-            margin-top: 1px;
-            margin-bottom: 1px;
-            border: 1px dotted transparent;
-			font-weight: 500;
-
-            input {
-                margin: 0;
-                padding: 0.5em;
-            }
+        .segpay-btn-link {
+            padding: 0;
 
             &:hover {
-                background-color: #ebebeb;
-                border-color: blue;
+                text-decoration: underline;
+                color: orange;
+            }
+        }
+
+        .over-select {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+        }
+
+        .select-box {
+            position: relative;
+            cursor: pointer;
+
+            &:hover {
+                .select {
+                    background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
+                }
             }
 
-            &.selected {
-                background-color: #415090;
-                color: #ffffff;
-                border: 1px solid orange;
+            .select {
+                width: 100%;
+                color: white;
+                padding: 0.3em;
+                border: 1px solid #aaa;
+                white-space: nowrap;
+                display: block;
+                font-weight: 400;
+                overflow: hidden;
+                text-shadow: 1px 1px rgba(0,0,0,.14);
+                color: #fff;
+                max-height: 34px;
+                border-radius: 4px;
+                background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
+                cursor: pointer;
 
-                &:hover {
-                    background-color: #415090;
+                &.expanded-select {
+                    border-radius: 4px 4px 0px 0px;
                 }
             }
         }
+
+        .checkboxes-container {
+            position: relative;
+            width: 100%;
+            z-index: 100;
+
+            .checkboxes {
+                background-color: #ffffff;
+                //border: 1px #dadada solid;
+                -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+				box-shadow: 0 6px 12px rgba(0,0,0,.175);
+                border-radius: 0px 0px 4px 4px;
+                max-height: 200px;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                overflow-y: scroll;
+
+                .toolbar {
+                    width: 100%;
+
+                    .search {
+                        width: 100%;
+
+                        .search-text-box {
+                            width: 100%;
+                            border-width: 0px;
+                            border-bottom: 1px solid rgb(184, 184, 184);
+                            border-radius: 0px 0px 0px 5px;
+                            padding-left: 10px;
+
+                            &:focus {
+                                outline:0;
+                            }
+                        }
+                    }
+
+                    .selector {
+                        width: 100%;
+                    }
+                }
+
+                .options-group {
+                    padding-top: 1em;
+                    padding-bottom: 1em;	
+                }
+
+                .group-header {
+                    margin: 0;
+                    font-weight: bold;
+                }
+
+                label {
+                    display: block;
+                    margin-top: 1px;
+                    margin-bottom: 1px;
+                    border: 1px dotted transparent;
+                    font-weight: 500;
+
+                    input {
+                        margin: 0;
+                        padding: 0.5em;
+                    }
+
+                    &:hover {
+                        background-color: #ebebeb;
+                        border-color: blue;
+                    }
+
+                    &.selected {
+                        background-color: #415090;
+                        color: #ffffff;
+                        border: 1px solid orange;
+
+                        &:hover {
+                            background-color: #415090;
+                        }
+                    }
+                }
+
+                &::-webkit-scrollbar-track {
+                    background-color: #F5F5F5;
+                }
+
+                &::-webkit-scrollbar {
+                    width: 10px;
+                    background-color: #F5F5F5;
+                }
+
+                &::-webkit-scrollbar-thumb {
+                    background-color: rgb(194, 194, 194);
+                }
+            }
+
+        /* ANIMATIONS */
+            .select-body-enter, .select-body-leave-to{
+                max-height: 0px;
+            }
+
+            .select-body-leave, .select-body-enter-to{
+                max-height: 200px;
+            }
+
+            .select-body-enter-active  {
+                transition: max-height .2s;
+            }
+
+            .select-body-leave-active {
+                transition: max-height .2s;
+            }
+        }
     }
-}
 </style>
