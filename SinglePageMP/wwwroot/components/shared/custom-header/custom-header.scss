@@ -1,0 +1,104 @@
+$headerHeight: 57px;
+$logoContainerColor: #255297;
+$customHeaderColor: #133f84;
+$fontelloPath: "../../../fonts/fontello/fontello";
+
+@font-face {
+	font-family: "fontello";
+	font-style: normal;
+	font-weight: normal;
+	src: url($fontelloPath + ".eot");
+	src: url($fontelloPath + ".eot?#iefix") format("embedded-opentype"), 
+		 url($fontelloPath + ".woff") format("woff"), 
+		 url($fontelloPath + ".ttf") format("truetype"), 
+		 url($fontelloPath + ".svg") format("svg");
+}
+
+.custom-header {
+	header {
+		background: $customHeaderColor;
+		height: $headerHeight;
+		width: 100%;
+		top: 0;
+		z-index: 800;
+		box-shadow: 1px 1px 2px rgba(87, 87, 87, 0.486);
+
+		.logo-container {
+			background: $logoContainerColor;
+			float: left;
+			padding: 18px 0 11px 17px;
+			width: 188px;
+
+			.logo {
+				overflow: hidden;
+				width: 154px;
+
+				.logo-link {
+					background: url(../../../images/segpay-logo.png) no-repeat center center;
+					background-size: contain;
+					display: block;
+					height: 28px;
+					width: 154px;
+				}
+			}
+		}
+
+		.header-items-container {
+			display: flex;
+			flex-direction: row;
+
+			[class^="icon-"]:before,
+			[class*=" icon-"]:before {
+				display: inline-block;
+				font-family: "fontello";
+				font-style: normal;
+				font-variant: normal;
+				font-weight: normal;
+				text-decoration: inherit;
+				text-transform: none;
+			}
+
+			.icon-financial-details:before {
+				content: "\e807";
+				float: left;
+				font-size: 22px;
+				padding: 0 10px 0 0;
+			}
+			
+			.icon-internal-tools:before {
+				content: "\e80a";
+				float: left;
+				font-size: 30px;
+				padding: 0 10px 0 0;
+			}
+			
+			.icon-my-consumers:before {
+				content: "\e808";
+				float: left;
+				font-size: 22px;
+				padding: 0 10px 0 0;
+			}
+			
+			.icon-my-websites:before {
+				content: "\e803";
+				float: left;
+				font-size: 22px;
+				padding: 0 10px 0 0;
+			}
+			
+			.icon-performance-reporting:before {
+				content: "\e806";
+				float: left;
+				font-size: 28px;
+				padding: 0 10px 0 0;
+			}
+			
+			.icon-user:before {
+				content: "\e805";
+				float: left;
+				font-size: 30px;
+				padding: 0 10px 0 0;
+			}
+		}
+	}
+}
