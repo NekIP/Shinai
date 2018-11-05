@@ -46,6 +46,9 @@ $fontelloPath: "../../../fonts/fontello/fontello";
 		.header-items-container {
 			display: flex;
 			flex-direction: row;
+			@media screen and (max-width: 1025px) {
+				display: none;
+			}
 
 			.my-consumers {
 				.dropdown-container {

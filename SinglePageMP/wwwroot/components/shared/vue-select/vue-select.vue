@@ -1,53 +1,104 @@
 <template>
 	<div class="vue-select" v-click-outside="hide">
 		<div class="select-box" v-on:click="changeIsExpandedState">
-			<select class="select" :class="isExpanded ? 'expanded-select' : ''">
+			<select class="select form-control" :class="isExpanded ? 'expanded-select' : ''">
 				<option>
-					<slot name="header" :selectedIds="selectedIds">
+					<slot name="header" :selected="getSelected(options)">
 						{{title}}
 					</slot>
 				</option>
 			</select>
 			<div class="over-select"></div>
 		</div>
-    	<div class="checkboxes-container">
+    	<div class="select-container">
             <transition name="select-body">
-                <div class="checkboxes" v-show="isExpanded">
+                <div class="select-body" v-show="isExpanded">
                     <div class="toolbar">
                         <div class="search">
                             <input v-model="searchString" 
-                                @input="searchTermChanged"
                                 class="search-text-box" 
                                 type="text" 
                                 placeholder="Search">
                         </div>
                         <div class="selector">
-                            <button type="button" 
-                                    class="btn btn-link segpay-btn-link" 
-                                    @click="selectAllOrUnselectAll">
-                                {{isAllOptionsSelected ? 'Unselect all' : 'Select all'}}
-                            </button>
+                            <custom-checkbox 
+                                    class="int hint--bottom hint--info"
+                                    :data-hint="allSelected ?  'Unselect all' : 'Select All'"
+                                    :value.sync="allSelected" 
+                                    :callback="setSelectStateForAll">
+                            </custom-checkbox>
                         </div>
                     </div>
-                    <div class="options-group" v-for="optGroup in optionGroups" :key="optGroup.groupHeader">
-                        <p class="group-header">{{optGroup.groupHeader}}</p>
-                        <button type="button" 
-                                    class="btn btn-link segpay-btn-link" 
-                                    @click="selectOrUnselectAllItemsInGroup(optGroup.key)">
-                            {{groupToIsAllOptionsSelectedMap[optGroup.key] ? 'Unselect all' : 'Select all'}}
-                        </button>
-                        <template v-for="opt in optGroup.groupItems">
-                            <template v-if="!searchString || (opt.isSelected) || matchedItems.includes(opt.value)">
-                                <label v-bind:class="{ selected: opt.isSelected }">
-                                    <input type="checkbox" 
-                                        :value="opt.value"
-                                        :checked="opt.isSelected"
-                                        @click="changeOptionState(opt)" />
-                                    {{opt.text}}		
-                                </label>
+                    <transition-group v-if="allowAnimationForList" class="options" name="flip-list" tag="ul">
+                        <template v-for="option in options">
+                            <li class="item single" v-if="isSingle(option) && filter(option)" :key="option.value">
+                                <custom-checkbox
+                                    :value.sync="option.selected"
+                                    :callback="selectStateChanged">
+                                    {{option.text}}
+                                </custom-checkbox>
+                            </li>
+                            <template v-if="isGroup(option) && filter(option)">
+                                <li class="item group" :key="option.text">
+                                    <div class="group-header">
+                                        <div class="group-name">
+                                            {{option.text}}
+                                        </div>
+                                        <div class="group-selector">
+                                            <custom-checkbox 
+                                                class="hint hint--bottom hint--info"
+                                                :data-hint="option.selected ? 'Unselect Group' : 'Select Group'"
+                                                :value.sync="option.selected"
+                                                :callback="val => setSelectStateForGroup(val, option)">
+                                            </custom-checkbox>
+                                        </div>
+                                    </div>
+                                </li>
+                                <template v-for="item in option.items">
+                                    <li class="item single" v-if="filter(item)" :key="item.value">
+                                        <custom-checkbox :value.sync="item.selected" :callback="selectStateChanged">
+                                            {{item.text}}
+                                        </custom-checkbox>
+                                    </li>
+                                </template>
                             </template>
                         </template>
-                    </div>
+                    </transition-group>
+                    <ul v-if="!allowAnimationForList" class="options">
+                        <template v-for="option in options">
+                            <li class="item single" v-if="isSingle(option) && filter(option)" :key="option.value">
+                                <custom-checkbox
+                                    :value.sync="option.selected"
+                                    :callback="selectStateChanged">
+                                    {{option.text}}
+                                </custom-checkbox>
+                            </li>
+                            <template v-if="isGroup(option) && filter(option)">
+                                <li class="item group" :key="option.text">
+                                    <div class="group-header">
+                                        <div class="group-name">
+                                            {{option.text}}
+                                        </div>
+                                        <div class="group-selector">
+                                            <custom-checkbox 
+                                                class="hint hint--bottom hint--info"
+                                                :data-hint="option.selected ? 'Unselect Group' : 'Select Group'"
+                                                :value.sync="option.selected"
+                                                :callback="val => setSelectStateForGroup(val, option)">
+                                            </custom-checkbox>
+                                        </div>
+                                    </div>
+                                </li>
+                                <template v-for="item in option.items">
+                                    <li class="item single" v-if="filter(item)" :key="item.value">
+                                        <custom-checkbox :value.sync="item.selected" :callback="selectStateChanged">
+                                            {{item.text}}
+                                        </custom-checkbox>
+                                    </li>
+                                </template>
+                            </template>
+                        </template>
+                    </ul>
                 </div>
             </transition>
         </div>
@@ -55,191 +106,224 @@
 </template>
 
 <script>
-import Fuse from 'fuse.js';
-import vClickOutside from 'v-click-outside'
+    import Fuse from 'fuse.js';
+    import vClickOutside from 'v-click-outside'
 
-export default {
-    directives: {
-        clickOutside: vClickOutside.directive
-    },
-    model: {},
-    props: {
-        allOptionGroups: {
-            type: Array,
-            required: true
-        },
-        defaultTitle: {
-            type: String,
-            required: true
-        },
-        multipleSelectedTitleChunk: {
-            type: String,
-            required: true
-        },
-        allowMultiple: {
-            type: Boolean,
-            default: true
-        }
-    },
-    data() {
-        return {
-            selectedIds: [],
-            optionGroups: this.allOptionGroups,
-            title: this.defaultTitle,
-            isExpanded: false,
-			isAllOptionsSelected: false,
-			groupToIsAllOptionsSelectedMap: {},
-            totalOptionsCount: 0,
-            searchString: "",
-            matchedItems: []
-        }
-    },
-    created: function () {
-        var allOptions = [];
-        this.allOptionGroups.forEach(optionGroup => {
-			this.groupToIsAllOptionsSelectedMap[optionGroup.key] = false;
-            optionGroup.groupItems.forEach(option => {
-                allOptions.push(option);
-            });
-        });
-        this.totalOptionsCount = (allOptions) ? allOptions.length : 0;
-    },
-    watch: {
-        optionGroups: {
-            handler: function (val) {
-                let self = this;
-                this.selectedIds.length = 0;
-                this.optionGroups.forEach(optionGroup => {
-                    optionGroup.groupItems.forEach(option => {
-                        if (option.isSelected) {
-                            self.selectedIds.push(option.value);
-                        }
-                    });
-                });
-                this.isAllOptionsSelected = (!this.selectedIds) ?
-                    false :
-                    this.selectedIds.length == this.totalOptionsCount;
+    const settingsFuse = {
+        shouldSort: true,
+        includeScore: true,
+        threshold: 0.3,
+        location: 0,
+        distance: 100,
+        maxPatternLength: 32,
+        minMatchCharLength: 1,
+        keys: [
+            "text"
+        ]
+    };
 
-                this.onChange();
+    export default {
+        directives: {
+            clickOutside: vClickOutside.directive
+        },
+        model: {},
+        props: {
+            allOptionGroups: {
+                type: Array,
+                required: true
             },
-            deep: true
-        },
-    },
-    methods: {
-        hide(e, el) {
-
-            if (e.target.className == "overSelect") {
-                return;
+            defaultTitle: {
+                type: String,
+                required: true
+            },
+            multipleSelectedTitleChunk: {
+                type: String,
+                required: true
+            },
+            allowMultiple: {
+                type: Boolean,
+                default: true
             }
-
-            if (this.isExpanded) {
-                this.isExpanded = false;
+        },
+        data() {
+            return {
+                selectedIds: [],
+                optionGroups: this.allOptionGroups,
+                title: this.defaultTitle,
+                isExpanded: false,
+                isAllOptionsSelected: false,
+                groupToIsAllOptionsSelectedMap: {},
+                totalOptionsCount: 0,
+                searchString: "",
+                matchedItems: [],
+                allSelected: false
             }
         },
-        changeIsExpandedState() {
-            this.isExpanded = !this.isExpanded;
+        computed: {
+            options() {
+                let self = this;
+                return this.mapInputOptions(this.allOptionGroups);
+            },
+            allowAnimationForList() {
+                return this.options.length < 300;
+            }
         },
-        searchTermChanged() {
-            let self = this;
+        methods: {
+/* MAPPERS */
+            mapInputOptions(options) {
+                let result = [];
+                for (let i in options) {
+                    let option = options[i];
+                    switch (typeof(option)) {
+                        case 'string':
+                            result.push({
+                                text: option,
+                                value: option,
+                                selected: false,
+                                type: 'single'
+                            });
+                            break;
+                        case 'object':
+                            if (Array.isArray(option)) {
+                                result.push({
+                                    text: option[0],
+                                    value: option[1] || option[0],
+                                    selected: option[2] || false,
+                                    type: 'single'
+                                });
+                            }
+                            else {
+                                result.push({
+                                    text: option.text,
+                                    value: option.value || option.text,
+                                    selected: !!option.isSelected,
+                                    type: option.type || 'single',
+                                    items: option.type == 'group' 
+                                        ? this.mapInputOptions(option.items) 
+                                        : undefined
+                                });
+                            }
+                            break;
+                    }
+                }
+                return result;
+            },
 
-            this.matchedItems.length = 0;
+            getSelected(options) {
+                let result = [];
+                for (let i in options) {
+                    let option = options[i];
+                    if (option.type == 'single') {
+                        if (option.selected) {
+                            result.push(option);
+                        }
+                    }
+                    else if (option.type == 'group') {
+                        if (option.items) {
+                            result.push.apply(result, 
+                                this.getSelected(option.items));
+                        }
+                    }
+                }
+                return result;
+            },
 
-            var options = {
-                keys: ['text'],
-                includeScore: true,
-            };
-
-            this.allOptionGroups.forEach(function (optionGroup) {
-                var fuse = new Fuse(optionGroup.groupItems, options);
-
-                var test = fuse.search(self.searchString);
-
-                test.forEach(function (match) {
-                    self.matchedItems.push(match.item.value);
+/* SELECT STATE */
+            setSelectStateForAll(newState) {
+                this.options.forEach(x => {
+                    x.selected = newState;
+                    if (x.type == 'group') {
+                        x.items.forEach(y => y.selected = newState);
+                    }
                 });
-            });
-        },
-        changeOptionState(option) {
-            let initialState = option.isSelected;
+                this.updateTitle();
+                this.$forceUpdate();
+            },
 
-            if (!this.allowMultiple) {
-                this.optionGroups.forEach(optionGroup => {
-                    optionGroup.groupItems.forEach(option => {
-                        option.isSelected = false;
-                    });
+            setSelectStateForGroup(newState, group) {
+                group.selected = newState;
+                group.items.forEach(x => x.selected = newState);
+                this.allSelected = this.options.every(x => x.selected);
+                this.updateTitle();
+                this.$forceUpdate();
+            },
+
+            selectStateChanged() {
+                let allSelected = true;
+                this.options.forEach(x => {
+                    if (x.type == 'group') {
+                        x.selected = (x.items || []).every(y => y.selected);
+                    }
+                    allSelected = allSelected && x.selected;
                 });
+                this.allSelected = allSelected;
+                this.updateTitle();
+                this.$forceUpdate();
+            },
+
+/* FILTER */
+            filter(option) {
+                if (!this.searchString || option.selected) {
+                    return true;
+                }
+                if (this.isGroup(option)) {
+                    if (!option.items) {
+                        return false;
+                    }
+                    let self = this;
+                    return option.items.some(x => self.match(x));
+                }
+                else if (this.isSingle(option)) {
+                    return this.match(option);
+                }
+            },
+
+            match(option) {
+                return option.text.includes(this.searchString);
+                /*let fuse = new Fuse([option], settingsFuse);
+                let result = fuse.search(this.searchString);
+                return result.length > 0;*/
+            },
+
+/* CHECKERS */
+            isSingle: option => option.type == 'single',
+            isGroup: option => option.type == 'group',
+
+/* OTHER */
+            changeIsExpandedState() {
+                this.isExpanded = !this.isExpanded;
+            },
+            
+            updateTitle() {
+                let selected = this.getSelected(this.options);
+                console.log(selected);
+                if (selected.length == 0 || !selected) {
+                    this.title = this.defaultTitle;
+                }
+                if (selected.length == 1) {
+                    this.title = `${selected[0].text}`;
+                } else {
+                    this.title = `${selected.length} ${this.multipleSelectedTitleChunk}`;
+                }
+            },
+
+            hide(event, element) {
+                if (event.target.className == "overSelect") {
+                    return;
+                }
+                if (this.isExpanded) {
+                    this.isExpanded = false;
+                }
             }
-            option.isSelected = !initialState;
-        },
-        onChange() {
-            this.updateTitle();
-            this.$emit('selection-changed', this.selectedIds);
-        },
-        selectAllOrUnselectAll() {
-            this.isAllOptionsSelected = (!this.selectedIds) ?
-                false :
-                this.selectedIds.length == this.totalOptionsCount;
-
-            let newState = !this.isAllOptionsSelected;
-
-            this.optionGroups.forEach(optionGroup => {
-                optionGroup.groupItems.forEach(option => {
-                    option.isSelected = newState;
-                });
-            });
-		},
-		selectOrUnselectAllItemsInGroup(groupKey) {
-		
-			
-			this.optionGroups.forEach(optionGroup => {
-				if (optionGroup.key == groupKey) {
-					var isAllOptionsSelected = this.groupToIsAllOptionsSelectedMap[groupKey] 
-						? this.groupToIsAllOptionsSelectedMap[groupKey] 
-						: false;
-						
-					var allOptionsCount = optionGroup.groupItems.length;
-					var selectedOptionsCount = 0;
-					optionGroup.groupItems.forEach(option => {
-						if (option.isSelected) {
-							selectedOptionsCount += 1;
-						}
-					});
-					if (allOptionsCount == selectedOptionsCount) {
-						isAllOptionsSelected = true;
-					}
-					this.groupToIsAllOptionsSelectedMap[groupKey] = !isAllOptionsSelected;
-				}
-            });
-
-            let newState = !this.isAllOptionsSelected;
-
-            this.optionGroups.forEach(optionGroup => {
-				if (optionGroup.key == groupKey) {
-					optionGroup.groupItems.forEach(option => {
-						option.isSelected = newState;
-					});
-				}
-            });
-		},
-        updateTitle() {
-            if (this.selectedIds.length == 0 || !this.selectedIds) {
-                this.title = this.defaultTitle;
-            }
-            if (this.selectedIds.length == 1) {
-                this.title = `${this.selectedIds[0]}`;
-            } else {
-                this.title = `${this.selectedIds.length} ${this.multipleSelectedTitleChunk}`;
-            }
-        },
+        }
     }
-}
 </script>
 
 <style lang="scss" scoped>
     .vue-select {
         width: 100%;
-        max-width: 450px;
-        margin: 0.2em;
+        font-size: 14px;
+        margin: 5px;
 
         .segpay-btn-link {
             padding: 0;
@@ -264,62 +348,69 @@ export default {
 
             &:hover {
                 .select {
-                    background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
+                    //background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
+                    background: rgb(127, 130, 139);
                 }
             }
 
             .select {
+                font-size: 16px;
                 width: 100%;
-                color: white;
-                padding: 0.3em;
-                border: 1px solid #aaa;
+                color: rgb(236, 236, 236);
+                padding: 0.4em 0.5em 0.5em 1em;
+                border-width: 0px;
+                //border: 2px solid rgb(167, 167, 167);
                 white-space: nowrap;
                 display: block;
                 font-weight: 400;
                 overflow: hidden;
-                text-shadow: 1px 1px rgba(0,0,0,.14);
-                color: #fff;
+                text-shadow: 1px 1px rgba(0, 0, 0, 0.14);
                 max-height: 34px;
-                border-radius: 4px;
-                background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
+                border-radius: 1em;
+                //background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
+                background: rgb(148, 152, 163);
                 cursor: pointer;
 
                 &.expanded-select {
-                    border-radius: 4px 4px 0px 0px;
+                    border-radius: 1em 1em 0 0;
                 }
             }
         }
 
-        .checkboxes-container {
+        .select-container {
             position: relative;
             width: 100%;
             z-index: 100;
 
-            .checkboxes {
+            .select-body {
                 background-color: #ffffff;
-                //border: 1px #dadada solid;
                 -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 				box-shadow: 0 6px 12px rgba(0,0,0,.175);
-                border-radius: 0px 0px 4px 4px;
-                max-height: 200px;
+                border-radius: 0px 0px 1em 1em;
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
-                overflow-y: scroll;
+                overflow-y: auto;
+                overflow-x: hidden;
+                max-height: 500px;
 
                 .toolbar {
                     width: 100%;
+                    display: flex;
+                    flex-direction: row;
 
                     .search {
-                        width: 100%;
+                        flex-grow: 15;
 
                         .search-text-box {
-                            width: 100%;
+                            width: 80%;
                             border-width: 0px;
-                            border-bottom: 1px solid rgb(184, 184, 184);
-                            border-radius: 0px 0px 0px 5px;
-                            padding-left: 10px;
+                            border-bottom: 2px solid rgb(148, 152, 163);
+                            //border-radius: 0px 0px 0px 5px;
+                            padding-left: 5px;
+                            margin-left: 30px;
+                            height: 30px;
 
                             &:focus {
                                 outline:0;
@@ -328,69 +419,110 @@ export default {
                     }
 
                     .selector {
-                        width: 100%;
+                        flex-grow: 0;
+                        padding: 8px 0 0 10px;
+                    }
+
+                    .hint--info:before {
+                         left: -1px;
+                    }
+
+                    .hint--info:after {
+                        left: -80%;
                     }
                 }
 
-                .options-group {
-                    padding-top: 1em;
-                    padding-bottom: 1em;	
-                }
-
-                .group-header {
+                .options {
+                    list-style-type: none;
                     margin: 0;
-                    font-weight: bold;
-                }
+                    padding: 5px 0 5px 5px;
 
-                label {
-                    display: block;
-                    margin-top: 1px;
-                    margin-bottom: 1px;
-                    border: 1px dotted transparent;
-                    font-weight: 500;
+                    .item {
+                        margin: 5px 0px;
 
-                    input {
-                        margin: 0;
-                        padding: 0.5em;
-                    }
+                        &.single {
+                            padding: 3px 0 3px 0;
 
-                    &:hover {
-                        background-color: #ebebeb;
-                        border-color: blue;
-                    }
+                            .custom-checkbox {
+                                width: 100%;
+                            }
 
-                    &.selected {
-                        background-color: #415090;
-                        color: #ffffff;
-                        border: 1px solid orange;
+                            &:hover {
+                                background-color: #F5F5F5;
+                                border-radius: 5px 0 0 5px;
+                            }
+                        }
 
-                        &:hover {
-                            background-color: #415090;
+                        &.group {
+                            margin-top: 10px;
+                            font-weight: 600;
+                            padding-left: 28px;
+
+                            .group-header {
+                                display: flex;
+                                flex-direction: row;
+
+                                .group-name {
+                                    flex-grow: 15;
+                                }
+
+                                .group-selector {
+                                    flex-grow: 0;
+                                }
+                            }
+
+                            .hint--info:before {
+                                left: -1px;
+                            }
+
+                            .hint--info:after {
+                                left: -80%;
+                            }
                         }
                     }
                 }
 
                 &::-webkit-scrollbar-track {
                     background-color: #F5F5F5;
+                    border-radius: 0 0 1em 0;
+                    overflow: hidden;
                 }
 
                 &::-webkit-scrollbar {
                     width: 10px;
                     background-color: #F5F5F5;
+                    border-radius: 0 0 1em 0;
+                    overflow: hidden;
                 }
 
                 &::-webkit-scrollbar-thumb {
                     background-color: rgb(194, 194, 194);
+                }
+
+                .hint--info:before {
+                    border-bottom-color: #3349a7;
+                    z-index: 1000;
+                }
+
+                .hint--info:after {
+                    text-transform: none;
+                    font-size: 12px;
+                    font-weight: 500;
+                    text-shadow: 1px 1px rgba(0,0,0,.14);
+                    background-color: #3349a7;
+                    z-index: 1000;
                 }
             }
 
         /* ANIMATIONS */
             .select-body-enter, .select-body-leave-to{
                 max-height: 0px;
+                overflow-y: hidden;
             }
 
             .select-body-leave, .select-body-enter-to{
-                max-height: 200px;
+                max-height: 500px;
+                overflow-y: hidden;
             }
 
             .select-body-enter-active  {
@@ -399,6 +531,19 @@ export default {
 
             .select-body-leave-active {
                 transition: max-height .2s;
+            }
+
+            .item {
+                transition: opacity 1s, transform 1s;
+            }
+
+            .flip-list-enter, .flip-list-leave-to {
+                opacity: 0;
+                transform: translateX(300px);
+            }
+
+            .flip-list-leave-active {
+                position: absolute;
             }
         }
     }

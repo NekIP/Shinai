@@ -1,22 +1,55 @@
 <template>
 	<div class="experiment col-sm-12">
-			<vue-select 
-				default-title="Merchants" 
-				multiple-selected-title-chunk="Accounts"
-				:allow-multiple="true"
-				:all-option-groups="allOptionGroups" 
-				@selection-changed="console.log($event)">
-				<span slot="header" slot-scope="{ selectedIds }"> 
-					{{ (selectedIds.length == 1) ? selectedIds[0] : `count: ${selectedIds.length}`}}
-				</span>
-			</vue-select>
-			<custom-checkbox :value="true">
+			<div class="title col-sm-12">
+        		<h1>Transaction Detail for 11/05/2018 - 11/05/2018</h1>
+    		</div>
+			<div class="row">
+				<vue-select 
+					default-title="Merchant Accounts" 
+					multiple-selected-title-chunk="Accounts"
+					:allow-multiple="true"
+					:all-option-groups="options" 
+					@selection-changed="console.log($event)"
+					class="col col-lg-2">
+				</vue-select>
+				<vue-select 
+					default-title="Currency" 
+					multiple-selected-title-chunk="Currency"
+					:allow-multiple="true"
+					:all-option-groups="options" 
+					@selection-changed="console.log($event)"
+					class="col col-lg-2">
+				</vue-select>
+				<vue-select 
+					default-title="Cash Programms" 
+					multiple-selected-title-chunk="Cash Programm"
+					:allow-multiple="true"
+					:all-option-groups="options" 
+					@selection-changed="console.log($event)"
+					class="col col-lg-2">
+				</vue-select>
+				<vue-select 
+					default-title="Urls" 
+					multiple-selected-title-chunk="Url"
+					:allow-multiple="true"
+					:all-option-groups="options" 
+					@selection-changed="console.log($event)"
+					class="col col-lg-2">
+				</vue-select>
+			</div>
+			<!--
+			<button @click="test">show</button>
+			<button @click="testSet">set</button>
+			<custom-checkbox :value.sync="showChart">
 				Hello world
 			</custom-checkbox>
 			<div v-if="showChart">
 				<vue-chart :data="getDataForChart()" :typeXAxis="'time'"></vue-chart>
 			</div>
-			<!--<button @click="showChart = true">test data draw</button>-->
+			<button @click="showChart = true">test data draw</button>
+			<div class="col-sm-12" style="height: 50px"></div>
+			<material-design-input :value.sync="text">Test</material-design-input>
+			<div class="col-sm-12" style="height: 50px"></div--> 
 			<vue-table
 				:items="data"
 				:columns="columns"
@@ -92,6 +125,66 @@
 					['amount', 'Value', 'number'],
 					'url'
 				],
+				options: [
+					"20006 - DM Network LTD",
+					['20006.5 - DM dgdf LTD', 2006.5],
+					{
+						text: "Merchants first group",
+						type: 'group',
+						selected: false,
+						items: [
+							{
+								text: '20007 - Quiston Limited',
+								value: 20007,
+								type: 'single',
+								selected: false,
+							},
+							{
+								text: "20008 - SpaZar Productions",
+								value: 20008
+							},
+							{
+								text: "20009 - Leadcon Ventures Ltd",
+								value: 20009
+							},
+							{
+								text: "20010 - Schoppmann",
+								value: 67890
+							},
+							{
+								text: "20011 - Green District Online",
+								value: 20011
+							}
+						]
+					},
+					{
+						text: "Merchants second group",
+						type: 'group',
+						selected: false,
+						items: [
+							{
+								text: "20012 - Navesink House Ltd",
+								value: 20012
+							},
+							{
+								text: "20013 - Hampton Trading (UK) Ltd.",
+								value: 20013
+							},
+							{
+								text: "20014 - Geocomscalth",
+								value: 20014
+							},
+							{
+								text: "20015 - Alcrodant Ltd",
+								value: 20015
+							},
+							{
+								text: "20016 - Carson Investments and Finance",
+								value: 20016
+							}
+						]
+					}
+				],
 				allOptionGroups: [
 					{
 						groupHeader: "Merchants first group",
@@ -154,13 +247,21 @@
 						]
 					}             
 				],
-				showChart: false
+				showChart: false,
+				text: ''
 			}
 		},
 		created: function() {
 			this.addRandomData(100); // cols.reduce((a, b) => a + b, 0)
+			this.addRandomDataForSelect(20);
 		},
 		methods: {
+			test() { 
+				alert(this.text);
+			},
+			testSet() {
+				this.showChart = !this.showChart
+			},
 			addRandomData: function (count) {
 				for (let i = 0; i < count; i++) {
 					this.data.push({
@@ -172,6 +273,15 @@
 						currency: this.randomCurrency(),
 						amount: this.getRandomArbitrary(-50, 50),
 						url: this.randomUrl()
+					});
+				}
+			},
+			addRandomDataForSelect: function (count) {
+				for (let i = 0; i < count; i++) {
+					this.options.push({
+						text: (200019 + i) + " - DM" + this.randomSecuence(),
+						value: 200019 + i,
+						isSelected: false,
 					});
 				}
 			},
@@ -224,8 +334,25 @@
 		}
 	}
 </script>
-<style>
-	
+<style lang="scss" scoped>
+	.title {
+		margin-top: 16px;
+	}
+
+	h1 {
+		color: #133f84;
+		font-size: 28px;
+		font-weight: 700;
+		line-height: 30px;
+		margin: 0 0 20px;
+	}
+
+	.row {
+		padding-bottom: 20px;
+		margin-top: 40px;
+		margin-bottom: 20px;
+		border-bottom: 1px solid rgb(150, 150, 150);
+	}
 </style>
 
 

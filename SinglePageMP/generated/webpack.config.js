@@ -170,22 +170,22 @@ module.exports = {
     ],
     optimization: {
         minimizer: [
-            new UglifyJsPlugin({
-                uglifyOptions: {
-                    beautify: true,
-                    comments: true,
-                    compress: {
-                        sequences: true,
-                        booleans: true,
-                        loops: true,
-                        unused: true,
-                        warnings: false,
-                        drop_console: true,
-                        unsafe: true
-                    }
+        /*new UglifyJsPlugin({
+            uglifyOptions: {
+                beautify: true,
+                comments: true,
+                compress: {
+                    sequences     : true,
+                    booleans      : true,
+                    loops         : true,
+                    unused      : true,
+                    warnings    : false,
+                    drop_console: true,
+                    unsafe      : true
                 }
-            }),
-            new OptimizeCSSAssetsPlugin({})
+            }
+        }),
+        new OptimizeCSSAssetsPlugin({})*/
         ]
     }
 };

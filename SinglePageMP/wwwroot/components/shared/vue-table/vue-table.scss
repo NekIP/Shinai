@@ -1,5 +1,6 @@
 $rotate-speed: 0.15s;
 $rotate-angle: 180deg;
+$mobile-font-modifire: 1.1em;
 
 .vue-table {
 	//font-family: 'Open Sans', sans-serif;
@@ -26,12 +27,12 @@ $rotate-angle: 180deg;
 	div.vertical {
 		letter-spacing: 6px;
 		font-size: 14px;
-		@media screen and (max-width: 1025px) {
+		/*@media screen and (max-width: 1025px) {
 			font-size: 1.9vh;
 		}
 		@media screen and (max-width: 1025px) and (orientation: landscape) {
 			font-size: 1.8vw;
-		}
+		}*/
 		font-weight: 600;
 		white-space:nowrap;
 		color: #c7c7c7;
@@ -60,14 +61,9 @@ $rotate-angle: 180deg;
 	}
 
 	.group-area {
-		@media screen and (min-width: 1025px) {
-			font-size: 12px;
-		}
+		font-size: 12px;
 		@media screen and (max-width: 1025px) {
-			font-size: 1.93vh;
-		}
-		@media screen and (max-width: 1025px) and (orientation: landscape) {
-			font-size: 1.8vw;
+			font-size: $mobile-font-modifire;
 		}
 		background-color: #415090;
 		border-radius: 3px 3px 0 0;
@@ -122,10 +118,7 @@ $rotate-angle: 180deg;
 		padding-top: 3px;
 		padding-bottom: 1em;
 		@media screen and (max-width: 1025px) {
-			font-size: 1.65vh;
-		}
-		@media screen and (max-width: 1025px) and (orientation: landscape) {
-			font-size: 1.6vw;
+			font-size: $mobile-font-modifire;
 		}
 		width: 100%;
 		height: auto;
@@ -212,7 +205,7 @@ $rotate-angle: 180deg;
 
 			.paging-select-hint {
 				padding-top: 5px;
-				font-size: 1.2em;
+				font-size: 14px;
 				font-weight: 400;
 				color: #666666;
 				vertical-align: center;
@@ -224,6 +217,7 @@ $rotate-angle: 180deg;
 				font-weight: 400;
 				color: #9b9b9b;
 				text-align: right;
+				font-size: 14px;
 				flex-grow: 2;
 				vertical-align: center;
 			}
@@ -286,10 +280,10 @@ $rotate-angle: 180deg;
 			//font-family: 'Open Sans', sans-serif;
 			font-size: 12px;
 			@media screen and (max-width: 1025px) {
-				font-size: 1.6vh;
+				font-size: $mobile-font-modifire;
 			}
 			@media screen and (max-width: 1025px) and (orientation: landscape) {
-				font-size: 1.6vw;
+				font-size: $mobile-font-modifire;
 			}
 			margin-bottom: 0px;
 			border-right: 1px solid #77777750;
@@ -535,10 +529,10 @@ $rotate-angle: 180deg;
 					line-height: 1em;
 					font-size: 11px;
 					@media screen and (max-width: 1025px) {
-						font-size: 1.6vh;
+						font-size: $mobile-font-modifire;
 					}
 					@media screen and (max-width: 1025px) and (orientation: landscape) {
-						font-size: 1.6vw;
+						font-size: $mobile-font-modifire;
 					}
 					padding: .4em .6em;
 					overflow: hidden;
@@ -570,7 +564,7 @@ $rotate-angle: 180deg;
 					border-left: 1px solid #ccc;
 					font-size: 16px;
 					@media screen and (max-width: 1025px) {
-						font-size: 1.3em;
+						font-size: $mobile-font-modifire;
 					}
 					text-align: right;
 					color: rgb(126, 126, 126);
