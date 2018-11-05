@@ -1559,6 +1559,10 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
+//
+//
+//
 
 exports.default = {
 	name: 'experiment',
@@ -4059,72 +4063,81 @@ var render = function() {
     [
       _vm._m(0),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "row" },
-        [
-          _c("vue-select", {
-            staticClass: "col col-lg-2",
-            attrs: {
-              "default-title": "Merchant Accounts",
-              "multiple-selected-title-chunk": "Accounts",
-              "allow-multiple": true,
-              "all-option-groups": _vm.options
-            },
-            on: {
-              "selection-changed": function($event) {
-                _vm.console.log($event)
+      _c("div", { staticClass: "form" }, [
+        _c(
+          "div",
+          { staticClass: "row col-lg-12" },
+          [
+            _c("vue-select", {
+              staticClass: "col col-lg-3",
+              attrs: {
+                "default-title": "Merchant Accounts",
+                "multiple-selected-title-chunk": "Accounts",
+                "allow-multiple": true,
+                "all-option-groups": _vm.options
+              },
+              on: {
+                "selection-changed": function($event) {
+                  _vm.console.log($event)
+                }
               }
-            }
-          }),
-          _vm._v(" "),
-          _c("vue-select", {
-            staticClass: "col col-lg-2",
-            attrs: {
-              "default-title": "Currency",
-              "multiple-selected-title-chunk": "Currency",
-              "allow-multiple": true,
-              "all-option-groups": _vm.options
-            },
-            on: {
-              "selection-changed": function($event) {
-                _vm.console.log($event)
+            }),
+            _vm._v(" "),
+            _c("vue-select", {
+              staticClass: "col col-lg-3",
+              attrs: {
+                "default-title": "Currency",
+                "multiple-selected-title-chunk": "Currency",
+                "allow-multiple": true,
+                "all-option-groups": _vm.options
+              },
+              on: {
+                "selection-changed": function($event) {
+                  _vm.console.log($event)
+                }
               }
-            }
-          }),
-          _vm._v(" "),
-          _c("vue-select", {
-            staticClass: "col col-lg-2",
-            attrs: {
-              "default-title": "Cash Programms",
-              "multiple-selected-title-chunk": "Cash Programm",
-              "allow-multiple": true,
-              "all-option-groups": _vm.options
-            },
-            on: {
-              "selection-changed": function($event) {
-                _vm.console.log($event)
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "row col-lg-12" },
+          [
+            _c("vue-select", {
+              staticClass: "col col-lg-3",
+              attrs: {
+                "default-title": "Cash Programms",
+                "multiple-selected-title-chunk": "Cash Programm",
+                "allow-multiple": true,
+                "all-option-groups": _vm.options
+              },
+              on: {
+                "selection-changed": function($event) {
+                  _vm.console.log($event)
+                }
               }
-            }
-          }),
-          _vm._v(" "),
-          _c("vue-select", {
-            staticClass: "col col-lg-2",
-            attrs: {
-              "default-title": "Urls",
-              "multiple-selected-title-chunk": "Url",
-              "allow-multiple": true,
-              "all-option-groups": _vm.options
-            },
-            on: {
-              "selection-changed": function($event) {
-                _vm.console.log($event)
+            }),
+            _vm._v(" "),
+            _c("vue-select", {
+              staticClass: "col col-lg-3",
+              attrs: {
+                "default-title": "Urls",
+                "multiple-selected-title-chunk": "Url",
+                "allow-multiple": true,
+                "all-option-groups": _vm.options
+              },
+              on: {
+                "selection-changed": function($event) {
+                  _vm.console.log($event)
+                }
               }
-            }
-          })
-        ],
-        1
-      ),
+            })
+          ],
+          1
+        )
+      ]),
       _vm._v(" "),
       _c(
         "vue-table",

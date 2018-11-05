@@ -3,39 +3,43 @@
 			<div class="title col-sm-12">
         		<h1>Transaction Detail for 11/05/2018 - 11/05/2018</h1>
     		</div>
-			<div class="row">
-				<vue-select 
-					default-title="Merchant Accounts" 
-					multiple-selected-title-chunk="Accounts"
-					:allow-multiple="true"
-					:all-option-groups="options" 
-					@selection-changed="console.log($event)"
-					class="col col-lg-2">
-				</vue-select>
-				<vue-select 
-					default-title="Currency" 
-					multiple-selected-title-chunk="Currency"
-					:allow-multiple="true"
-					:all-option-groups="options" 
-					@selection-changed="console.log($event)"
-					class="col col-lg-2">
-				</vue-select>
-				<vue-select 
-					default-title="Cash Programms" 
-					multiple-selected-title-chunk="Cash Programm"
-					:allow-multiple="true"
-					:all-option-groups="options" 
-					@selection-changed="console.log($event)"
-					class="col col-lg-2">
-				</vue-select>
-				<vue-select 
-					default-title="Urls" 
-					multiple-selected-title-chunk="Url"
-					:allow-multiple="true"
-					:all-option-groups="options" 
-					@selection-changed="console.log($event)"
-					class="col col-lg-2">
-				</vue-select>
+			<div class="form">
+				<div class="row col-lg-12">
+					<vue-select 
+						default-title="Merchant Accounts" 
+						multiple-selected-title-chunk="Accounts"
+						:allow-multiple="true"
+						:all-option-groups="options" 
+						@selection-changed="console.log($event)"
+						class="col col-lg-3">
+					</vue-select>
+					<vue-select 
+						default-title="Currency" 
+						multiple-selected-title-chunk="Currency"
+						:allow-multiple="true"
+						:all-option-groups="options" 
+						@selection-changed="console.log($event)"
+						class="col col-lg-3">
+					</vue-select>
+				</div>
+				<div class="row col-lg-12">
+					<vue-select 
+						default-title="Cash Programms" 
+						multiple-selected-title-chunk="Cash Programm"
+						:allow-multiple="true"
+						:all-option-groups="options" 
+						@selection-changed="console.log($event)"
+						class="col col-lg-3">
+					</vue-select>
+					<vue-select 
+						default-title="Urls" 
+						multiple-selected-title-chunk="Url"
+						:allow-multiple="true"
+						:all-option-groups="options" 
+						@selection-changed="console.log($event)"
+						class="col col-lg-3">
+					</vue-select>
+				</div>
 			</div>
 			<!--
 			<button @click="test">show</button>
@@ -347,7 +351,7 @@
 		margin: 0 0 20px;
 	}
 
-	.row {
+	.form {
 		padding-bottom: 20px;
 		margin-top: 40px;
 		margin-bottom: 20px;
