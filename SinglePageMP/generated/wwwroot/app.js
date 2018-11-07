@@ -8,12 +8,14 @@ import customCheckbox from './components/shared/custom-checkbox/custom-checkbox.
 import customHeader from './components/shared/custom-header/custom-header.vue';
 import customHeaderDropdown from './components/shared/custom-header-dropdown/custom-header-dropdown.vue';
 import sideNavigationMenu from './components/shared/side-navigation-menu/side-navigation-menu.vue';
+import materialDesignInput from './components/shared/material-design-input/material-design-input.vue';
 Vue.component('vue-table', vueTable);
 Vue.component('vue-select', vueSelect);
 Vue.component('custom-header', customHeader);
 Vue.component('custom-checkbox', customCheckbox);
 Vue.component('custom-header-dropdown', customHeaderDropdown);
 Vue.component('side-navigation-menu', sideNavigationMenu);
+Vue.component('material-design-input', materialDesignInput);
 /* ROUTING */
 import VueRouter from 'vue-router';
 import home from './components/application/home/home.vue';

@@ -339,14 +339,18 @@
 	}
 </script>
 <style lang="scss" scoped>
+	.experiment {
+		//background: rgb(251, 254, 255);
+	}
+
 	.title {
 		margin-top: 16px;
 	}
 
 	h1 {
-		color: #133f84;
+		color: #000000;
 		font-size: 28px;
-		font-weight: 700;
+		font-weight: 500;
 		line-height: 30px;
 		margin: 0 0 20px;
 	}

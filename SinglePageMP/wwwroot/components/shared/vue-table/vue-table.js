@@ -16,7 +16,6 @@ export default {
 			}
 		}
     },
-	name: 'report-table',
 	props: {
 		items: {
 			type: Array,

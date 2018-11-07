@@ -11,7 +11,6 @@
 </template>
 <script>
 	export default {
-		name: 'material-design-input',
 		props: {
 			value: {
 				type: String,

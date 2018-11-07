@@ -320,6 +320,36 @@
 </script>
 
 <style lang="scss" scoped>
+    .vue-select.material {
+        .select-box {
+            position: relative;
+            cursor: pointer;
+
+            &:hover {
+                .select {
+                    box-shadow: 0 6px 9px rgba(127, 150, 187, 0.19);
+                }
+            }
+
+            .select {
+                color: rgb(0, 0, 0);
+                padding: 0.6em 0.5em 0.6em 1em;
+                border-width: 0px;
+                border: 1px solid rgb(203, 209, 216);
+                border-radius: 2em;
+                background: rgb(255, 255, 255);
+                transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+                cursor: pointer;
+
+                &.expanded-select {
+                    border-radius: 1.5em 1.5em 0 0;
+                }
+            }
+        }
+    }
+</style>
+
+<style lang="scss" scoped>
     .vue-select {
         width: 100%;
         font-size: 14px;
@@ -348,31 +378,33 @@
 
             &:hover {
                 .select {
-                    //background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
-                    background: rgb(127, 130, 139);
+                    background: linear-gradient(to top, #bebfc0 0%, #a2a3a5 100%);
+                    //background: rgb(127, 130, 139);
+                    //background: rgb(236, 236, 236);
+                    //box-shadow: 0 6px 9px rgba(127, 150, 187, 0.19)/*, 0 6px 6px rgba(115, 145, 179, 0.23)*/;
                 }
             }
 
             .select {
-                font-size: 16px;
+                font-size: 14px;
                 width: 100%;
                 color: rgb(236, 236, 236);
                 padding: 0.4em 0.5em 0.5em 1em;
                 border-width: 0px;
-                //border: 2px solid rgb(167, 167, 167);
+                border: 1px solid rgb(203, 209, 216);
                 white-space: nowrap;
                 display: block;
-                font-weight: 400;
+                font-weight: 500;
                 overflow: hidden;
                 text-shadow: 1px 1px rgba(0, 0, 0, 0.14);
                 max-height: 34px;
                 border-radius: 1em;
-                //background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
-                background: rgb(148, 152, 163);
+                background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
+                box-shadow: 0px 3px 2px rgba(117, 137, 173, 0.18)/*, 0 3px 6px rgba(115, 142, 192, 0.23)*/;
                 cursor: pointer;
 
                 &.expanded-select {
-                    border-radius: 1em 1em 0 0;
+                    border-radius: 1.5em 1.5em 0 0;
                 }
             }
         }
@@ -387,6 +419,7 @@
                 -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 				box-shadow: 0 6px 12px rgba(0,0,0,.175);
                 border-radius: 0px 0px 1em 1em;
+                border: 1px solid rgb(203, 209, 216);
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -496,7 +529,7 @@
                 }
 
                 &::-webkit-scrollbar-thumb {
-                    background-color: rgb(194, 194, 194);
+                    background-color: rgb(140, 159, 177);
                 }
 
                 .hint--info:before {

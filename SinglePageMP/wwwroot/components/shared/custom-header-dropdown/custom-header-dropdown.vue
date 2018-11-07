@@ -28,7 +28,6 @@
 </template>
 <script>
 	export default {
-		name: 'custom-header-dropdown',
 		props: {
 			'data': {
 				type: Object,
