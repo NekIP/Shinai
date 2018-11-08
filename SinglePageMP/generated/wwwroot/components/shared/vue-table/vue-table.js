@@ -2,7 +2,6 @@ import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group
 import { columnFilters } from './vue-table-data';
 import vClickOutside from 'v-click-outside';
 export default {
-    name: 'vue-table',
     directives: {
         clickOutside: vClickOutside.directive,
         scroll: {

@@ -198,7 +198,6 @@
         var _vClickOutside2 = _interopRequireDefault(_vClickOutside);
         function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
         exports.default = {
-            name: 'vue-table',
             directives: {
                 clickOutside: _vClickOutside2.default.directive,
                 scroll: {
@@ -797,7 +796,6 @@
             keys: ["text"]
         };
         exports.default = {
-            name: 'vue-select',
             directives: {
                 clickOutside: _vClickOutside2.default.directive
             },
@@ -1020,7 +1018,6 @@
         //
         //
         exports.default = {
-            name: 'custom-checkbox',
             props: {
                 value: {
                     required: true,
@@ -1051,7 +1048,6 @@
             value: true
         });
         exports.default = {
-            name: 'custom-header-dropdown',
             data: function data() {
                 return {
                     headerItems: {
@@ -1224,7 +1220,6 @@
         //
         //
         exports.default = {
-            name: 'custom-header-dropdown',
             props: {
                 'data': {
                     type: Object,
@@ -1301,7 +1296,6 @@
         //
         //
         exports.default = {
-            name: 'side-navigation-menu',
             props: {
                 items: {
                     type: Array,
@@ -1360,7 +1354,6 @@
         //
         //
         exports.default = {
-            name: 'material-design-input',
             props: {
                 value: {
                     type: String,

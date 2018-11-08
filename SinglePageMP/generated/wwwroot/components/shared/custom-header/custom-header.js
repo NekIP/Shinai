@@ -1,5 +1,4 @@
 export default {
-    name: 'custom-header-dropdown',
     data: function () {
         return {
             headerItems: {
