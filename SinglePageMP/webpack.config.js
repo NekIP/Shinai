@@ -6,6 +6,7 @@ let cssExtractor = new ExtractTextPlugin('style.css', { allChunk: true });
 const { VueLoaderPlugin } = require('vue-loader');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: './wwwroot/app.js',
@@ -34,6 +35,19 @@ module.exports = {
 								{
 									loader: "css-loader"
 								},
+								/*{
+									loader: 'postcss-loader',
+									options: {
+										ident: 'postcss',
+										plugins: [
+											autoprefixer({
+												browsers:['> 1%', 'last 2 versions']
+											})
+										],
+										sourceMap: true
+									}
+								},*/
+								"postcss-loader",
 								"resolve-url-loader",
 								{
 									loader: "sass-loader?sourceMap",
@@ -75,6 +89,19 @@ module.exports = {
 						{
 							loader: "css-loader"
 						}, 
+						/*{
+							loader: 'postcss-loader',
+							options: {
+								ident: 'postcss',
+								plugins: [
+									autoprefixer({
+										browsers:['> 1%', 'last 2 versions']
+									})
+								],
+								sourceMap: true
+							}
+						},*/
+						"postcss-loader",
 						"resolve-url-loader"
 					]
 				})
@@ -87,6 +114,19 @@ module.exports = {
 						{
 							loader: "css-loader"
 						},
+						/*{
+							loader: 'postcss-loader',
+							options: {
+								ident: 'postcss',
+								plugins: [
+									autoprefixer({
+										browsers:['> 1%', 'last 2 versions']
+									})
+								],
+								sourceMap: true
+							}
+						},*/
+						"postcss-loader",
 						"resolve-url-loader", 
 						{
 							loader: "sass-loader?sourceMap",
@@ -166,6 +206,19 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: "[name].css",
 			chunkFilename: "[id].css"
+		}),/*,
+		new webpack.LoaderOptionsPlugin({
+			postcss: {
+			  sourceMap: true,
+			  	plugins: () => [autoprefixer],
+			}
+		})*/
+		new Webpack.LoaderOptionsPlugin({
+			options: {
+				postcss: [
+					autoprefixer()
+				]
+			}
 		})
     ],
     optimization: {

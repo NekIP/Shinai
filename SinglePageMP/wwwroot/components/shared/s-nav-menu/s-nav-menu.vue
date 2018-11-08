@@ -1,5 +1,5 @@
 <template>
-	<div class="custom-header">
+	<div class="s-nav-menu">
 		<header>
 			<div class="logo-container">
 				<div class="logo">
@@ -7,38 +7,39 @@
 				</div>
 			</div>
 			<div class="header-items-container">
-				<custom-header-dropdown class="performance-reporting" :data="headerItems.performanceReporting">
+				<s-nav-menu-item class="performance-reporting" :data="headerItems.performanceReporting">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-performance-reporting">
 						{{headerName}}
 					</span>
-				</custom-header-dropdown>
-				<custom-header-dropdown class="my-websites" :data="headerItems.myWebsites">
+				</s-nav-menu-item>
+				<s-nav-menu-item class="my-websites" :data="headerItems.myWebsites">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-my-websites">
 						{{headerName}}
 					</span>
-				</custom-header-dropdown>
-				<custom-header-dropdown class="financial-details" :data="headerItems.financialDetails">
+				</s-nav-menu-item>
+				<s-nav-menu-item class="financial-details" :data="headerItems.financialDetails">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-financial-details">
 						{{headerName}}
 					</span>
-				</custom-header-dropdown>
-				<custom-header-dropdown class="my-consumers" :data="headerItems.myConsumers">
+				</s-nav-menu-item>
+				<s-nav-menu-item class="my-consumers" :data="headerItems.myConsumers">
 					<span 	slot="header-name" 
 							slot-scope="{ headerName }" 
 							class="icon-my-consumers">
 						{{headerName}}
 					</span>
-				</custom-header-dropdown>
+				</s-nav-menu-item>
 			</div>
 		</header>
-		<side-navigation-menu :items="headerItems.performanceReporting.children"></side-navigation-menu>
+		<s-side-nav-menu :items="headerItems.performanceReporting.children">
+		</s-side-nav-menu>
 	</div>
 </template>
-<script src="./custom-header.js"></script>
-<style src="./custom-header.scss" lang="scss"></style>
+<script src="./s-nav-menu.js"></script>
+<style src="./s-nav-menu.scss" lang="scss"></style>

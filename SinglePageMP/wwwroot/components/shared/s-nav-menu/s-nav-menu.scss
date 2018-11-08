@@ -14,7 +14,7 @@ $fontelloPath: "../../../fonts/fontello/fontello";
 		 url($fontelloPath + ".svg") format("svg");
 }
 
-.custom-header {
+.s-nav-menu {
 	header {
 		background: $customHeaderColor;
 		height: $headerHeight;

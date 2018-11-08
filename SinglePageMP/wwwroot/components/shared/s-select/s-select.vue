@@ -1,5 +1,5 @@
 <template>
-	<div class="vue-select" v-click-outside="hide">
+	<div class="s-select" v-click-outside="hide">
 		<div class="select-box" v-on:click="changeIsExpandedState">
 			<select class="select form-control" :class="isExpanded ? 'expanded-select' : ''">
 				<option>
@@ -21,22 +21,22 @@
                                 placeholder="Search">
                         </div>
                         <div class="selector">
-                            <custom-checkbox 
+                            <s-checkbox 
                                     class="int hint--bottom hint--info"
                                     :data-hint="allSelected ?  'Unselect all' : 'Select All'"
                                     :value.sync="allSelected" 
                                     :callback="setSelectStateForAll">
-                            </custom-checkbox>
+                            </s-checkbox>
                         </div>
                     </div>
                     <transition-group v-if="allowAnimationForList" class="options" name="flip-list" tag="ul">
                         <template v-for="option in options">
                             <li class="item single" v-if="isSingle(option) && filter(option)" :key="option.value">
-                                <custom-checkbox
+                                <s-checkbox
                                     :value.sync="option.selected"
                                     :callback="selectStateChanged">
                                     {{option.text}}
-                                </custom-checkbox>
+                                </s-checkbox>
                             </li>
                             <template v-if="isGroup(option) && filter(option)">
                                 <li class="item group" :key="option.text">
@@ -45,20 +45,20 @@
                                             {{option.text}}
                                         </div>
                                         <div class="group-selector">
-                                            <custom-checkbox 
+                                            <s-checkbox 
                                                 class="hint hint--bottom hint--info"
                                                 :data-hint="option.selected ? 'Unselect Group' : 'Select Group'"
                                                 :value.sync="option.selected"
                                                 :callback="val => setSelectStateForGroup(val, option)">
-                                            </custom-checkbox>
+                                            </s-checkbox>
                                         </div>
                                     </div>
                                 </li>
                                 <template v-for="item in option.items">
                                     <li class="item single" v-if="filter(item)" :key="item.value">
-                                        <custom-checkbox :value.sync="item.selected" :callback="selectStateChanged">
+                                        <s-checkbox :value.sync="item.selected" :callback="selectStateChanged">
                                             {{item.text}}
-                                        </custom-checkbox>
+                                        </s-checkbox>
                                     </li>
                                 </template>
                             </template>
@@ -67,11 +67,11 @@
                     <ul v-if="!allowAnimationForList" class="options">
                         <template v-for="option in options">
                             <li class="item single" v-if="isSingle(option) && filter(option)" :key="option.value">
-                                <custom-checkbox
+                                <s-checkbox
                                     :value.sync="option.selected"
                                     :callback="selectStateChanged">
                                     {{option.text}}
-                                </custom-checkbox>
+                                </s-checkbox>
                             </li>
                             <template v-if="isGroup(option) && filter(option)">
                                 <li class="item group" :key="option.text">
@@ -80,20 +80,20 @@
                                             {{option.text}}
                                         </div>
                                         <div class="group-selector">
-                                            <custom-checkbox 
+                                            <s-checkbox 
                                                 class="hint hint--bottom hint--info"
                                                 :data-hint="option.selected ? 'Unselect Group' : 'Select Group'"
                                                 :value.sync="option.selected"
                                                 :callback="val => setSelectStateForGroup(val, option)">
-                                            </custom-checkbox>
+                                            </s-checkbox>
                                         </div>
                                     </div>
                                 </li>
                                 <template v-for="item in option.items">
                                     <li class="item single" v-if="filter(item)" :key="item.value">
-                                        <custom-checkbox :value.sync="item.selected" :callback="selectStateChanged">
+                                        <s-checkbox :value.sync="item.selected" :callback="selectStateChanged">
                                             {{item.text}}
-                                        </custom-checkbox>
+                                        </s-checkbox>
                                     </li>
                                 </template>
                             </template>
@@ -320,7 +320,9 @@
 </script>
 
 <style lang="scss" scoped>
-    .vue-select.material {
+    @import '../../../styles/shared/mixins/border-radius.scss';
+
+    .s-select.material {
         .select-box {
             position: relative;
             cursor: pointer;
@@ -336,13 +338,13 @@
                 padding: 0.6em 0.5em 0.6em 1em;
                 border-width: 0px;
                 border: 1px solid rgb(203, 209, 216);
-                border-radius: 2em;
+                @include border-radius(2em);
                 background: rgb(255, 255, 255);
                 transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
                 cursor: pointer;
 
                 &.expanded-select {
-                    border-radius: 1.5em 1.5em 0 0;
+                    @include border-radius(1.5em 1.5em 0 0);
                 }
             }
         }
@@ -350,7 +352,11 @@
 </style>
 
 <style lang="scss" scoped>
-    .vue-select {
+    @import '../../../styles/shared/mixins/hardware.scss';
+    @import '../../../styles/shared/mixins/border-radius.scss';
+
+    .s-select {
+        @include hardware();
         width: 100%;
         font-size: 14px;
         margin: 5px;
@@ -398,13 +404,13 @@
                 overflow: hidden;
                 text-shadow: 1px 1px rgba(0, 0, 0, 0.14);
                 max-height: 34px;
-                border-radius: 1em;
+                @include border-radius(1em);
                 background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
                 box-shadow: 0px 3px 2px rgba(117, 137, 173, 0.18)/*, 0 3px 6px rgba(115, 142, 192, 0.23)*/;
                 cursor: pointer;
 
                 &.expanded-select {
-                    border-radius: 1.5em 1.5em 0 0;
+                    @include border-radius(1.5em 1.5em 0 0);
                 }
             }
         }
@@ -418,7 +424,7 @@
                 background-color: #ffffff;
                 -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 				box-shadow: 0 6px 12px rgba(0,0,0,.175);
-                border-radius: 0px 0px 1em 1em;
+                @include border-radius(0px 0px 1em 1em);
                 border: 1px solid rgb(203, 209, 216);
                 position: absolute;
                 top: 0;
@@ -476,13 +482,13 @@
                         &.single {
                             padding: 3px 0 3px 0;
 
-                            .custom-checkbox {
+                            .s-checkbox {
                                 width: 100%;
                             }
 
                             &:hover {
                                 background-color: #F5F5F5;
-                                border-radius: 5px 0 0 5px;
+                                @include border-radius(5px 0 0 5px);
                             }
                         }
 
@@ -517,14 +523,14 @@
 
                 &::-webkit-scrollbar-track {
                     background-color: #F5F5F5;
-                    border-radius: 0 0 1em 0;
+                    @include border-radius(0 0 1em 0);
                     overflow: hidden;
                 }
 
                 &::-webkit-scrollbar {
                     width: 10px;
                     background-color: #F5F5F5;
-                    border-radius: 0 0 1em 0;
+                    @include border-radius(0 0 1em 0);
                     overflow: hidden;
                 }
 

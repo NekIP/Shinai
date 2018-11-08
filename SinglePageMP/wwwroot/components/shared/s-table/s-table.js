@@ -1,5 +1,5 @@
-import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group, filter, page } from './vue-table-functions'
-import { columnFilters } from './vue-table-data';
+import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group, filter, page } from './s-table-functions'
+import { columnFilters } from './s-table-data';
 import vClickOutside from 'v-click-outside';
 
 export default {

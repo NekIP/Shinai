@@ -1,5 +1,5 @@
 <template>
-	<div class='vue-table'
+	<div class='s-table'
 		@mousemove="resizeColumn($event)"
 		@mouseup="stopResizeColumn()"
 		v-scroll="scroll">
@@ -335,5 +335,5 @@
 		</div>
 	</div>
 </template>
-<script src="./vue-table.js"></script>
-<style src="./vue-table.scss" lang="scss" scoped></style>
+<script src="./s-table.js"></script>
+<style src="./s-table.scss" lang="scss" scoped></style>

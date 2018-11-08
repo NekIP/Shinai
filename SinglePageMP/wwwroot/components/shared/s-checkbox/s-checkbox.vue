@@ -1,5 +1,5 @@
 <template>
-	<label class="custom-checkbox">
+	<label class="s-checkbox">
       	<input 	type="checkbox" 
 		  		:checked="value ? 'checked' : ''"
 		  		@input="onValueChange" 
@@ -44,7 +44,7 @@
 	$width-barrier: 980px;
 	$mobile-scale: 2;
 
-	.custom-checkbox {
+	.s-checkbox {
 		user-select: none;
 		cursor: pointer;
 		margin-bottom: 0;

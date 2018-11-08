@@ -5,48 +5,48 @@
     		</div>
 			<div class="form">
 				<div class="row col-lg-12">
-					<vue-select 
+					<s-select 
 						default-title="Merchant Accounts" 
 						multiple-selected-title-chunk="Accounts"
 						:allow-multiple="true"
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</vue-select>
-					<vue-select 
+					</s-select>
+					<s-select 
 						default-title="Currency" 
 						multiple-selected-title-chunk="Currency"
 						:allow-multiple="true"
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</vue-select>
+					</s-select>
 				</div>
 				<div class="row col-lg-12">
-					<vue-select 
+					<s-select 
 						default-title="Cash Programms" 
 						multiple-selected-title-chunk="Cash Programm"
 						:allow-multiple="true"
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</vue-select>
-					<vue-select 
+					</s-select>
+					<s-select 
 						default-title="Urls" 
 						multiple-selected-title-chunk="Url"
 						:allow-multiple="true"
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</vue-select>
+					</s-select>
 				</div>
 			</div>
 			<!--
 			<button @click="test">show</button>
 			<button @click="testSet">set</button>
-			<custom-checkbox :value.sync="showChart">
+			<s-checkbox :value.sync="showChart">
 				Hello world
-			</custom-checkbox>
+			</s-checkbox>
 			<div v-if="showChart">
 				<vue-chart :data="getDataForChart()" :typeXAxis="'time'"></vue-chart>
 			</div>
@@ -54,7 +54,7 @@
 			<div class="col-sm-12" style="height: 50px"></div>
 			<material-design-input :value.sync="text">Test</material-design-input>
 			<div class="col-sm-12" style="height: 50px"></div--> 
-			<vue-table
+			<s-table
 				:items="data"
 				:columns="columns"
 				:filtrable="true"
@@ -77,7 +77,7 @@
 				<span slot="currency-group" slot-scope="{ value, cells }">
 					Cur: {{value}} / {{cells.length}}
 				</span>
-			</vue-table>
+			</s-table>
 			<div class="col-sm-12" style="height: 300px"></div>
 		</div>
 </template>

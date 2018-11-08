@@ -1,5 +1,5 @@
 <template>
-	<div class="custom-header-dropdown" @mouseover="show" @mouseout="hide">
+	<div class="s-nav-menu-item" @mouseover="show" @mouseout="hide">
 		<div class="header">
 			<slot name="header-name" :headerName="data.name">
 				{{data.name}}
@@ -58,7 +58,7 @@
 	}
 </script>
 <style lang="scss" scoped>
-	.custom-header-dropdown {
+	.s-nav-menu-item {
 		.header {
 			color: #718cb5;
 			cursor: pointer;

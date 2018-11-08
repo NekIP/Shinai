@@ -1,5 +1,5 @@
 <template>
-	<div class="side-navigation-menu">
+	<div class="s-side-nav-menu">
 		<template v-for="item in navMenuItems">
 			<div v-if="item.type == 'single'" 
 					:key="item.name" 
@@ -24,7 +24,7 @@
 					</div>
 				</div>
 				<transition name="dropdown-content">
-					<div class="dropdown-content" v-show="item.show">
+					<div class="dropdown-content" v-show="item.show" key="dropdown">
 						<div v-for="child in item.children" 
 								:key="child.name" 
 								class="children"
@@ -85,7 +85,7 @@
 	$headerHeight: 57px;
 	$linkAnimationTime: 0.05s;
 
-	.side-navigation-menu {
+	.s-side-nav-menu {
 		@media screen and (max-width: 1024px) {
 			display: none;
 		}

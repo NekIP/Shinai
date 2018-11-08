@@ -1,5 +1,5 @@
 <template>
-	<div class="material-design-input">
+	<div class="s-material-input">
 		<div class="input-container">
 			<input class="input" type="text" v-model="value" @input="onValueChange" required>
 			<span class="bar"></span>
@@ -33,7 +33,7 @@
 	}
 </script>
 <style lang="scss" scoped>
-	.material-design-input {
+	.s-material-input {
 		.input-container {
 			position: relative;
 			margin-bottom: 30px;

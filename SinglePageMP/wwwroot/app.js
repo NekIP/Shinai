@@ -4,20 +4,20 @@ import './scripts/all';
 import Vue from 'vue';
 
 /* COMPONENTS REGISTRATION */
-	import vueTable from './components/shared/vue-table/vue-table.vue';
-	import vueSelect from './components/shared/vue-select/vue-select.vue';
-	import customCheckbox from './components/shared/custom-checkbox/custom-checkbox.vue';
-	import customHeader from './components/shared/custom-header/custom-header.vue';
-	import customHeaderDropdown from './components/shared/custom-header-dropdown/custom-header-dropdown.vue';
-	import sideNavigationMenu from './components/shared/side-navigation-menu/side-navigation-menu.vue';
-	import materialDesignInput from './components/shared/material-design-input/material-design-input.vue';
-	Vue.component('vue-table', vueTable);
-	Vue.component('vue-select', vueSelect);
-	Vue.component('custom-header', customHeader);
-	Vue.component('custom-checkbox', customCheckbox);
-	Vue.component('custom-header-dropdown', customHeaderDropdown);
-	Vue.component('side-navigation-menu', sideNavigationMenu);
-	Vue.component('material-design-input', materialDesignInput);
+	import table from './components/shared/s-table/s-table.vue';
+	import select from './components/shared/s-select/s-select.vue';
+	import checkbox from './components/shared/s-checkbox/s-checkbox.vue';
+	import navMenu from './components/shared/s-nav-menu/s-nav-menu.vue';
+	import navMenuItem from './components/shared/s-nav-menu-item/s-nav-menu-item.vue';
+	import sideNavMenu from './components/shared/s-side-nav-menu/s-side-nav-menu.vue';
+	import materialInput from './components/shared/s-material-input/s-material-input.vue';
+	Vue.component('s-table', table);
+	Vue.component('s-select', select);
+	Vue.component('s-checkbox', checkbox);
+	Vue.component('s-material-input', materialInput);
+	Vue.component('s-nav-menu', navMenu);
+	Vue.component('s-nav-menu-item', navMenuItem);
+	Vue.component('s-side-nav-menu', sideNavMenu);
 
 /* ROUTING */
 	import VueRouter from 'vue-router';
