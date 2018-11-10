@@ -16,7 +16,8 @@
     "v-click-outside": "^2.0.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "moment": "^2.22.2"
   },
   "devDependencies": {
     "autoprefixer": "^9.3.1",

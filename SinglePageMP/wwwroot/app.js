@@ -11,6 +11,9 @@ import Vue from 'vue';
 	import navMenuItem from './components/shared/s-nav-menu-item/s-nav-menu-item.vue';
 	import sideNavMenu from './components/shared/s-side-nav-menu/s-side-nav-menu.vue';
 	import materialInput from './components/shared/s-material-input/s-material-input.vue';
+	import calendar from './components/shared/s-calendar/s-calendar.vue';
+	import datepicker from './components/shared/s-datepicker/s-datepicker.vue';
+
 	Vue.component('s-table', table);
 	Vue.component('s-select', select);
 	Vue.component('s-checkbox', checkbox);
@@ -18,6 +21,8 @@ import Vue from 'vue';
 	Vue.component('s-nav-menu', navMenu);
 	Vue.component('s-nav-menu-item', navMenuItem);
 	Vue.component('s-side-nav-menu', sideNavMenu);
+	Vue.component('s-calendar', calendar);
+	Vue.component('s-datepicker', datepicker);
 
 /* ROUTING */
 	import VueRouter from 'vue-router';

@@ -41,7 +41,16 @@
 					</s-select>-->
 				</div>
 			</div>
-			
+			<s-datepicker 
+				title="Select date range" 
+				:range-keys="['TODAY', 'LAST_30_DAYS', 'LAST_WEEK', 'CUSTOM_DATE_RANGE']" 
+				:allow-custom-date-range="true">
+				<span slot="triggerContainer"  slot-scope="{ selectedRange }"> 
+					<div class="btn btn-default">
+						{{ selectedRange.toString() }}
+					</div>
+				</span>
+			</s-datepicker>
 			<button @click="test">show</button>
 			<!--
 			<button @click="testSet">set</button>

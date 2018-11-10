@@ -2336,6 +2336,41 @@
   clip: auto;
 }
 
+@font-face {
+  font-family: 'Roboto';
+  src: local("Roboto"), local("Roboto-Regular"), url(Roboto.69eee0b43d46be3ad91ef75a76ea3959.woff2) format("woff2"), url(Roboto.58bf8e0bd1dd213bf745e9d748caf175.woff) format("woff"), url(Roboto.c613ca81d36649b260700f3335d8f579.ttf) format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+body {
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 100%;
+}
+.app-container {
+  height: 100%;
+}
+.app-container .app-content {
+    overflow: auto;
+    height: 93%;
+    height: calc(100% - 57px);
+    height: -webkit-calc(100% - 57px);
+    font-family: Roboto;
+    scroll-behavior: smooth;
+}
+.app-container .app-content::-webkit-scrollbar-track {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #F5F5F5;
+}
+.app-container .app-content::-webkit-scrollbar {
+      width: 10px;
+      background-color: #F5F5F5;
+}
+.app-container .app-content::-webkit-scrollbar-thumb {
+      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+      background-color: #c2c2c2;
+}
+
 .s-table[data-v-17c0c85a] {
   font-size: 12px;
 }
@@ -4844,6 +4879,237 @@ html {
       right: 50%;
 }
 
+.input-with-icon-wrapper[data-v-336023ac] {
+  position: relative;
+}
+.input-with-icon-wrapper i.fa-calendar[data-v-336023ac] {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    z-index: 2000;
+}
+.input-with-icon-wrapper input[data-v-336023ac] {
+    position: relative;
+    z-index: 1000;
+    padding: 6px 12px 6px 30px;
+}
+.input-with-icon-wrapper input[data-v-336023ac]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+.input-with-icon-wrapper input[type="date"][data-v-336023ac]::-webkit-input-placeholder {
+    visibility: hidden !important;
+}
+.s-calendar[data-v-336023ac] {
+  z-index: 4;
+  padding: 1em;
+  min-width: 600px;
+}
+.s-calendar .prev[data-v-336023ac], .s-calendar .next[data-v-336023ac] {
+    cursor: pointer;
+}
+.s-calendar ul[data-v-336023ac] {
+    list-style-type: none;
+    padding: 0;
+}
+.s-calendar .month[data-v-336023ac] {
+    padding: 25px 15px;
+    width: 100%;
+    text-align: center;
+}
+.s-calendar .month .month .prev[data-v-336023ac] {
+      float: left;
+}
+.s-calendar .month .month .next[data-v-336023ac] {
+      float: right;
+}
+.s-calendar .month ul[data-v-336023ac] {
+      margin: 0;
+      padding: 0;
+}
+.s-calendar .month ul li[data-v-336023ac] {
+        color: black;
+        font-size: 14px;
+        font-weight: bold;
+}
+.s-calendar .weekdays[data-v-336023ac] {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+}
+.s-calendar .weekdays li[data-v-336023ac] {
+      -webkit-box-flex: 1;
+          -ms-flex: 1 1 100%;
+              flex: 1 1 100%;
+      color: black;
+      text-align: center;
+      padding: 0px;
+}
+.s-calendar .days[data-v-336023ac] {
+    padding: 0 0;
+    margin: 0;
+}
+.s-calendar .days li[data-v-336023ac] {
+      list-style-type: none;
+      display: inline-block;
+      width: 14.27%;
+      text-align: center;
+      color: black;
+      position: relative;
+      -webkit-transition-property: background-color;
+      -o-transition-property: background-color;
+      transition-property: background-color;
+      -webkit-transition-duration: 0.2s;
+           -o-transition-duration: 0.2s;
+              transition-duration: 0.2s;
+}
+.s-calendar .days li[data-v-336023ac]:hover {
+        background-color: #eee;
+        cursor: pointer;
+        border-radius: 4px;
+}
+.s-calendar .days li.active[data-v-336023ac] {
+        background: #357ebd;
+        color: white !important;
+        border-radius: 4px;
+}
+.s-calendar .days li.in-range[data-v-336023ac] {
+        background-color: #ebf4f8;
+}
+.s-calendar .days li.another-month[data-v-336023ac] {
+        color: #999;
+}
+.s-calendar .days li .day-container[data-v-336023ac] {
+        width: 100%;
+        padding-top: 100%;
+        position: relative;
+        text-align: center;
+}
+.s-calendar .days li .day-container span[data-v-336023ac] {
+          position: absolute;
+          top: 25%;
+          left: 0;
+          bottom: 0;
+          right: 0;
+}
+
+.segpay-btn[data-v-2c26822c] {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.segpay-btn-sm[data-v-2c26822c] {
+    padding: 5px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+.segpay-btn-success[data-v-2c26822c] {
+    color: #fff;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+}
+.segpay-btn-link[data-v-2c26822c] {
+    padding: 0;
+}
+.segpay-btn-link[data-v-2c26822c]:hover {
+      text-decoration: underline;
+      color: orange;
+}
+.segpay-btn .btn-default[data-v-2c26822c] {
+    color: #333;
+    background-color: #fff;
+    border-color: #ccc;
+}
+.arrow-box[data-v-2c26822c]:before, .arrow-box[data-v-2c26822c]:after {
+  bottom: 100%;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+}
+.arrow-box[data-v-2c26822c]:before {
+  border-color: rgba(113, 158, 206, 0);
+  border-bottom-color: #ccc;
+  border-width: 9px;
+  left: 19px;
+  margin-left: -9px;
+}
+.arrow-box[data-v-2c26822c]:after {
+  border-color: rgba(255, 255, 255, 0);
+  border-bottom-color: #ffffff;
+  border-width: 8px;
+  left: 19px;
+  margin-left: -8px;
+}
+.s-datepicker[data-v-2c26822c] {
+  width: 100%;
+  position: relative;
+  display: inline-block;
+}
+.s-datepicker .dropdown-trigger-container[data-v-2c26822c] {
+    cursor: pointer;
+    width: auto;
+    display: inline-block;
+}
+.s-datepicker .datepicker-dropdown-menu[data-v-2c26822c] {
+    border: 1px solid #ccc;
+    border-radius: 0.5em;
+    z-index: 1;
+    background-color: #fff;
+    margin: auto;
+    position: absolute;
+    font-size: 0;
+    display: table;
+}
+.s-datepicker .datepicker-dropdown-menu .avaliable-ranges[data-v-2c26822c] {
+      height: 100%;
+      display: table-cell;
+      font-size: 14px;
+      padding: 3px 12px;
+}
+.s-datepicker .datepicker-dropdown-menu .avaliable-ranges ul[data-v-2c26822c] {
+        margin: 0;
+        padding: 0;
+}
+.s-datepicker .datepicker-dropdown-menu .avaliable-ranges ul li[data-v-2c26822c] {
+          list-style-type: none;
+          background-color: #f5f5f5;
+          border: 1px solid #f5f5f5;
+          border-radius: 4px;
+          color: #08c;
+          margin-top: 4px;
+          margin-bottom: 4px;
+          cursor: pointer;
+          padding: 6px;
+}
+.s-datepicker .datepicker-dropdown-menu .avaliable-ranges ul li.active[data-v-2c26822c] {
+            background-color: #08c;
+            border: 1px solid #08c;
+            color: #fff;
+}
+.s-datepicker .datepicker-dropdown-menu .custom-daterange-container[data-v-2c26822c] {
+      display: table-cell;
+      font-size: 16px;
+}
+
 .title[data-v-59e23b0a] {
   margin-top: 16px;
 }
@@ -4859,41 +5125,6 @@ h1[data-v-59e23b0a] {
   margin-top: 40px;
   margin-bottom: 20px;
   border-bottom: 1px solid #969696;
-}
-
-@font-face {
-  font-family: 'Roboto';
-  src: local("Roboto"), local("Roboto-Regular"), url(Roboto.69eee0b43d46be3ad91ef75a76ea3959.woff2) format("woff2"), url(Roboto.58bf8e0bd1dd213bf745e9d748caf175.woff) format("woff"), url(Roboto.c613ca81d36649b260700f3335d8f579.ttf) format("truetype");
-  font-weight: 400;
-  font-style: normal;
-}
-body {
-  padding-left: 0px;
-  padding-right: 0px;
-  height: 100%;
-}
-.app-container {
-  height: 100%;
-}
-.app-container .app-content {
-    overflow: auto;
-    height: 93%;
-    height: calc(100% - 57px);
-    height: -webkit-calc(100% - 57px);
-    font-family: Roboto;
-    scroll-behavior: smooth;
-}
-.app-container .app-content::-webkit-scrollbar-track {
-      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      background-color: #F5F5F5;
-}
-.app-container .app-content::-webkit-scrollbar {
-      width: 10px;
-      background-color: #F5F5F5;
-}
-.app-container .app-content::-webkit-scrollbar-thumb {
-      -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-      background-color: #c2c2c2;
 }
 /*!
  * Bootstrap Reboot v4.1.3 (https://getbootstrap.com/)
