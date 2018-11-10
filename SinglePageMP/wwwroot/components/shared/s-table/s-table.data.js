@@ -1,20 +1,3 @@
-export class Column {
-	constructor() {
-		this.id;
-		this.name;
-		this.type;
-		this.sortable;
-		this.filtrable;
-		this.groupable;
-		this.resizable;
-		this.width;
-		this.grouping;
-		this.resizing;
-		this.sorting;
-		this.filtering;
-	}
-}
-
 export const columnFilters = { 
 	'eq': { 
 		predicate: (curr, exp) => curr === exp,

@@ -1,5 +1,5 @@
 const state = {
-	styleClass: 'test'
+	styleClass: 'material'
 };
 
 const getters = {

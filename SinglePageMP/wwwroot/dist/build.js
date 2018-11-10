@@ -208,6 +208,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _sTableFunctions = __webpack_require__(37);
 
+var _sTableGates = __webpack_require__(101);
+
 var _sTableData = __webpack_require__(38);
 
 var _vClickOutside = __webpack_require__(23);
@@ -328,7 +330,7 @@ exports.default = {
 				fixedHeader: false,
 				recalculate: 1
 			},
-			gates: [_sTableFunctions.filter, _sTableFunctions.sort, _sTableFunctions.group, _sTableFunctions.page],
+			gates: [_sTableGates.filter, _sTableGates.sort, _sTableGates.group, _sTableGates.page],
 			filteringModes: _sTableData.columnFilters,
 			groupAreaName: '*group-area*',
 			minWidthBias: 100,
@@ -337,7 +339,6 @@ exports.default = {
 		};
 	},
 	created: function created() {
-		console.log('created');
 		this.state.columns = (0, _sTableFunctions.getColumns)(this.columns, this.sortable, this.filtrable, this.groupable, this.resizable, this.movable, this.hidable);
 		var self = this;
 		window.onresize = function (event) {
@@ -413,9 +414,7 @@ exports.default = {
 		},
 		removeColumnForSorting: function removeColumnForSorting(column) {
 			column.sortingDirection = undefined;
-			(0, _sTableFunctions.removeItemInArray)(this.state.sortingColumns, column, function (x) {
-				return x;
-			});
+			(0, _sTableFunctions.removeItemInArray)(this.state.sortingColumns, column);
 		},
 
 
@@ -471,9 +470,7 @@ exports.default = {
 		removeColumForGrouping: function removeColumForGrouping(column) {
 			column.grouping = false;
 			this.state.hiddenGroups = {};
-			(0, _sTableFunctions.removeItemInArray)(this.state.groupingColumns, column, function (x) {
-				return x;
-			});
+			(0, _sTableFunctions.removeItemInArray)(this.state.groupingColumns, column);
 			this.cleanSorting();
 		},
 		hasHiddenGroup: function hasHiddenGroup(joinGroupedValues) {
@@ -512,9 +509,7 @@ exports.default = {
 			if (column.filtering) {
 				column.filtering.enabled = false;
 				column.filtering.expected = '';
-				(0, _sTableFunctions.removeItemInArray)(this.state.filteringColumns, column, function (x) {
-					return x;
-				});
+				(0, _sTableFunctions.removeItemInArray)(this.state.filteringColumns, column);
 				this.forceUpdate();
 			}
 		},
@@ -12929,17 +12924,10 @@ Object.defineProperty(exports, "__esModule", {
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 exports.getReadableName = getReadableName;
-exports.indexOfItemInArray = indexOfItemInArray;
 exports.removeItemInArray = removeItemInArray;
-exports.itemExistInArray = itemExistInArray;
 exports.getColumns = getColumns;
 exports.getMinWidth = getMinWidth;
 exports.calculateWidth = calculateWidth;
-exports.getTypedValue = getTypedValue;
-exports.sort = sort;
-exports.filter = filter;
-exports.group = group;
-exports.page = page;
 function getReadableName(name) {
 	var result = name[0].toUpperCase();
 	for (var i = 1; i < name.length; i++) {
@@ -12954,30 +12942,13 @@ function getReadableName(name) {
 	return result;
 }
 
-function indexOfItemInArray(array, item, selector) {
-	var result = -1;
-	for (var i = 0; i < array.length; i++) {
-		if (selector(array[i]) === item) {
-			result = i;
-			break;
+function removeItemInArray(array, item) {
+	if (array && array.length) {
+		var indexOfItem = array.indexOf(item);
+		if (indexOfItem > -1) {
+			array.splice(indexOfItem, 1);
 		}
 	}
-	return result;
-}
-
-function removeItemInArray(array, item, selector) {
-	var indexOfItem = indexOfItemInArray(array, item, selector);
-	if (indexOfItem !== -1) {
-		array.splice(indexOfItem, 1);
-	}
-}
-
-function itemExistInArray(array, item, selector) {
-	var indexOfItem = indexOfItemInArray(array, item, selector);
-	if (indexOfItem !== -1) {
-		return false;
-	}
-	return true;
 }
 
 function getColumns(columns, sortable, filtrable, groupable, resizable, movable, hidable) {
@@ -13057,88 +13028,6 @@ function calculateWidth(columnName, hidable, filtrable, groupable, sortable) {
 	return getMinWidth(columnName) + (hidable ? 20 : 0) + (filtrable ? 20 : 0) + (groupable ? 30 : 0) + (sortable ? 30 : 0);
 }
 
-function getTypedValue(value, type) {
-	switch (type) {
-		case 'date':
-			/* TODO: use moment.js */
-			return Date.parse(value);
-		case 'string':
-			return value;
-		case 'number':
-			return +value;
-		case 'boolean':
-			return !!value;
-	}
-}
-
-function sort(data, state) {
-	function sortComparer(item1, item2, sortingColumns) {
-		var result = 0;
-		for (var i = 0; i < sortingColumns.length; i++) {
-			var sortingColumn = sortingColumns[i];
-			var _ref = [item1[sortingColumn.id], item2[sortingColumn.id]],
-			    a = _ref[0],
-			    b = _ref[1];
-
-			result = result || compare(getTypedValue(a, sortingColumn.type), getTypedValue(b, sortingColumn.type), sortingColumn.sortingDirection);
-		}
-		return result;
-	}
-
-	function compare(a, b, direction) {
-		return a > b ? direction : a < b ? -direction : 0;
-	}
-
-	if (state.sortingColumns && state.sortingColumns.length > 0) {
-		data.items.sort(function (item1, item2) {
-			return sortComparer(item1, item2, state.sortingColumns);
-		});
-	}
-}
-
-function filter(data, state) {
-	if (state.filteringColumns && state.filteringColumns.length > 0) {
-		data.items = data.items.filter(function (value) {
-			var result = true;
-			for (var i = 0; i < state.filteringColumns.length; i++) {
-				var filteringColumn = state.filteringColumns[i];
-				result = result && filteringColumn.filtering.filter.predicate(getTypedValue(value[filteringColumn.id], filteringColumn.type), getTypedValue(filteringColumn.filtering.expected, filteringColumn.type));
-			}
-			return result;
-		});
-	}
-}
-
-function group(data, state) {
-	if (state.groupingColumns && state.groupingColumns.length > 0) {
-		for (var i = 0; i < data.items.length; i++) {
-			var item = data.items[i];
-			var valueOfGroupingFields = [];
-			for (var j = 0; j < state.groupingColumns.length; j++) {
-				var groupingColumn = state.groupingColumns[j];
-				var value = item[groupingColumn.id];
-				valueOfGroupingFields.push(value);
-			}
-			item.$_grouping_values = valueOfGroupingFields;
-		}
-	}
-}
-
-function page(data, state) {
-	if (state.paging) {
-		state.paging.count = state.paging.size == 0 ? 1 : Math.ceil(data.items.length / state.paging.size) || 1;
-		if (state.paging.current > state.paging.count) {
-			state.paging.current = state.paging.count;
-		}
-		if (state.paging.size !== 0) {
-			var from = state.paging.size * (state.paging.current - 1);
-			var to = state.paging.size * state.paging.current;
-			data.items = data.items.slice(from, to);
-		}
-		data.paging = state.paging;
-	}
-}
-
 /***/ }),
 /* 38 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -13151,25 +13040,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-var Column = exports.Column = function Column() {
-	_classCallCheck(this, Column);
-
-	this.id;
-	this.name;
-	this.type;
-	this.sortable;
-	this.filtrable;
-	this.groupable;
-	this.resizable;
-	this.width;
-	this.grouping;
-	this.resizing;
-	this.sorting;
-	this.filtering;
-};
 
 var columnFilters = exports.columnFilters = {
 	'eq': {
@@ -18233,7 +18103,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var state = {
-	styleClass: 'test'
+	styleClass: 'material'
 };
 
 var getters = {};
@@ -18626,6 +18496,107 @@ function applyToTag (styleElement, obj) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 97 */,
+/* 98 */,
+/* 99 */,
+/* 100 */,
+/* 101 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+exports.getTypedValue = getTypedValue;
+exports.sort = sort;
+exports.filter = filter;
+exports.group = group;
+exports.page = page;
+function getTypedValue(value, type) {
+	switch (type) {
+		case 'date':
+			/* TODO: use moment.js */
+			return Date.parse(value);
+		case 'string':
+			return value;
+		case 'number':
+			return +value;
+		case 'boolean':
+			return !!value;
+	}
+}
+
+function sort(data, state) {
+	function sortComparer(item1, item2, sortingColumns) {
+		var result = 0;
+		for (var i = 0; i < sortingColumns.length; i++) {
+			var sortingColumn = sortingColumns[i];
+			var _ref = [item1[sortingColumn.id], item2[sortingColumn.id]],
+			    a = _ref[0],
+			    b = _ref[1];
+
+			result = result || compare(getTypedValue(a, sortingColumn.type), getTypedValue(b, sortingColumn.type), sortingColumn.sortingDirection);
+		}
+		return result;
+	}
+
+	function compare(a, b, direction) {
+		return a > b ? direction : a < b ? -direction : 0;
+	}
+
+	if (state.sortingColumns && state.sortingColumns.length > 0) {
+		data.items.sort(function (item1, item2) {
+			return sortComparer(item1, item2, state.sortingColumns);
+		});
+	}
+}
+
+function filter(data, state) {
+	if (state.filteringColumns && state.filteringColumns.length > 0) {
+		data.items = data.items.filter(function (value) {
+			var result = true;
+			for (var i = 0; i < state.filteringColumns.length; i++) {
+				var filteringColumn = state.filteringColumns[i];
+				result = result && filteringColumn.filtering.filter.predicate(getTypedValue(value[filteringColumn.id], filteringColumn.type), getTypedValue(filteringColumn.filtering.expected, filteringColumn.type));
+			}
+			return result;
+		});
+	}
+}
+
+function group(data, state) {
+	if (state.groupingColumns && state.groupingColumns.length > 0) {
+		for (var i = 0; i < data.items.length; i++) {
+			var item = data.items[i];
+			var valueOfGroupingFields = [];
+			for (var j = 0; j < state.groupingColumns.length; j++) {
+				var groupingColumn = state.groupingColumns[j];
+				var value = item[groupingColumn.id];
+				valueOfGroupingFields.push(value);
+			}
+			item.$_grouping_values = valueOfGroupingFields;
+		}
+	}
+}
+
+function page(data, state) {
+	if (state.paging) {
+		state.paging.count = state.paging.size == 0 ? 1 : Math.ceil(data.items.length / state.paging.size) || 1;
+		if (state.paging.current > state.paging.count) {
+			state.paging.current = state.paging.count;
+		}
+		if (state.paging.size !== 0) {
+			var from = state.paging.size * (state.paging.current - 1);
+			var to = state.paging.size * state.paging.current;
+			data.items = data.items.slice(from, to);
+		}
+		data.paging = state.paging;
+	}
+}
 
 /***/ })
 /******/ ]);

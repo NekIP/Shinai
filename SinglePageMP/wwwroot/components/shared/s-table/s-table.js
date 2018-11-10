@@ -1,5 +1,6 @@
-import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group, filter, page } from './s-table-functions'
-import { columnFilters } from './s-table-data';
+import { removeItemInArray, getColumns, getMinWidth, calculateWidth } from './s-table.functions.js'
+import { sort, group, filter, page } from './s-table.gates.js'
+import { columnFilters } from './s-table.data.js';
 import vClickOutside from 'v-click-outside';
 import { mapState } from 'vuex';
 
@@ -127,7 +128,6 @@ export default {
 		}
 	},
 	created () {
-		console.log('created');
 		this.state.columns = getColumns(
 			this.columns, 
 			this.sortable,
@@ -214,7 +214,7 @@ export default {
 
 		removeColumnForSorting(column) {
 			column.sortingDirection = undefined;
-			removeItemInArray(this.state.sortingColumns, column, x => x);
+			removeItemInArray(this.state.sortingColumns, column);
 		},
 
 /* GROUPING */
@@ -272,7 +272,7 @@ export default {
 		removeColumForGrouping(column) {
 			column.grouping = false;
 			this.state.hiddenGroups = {};
-			removeItemInArray(this.state.groupingColumns, column, x => x);
+			removeItemInArray(this.state.groupingColumns, column);
 			this.cleanSorting();
 		},
 
@@ -313,7 +313,7 @@ export default {
 			if (column.filtering) {
 				column.filtering.enabled = false;
 				column.filtering.expected = '';
-				removeItemInArray(this.state.filteringColumns, column, x => x);
+				removeItemInArray(this.state.filteringColumns, column);
 				this.forceUpdate();
 			}
 		},
