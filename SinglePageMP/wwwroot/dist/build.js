@@ -1685,6 +1685,8 @@ exports.default = {
 			return this.mapInputOptions(this.allOptionGroups);
 		},
 		allowAnimationForList: function allowAnimationForList() {
+			console.log(this.$data);
+			console.log(this.$props);
 			return this.options.length < 300;
 		}
 	}),
@@ -2307,6 +2309,7 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
+//
 
 exports.default = {
 	name: 'experiment',
@@ -2440,11 +2443,12 @@ exports.default = {
 
 	created: function created() {
 		this.addRandomData(100); // cols.reduce((a, b) => a + b, 0)
-		this.addRandomDataForSelect(20);
+		this.addRandomDataForSelect(100);
 	},
 	methods: {
 		test: function test() {
 			alert(this.text);
+			this.addRandomDataForSelect(100);
 		},
 		testSet: function testSet() {
 			this.showChart = !this.showChart;
@@ -3971,324 +3975,151 @@ var render = function() {
                   )
                 ]),
                 _vm._v(" "),
-                _vm.allowAnimationForList
-                  ? _c(
-                      "transition-group",
-                      {
-                        staticClass: "options",
-                        attrs: { name: "flip-list", tag: "ul" }
-                      },
-                      [
-                        _vm._l(_vm.options, function(option) {
-                          return [
-                            _vm.isSingle(option) && _vm.filter(option)
-                              ? _c(
-                                  "li",
+                _c(
+                  "transition-group",
+                  {
+                    staticClass: "options",
+                    attrs: {
+                      name: "flip-list",
+                      tag: "ul",
+                      "allow-animation-for-list": _vm.allowAnimationForList
+                    }
+                  },
+                  [
+                    _vm._l(_vm.options, function(option) {
+                      return [
+                        _vm.isSingle(option) && _vm.filter(option)
+                          ? _c(
+                              "li",
+                              { key: option.value, staticClass: "item single" },
+                              [
+                                _c(
+                                  "s-checkbox",
                                   {
-                                    key: option.value,
-                                    staticClass: "item single"
+                                    attrs: {
+                                      value: option.selected,
+                                      callback: _vm.selectStateChanged
+                                    },
+                                    on: {
+                                      "update:value": function($event) {
+                                        _vm.$set(option, "selected", $event)
+                                      }
+                                    }
                                   },
                                   [
-                                    _c(
-                                      "s-checkbox",
-                                      {
-                                        attrs: {
-                                          value: option.selected,
-                                          callback: _vm.selectStateChanged
-                                        },
-                                        on: {
-                                          "update:value": function($event) {
-                                            _vm.$set(option, "selected", $event)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(option.text) +
-                                            "\n                                "
-                                        )
-                                      ]
+                                    _vm._v(
+                                      "\n                                    " +
+                                        _vm._s(option.text) +
+                                        "\n                                "
                                     )
-                                  ],
-                                  1
+                                  ]
                                 )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.isGroup(option) && _vm.filter(option)
-                              ? [
-                                  _c(
-                                    "li",
-                                    {
-                                      key: option.text,
-                                      staticClass: "item group"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "group-header" },
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm.isGroup(option) && _vm.filter(option)
+                          ? [
+                              _c(
+                                "li",
+                                { key: option.text, staticClass: "item group" },
+                                [
+                                  _c("div", { staticClass: "group-header" }, [
+                                    _c("div", { staticClass: "group-name" }, [
+                                      _vm._v(
+                                        "\n                                            " +
+                                          _vm._s(option.text) +
+                                          "\n                                        "
+                                      )
+                                    ]),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      { staticClass: "group-selector" },
+                                      [
+                                        _c("s-checkbox", {
+                                          staticClass:
+                                            "hint hint--bottom hint--info",
+                                          attrs: {
+                                            "data-hint": option.selected
+                                              ? "Unselect Group"
+                                              : "Select Group",
+                                            value: option.selected,
+                                            callback: function(val) {
+                                              return _vm.setSelectStateForGroup(
+                                                val,
+                                                option
+                                              )
+                                            }
+                                          },
+                                          on: {
+                                            "update:value": function($event) {
+                                              _vm.$set(
+                                                option,
+                                                "selected",
+                                                $event
+                                              )
+                                            }
+                                          }
+                                        })
+                                      ],
+                                      1
+                                    )
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(option.items, function(item) {
+                                return [
+                                  _vm.filter(item)
+                                    ? _c(
+                                        "li",
+                                        {
+                                          key: item.value,
+                                          staticClass: "item single"
+                                        },
                                         [
                                           _c(
-                                            "div",
-                                            { staticClass: "group-name" },
+                                            "s-checkbox",
+                                            {
+                                              attrs: {
+                                                value: item.selected,
+                                                callback: _vm.selectStateChanged
+                                              },
+                                              on: {
+                                                "update:value": function(
+                                                  $event
+                                                ) {
+                                                  _vm.$set(
+                                                    item,
+                                                    "selected",
+                                                    $event
+                                                  )
+                                                }
+                                              }
+                                            },
                                             [
                                               _vm._v(
                                                 "\n                                            " +
-                                                  _vm._s(option.text) +
+                                                  _vm._s(item.text) +
                                                   "\n                                        "
                                               )
                                             ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "group-selector" },
-                                            [
-                                              _c("s-checkbox", {
-                                                staticClass:
-                                                  "hint hint--bottom hint--info",
-                                                attrs: {
-                                                  "data-hint": option.selected
-                                                    ? "Unselect Group"
-                                                    : "Select Group",
-                                                  value: option.selected,
-                                                  callback: function(val) {
-                                                    return _vm.setSelectStateForGroup(
-                                                      val,
-                                                      option
-                                                    )
-                                                  }
-                                                },
-                                                on: {
-                                                  "update:value": function(
-                                                    $event
-                                                  ) {
-                                                    _vm.$set(
-                                                      option,
-                                                      "selected",
-                                                      $event
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ],
-                                            1
                                           )
-                                        ]
+                                        ],
+                                        1
                                       )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._l(option.items, function(item) {
-                                    return [
-                                      _vm.filter(item)
-                                        ? _c(
-                                            "li",
-                                            {
-                                              key: item.value,
-                                              staticClass: "item single"
-                                            },
-                                            [
-                                              _c(
-                                                "s-checkbox",
-                                                {
-                                                  attrs: {
-                                                    value: item.selected,
-                                                    callback:
-                                                      _vm.selectStateChanged
-                                                  },
-                                                  on: {
-                                                    "update:value": function(
-                                                      $event
-                                                    ) {
-                                                      _vm.$set(
-                                                        item,
-                                                        "selected",
-                                                        $event
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            " +
-                                                      _vm._s(item.text) +
-                                                      "\n                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  })
+                                    : _vm._e()
                                 ]
-                              : _vm._e()
-                          ]
-                        })
-                      ],
-                      2
-                    )
-                  : _vm._e(),
-                _vm._v(" "),
-                !_vm.allowAnimationForList
-                  ? _c(
-                      "ul",
-                      { staticClass: "options" },
-                      [
-                        _vm._l(_vm.options, function(option) {
-                          return [
-                            _vm.isSingle(option) && _vm.filter(option)
-                              ? _c(
-                                  "li",
-                                  {
-                                    key: option.value,
-                                    staticClass: "item single"
-                                  },
-                                  [
-                                    _c(
-                                      "s-checkbox",
-                                      {
-                                        attrs: {
-                                          value: option.selected,
-                                          callback: _vm.selectStateChanged
-                                        },
-                                        on: {
-                                          "update:value": function($event) {
-                                            _vm.$set(option, "selected", $event)
-                                          }
-                                        }
-                                      },
-                                      [
-                                        _vm._v(
-                                          "\n                                    " +
-                                            _vm._s(option.text) +
-                                            "\n                                "
-                                        )
-                                      ]
-                                    )
-                                  ],
-                                  1
-                                )
-                              : _vm._e(),
-                            _vm._v(" "),
-                            _vm.isGroup(option) && _vm.filter(option)
-                              ? [
-                                  _c(
-                                    "li",
-                                    {
-                                      key: option.text,
-                                      staticClass: "item group"
-                                    },
-                                    [
-                                      _c(
-                                        "div",
-                                        { staticClass: "group-header" },
-                                        [
-                                          _c(
-                                            "div",
-                                            { staticClass: "group-name" },
-                                            [
-                                              _vm._v(
-                                                "\n                                            " +
-                                                  _vm._s(option.text) +
-                                                  "\n                                        "
-                                              )
-                                            ]
-                                          ),
-                                          _vm._v(" "),
-                                          _c(
-                                            "div",
-                                            { staticClass: "group-selector" },
-                                            [
-                                              _c("s-checkbox", {
-                                                staticClass:
-                                                  "hint hint--bottom hint--info",
-                                                attrs: {
-                                                  "data-hint": option.selected
-                                                    ? "Unselect Group"
-                                                    : "Select Group",
-                                                  value: option.selected,
-                                                  callback: function(val) {
-                                                    return _vm.setSelectStateForGroup(
-                                                      val,
-                                                      option
-                                                    )
-                                                  }
-                                                },
-                                                on: {
-                                                  "update:value": function(
-                                                    $event
-                                                  ) {
-                                                    _vm.$set(
-                                                      option,
-                                                      "selected",
-                                                      $event
-                                                    )
-                                                  }
-                                                }
-                                              })
-                                            ],
-                                            1
-                                          )
-                                        ]
-                                      )
-                                    ]
-                                  ),
-                                  _vm._v(" "),
-                                  _vm._l(option.items, function(item) {
-                                    return [
-                                      _vm.filter(item)
-                                        ? _c(
-                                            "li",
-                                            {
-                                              key: item.value,
-                                              staticClass: "item single"
-                                            },
-                                            [
-                                              _c(
-                                                "s-checkbox",
-                                                {
-                                                  attrs: {
-                                                    value: item.selected,
-                                                    callback:
-                                                      _vm.selectStateChanged
-                                                  },
-                                                  on: {
-                                                    "update:value": function(
-                                                      $event
-                                                    ) {
-                                                      _vm.$set(
-                                                        item,
-                                                        "selected",
-                                                        $event
-                                                      )
-                                                    }
-                                                  }
-                                                },
-                                                [
-                                                  _vm._v(
-                                                    "\n                                            " +
-                                                      _vm._s(item.text) +
-                                                      "\n                                        "
-                                                  )
-                                                ]
-                                              )
-                                            ],
-                                            1
-                                          )
-                                        : _vm._e()
-                                    ]
-                                  })
-                                ]
-                              : _vm._e()
-                          ]
-                        })
-                      ],
-                      2
-                    )
-                  : _vm._e()
+                              })
+                            ]
+                          : _vm._e()
+                      ]
+                    })
+                  ],
+                  2
+                )
               ],
               1
             )
@@ -4829,63 +4660,15 @@ var render = function() {
                   _vm.console.log($event)
                 }
               }
-            }),
-            _vm._v(" "),
-            _c("s-select", {
-              staticClass: "col col-lg-3",
-              attrs: {
-                "default-title": "Currency",
-                "multiple-selected-title-chunk": "Currency",
-                "allow-multiple": true,
-                "all-option-groups": _vm.options
-              },
-              on: {
-                "selection-changed": function($event) {
-                  _vm.console.log($event)
-                }
-              }
             })
           ],
           1
         ),
         _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "row col-lg-12" },
-          [
-            _c("s-select", {
-              staticClass: "col col-lg-3",
-              attrs: {
-                "default-title": "Cash Programms",
-                "multiple-selected-title-chunk": "Cash Programm",
-                "allow-multiple": true,
-                "all-option-groups": _vm.options
-              },
-              on: {
-                "selection-changed": function($event) {
-                  _vm.console.log($event)
-                }
-              }
-            }),
-            _vm._v(" "),
-            _c("s-select", {
-              staticClass: "col col-lg-3",
-              attrs: {
-                "default-title": "Urls",
-                "multiple-selected-title-chunk": "Url",
-                "allow-multiple": true,
-                "all-option-groups": _vm.options
-              },
-              on: {
-                "selection-changed": function($event) {
-                  _vm.console.log($event)
-                }
-              }
-            })
-          ],
-          1
-        )
+        _c("div", { staticClass: "row col-lg-12" })
       ]),
+      _vm._v(" "),
+      _c("button", { on: { click: _vm.test } }, [_vm._v("show")]),
       _vm._v(" "),
       _c(
         "s-table",

@@ -13,17 +13,17 @@
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
 					</s-select>
-					<s-select 
+					<!--<s-select 
 						default-title="Currency" 
 						multiple-selected-title-chunk="Currency"
 						:allow-multiple="true"
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</s-select>
+					</s-select>-->
 				</div>
 				<div class="row col-lg-12">
-					<s-select 
+					<!--<s-select 
 						default-title="Cash Programms" 
 						multiple-selected-title-chunk="Cash Programm"
 						:allow-multiple="true"
@@ -38,11 +38,12 @@
 						:all-option-groups="options" 
 						@selection-changed="console.log($event)"
 						class="col col-lg-3">
-					</s-select>
+					</s-select>-->
 				</div>
 			</div>
-			<!--
+			
 			<button @click="test">show</button>
+			<!--
 			<button @click="testSet">set</button>
 			<s-checkbox :value.sync="showChart">
 				Hello world
@@ -257,11 +258,12 @@
 		},
 		created: function() {
 			this.addRandomData(100); // cols.reduce((a, b) => a + b, 0)
-			this.addRandomDataForSelect(20);
+			this.addRandomDataForSelect(100);
 		},
 		methods: {
 			test() { 
 				alert(this.text);
+				this.addRandomDataForSelect(100);
 			},
 			testSet() {
 				this.showChart = !this.showChart

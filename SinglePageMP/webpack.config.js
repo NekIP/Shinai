@@ -47,7 +47,7 @@ module.exports = {
 										sourceMap: true
 									}
 								},*/
-								"postcss-loader",
+								//"postcss-loader",
 								"resolve-url-loader",
 								{
 									loader: "sass-loader?sourceMap",
@@ -101,7 +101,7 @@ module.exports = {
 								sourceMap: true
 							}
 						},*/
-						"postcss-loader",
+						//"postcss-loader",
 						"resolve-url-loader"
 					]
 				})
@@ -126,7 +126,7 @@ module.exports = {
 								sourceMap: true
 							}
 						},*/
-						"postcss-loader",
+						//"postcss-loader",
 						"resolve-url-loader", 
 						{
 							loader: "sass-loader?sourceMap",
@@ -213,13 +213,13 @@ module.exports = {
 			  	plugins: () => [autoprefixer],
 			}
 		})*/
-		new Webpack.LoaderOptionsPlugin({
+		/*new Webpack.LoaderOptionsPlugin({
 			options: {
 				postcss: [
 					autoprefixer()
 				]
 			}
-		})
+		})*/
     ],
     optimization: {
         minimizer: [

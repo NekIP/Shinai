@@ -61,6 +61,8 @@ export default {
 			return this.mapInputOptions(this.allOptionGroups);
 		},
 		allowAnimationForList() {
+			console.log(this.$data);
+			console.log(this.$props);
 			return this.options.length < 300;
 		}
 	},
