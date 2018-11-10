@@ -1,5 +1,6 @@
 <template>
 	<div class='s-table'
+		:class="styleClass"
 		@mousemove="resizeColumn($event)"
 		@mouseup="stopResizeColumn()"
 		v-scroll="scroll">

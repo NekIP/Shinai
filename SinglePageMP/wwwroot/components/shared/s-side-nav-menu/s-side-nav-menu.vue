@@ -1,5 +1,5 @@
 <template>
-	<div class="s-side-nav-menu">
+	<div class="s-side-nav-menu" :class="styleClass">
 		<template v-for="item in navMenuItems">
 			<div v-if="item.type == 'single'" 
 					:key="item.name" 
@@ -39,6 +39,8 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		props: {
 			items: {
@@ -57,6 +59,9 @@
 			}
 		},
 		computed: {
+			...mapState({
+                styleClass: state => state.base.styleClass
+            }),
 			navMenuItems() {
 				return this.items.map(x => {
 					let type = x.type || 'single';

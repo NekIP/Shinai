@@ -204,6 +204,8 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _sTableFunctions = __webpack_require__(37);
 
 var _sTableData = __webpack_require__(38);
@@ -211,6 +213,8 @@ var _sTableData = __webpack_require__(38);
 var _vClickOutside = __webpack_require__(23);
 
 var _vClickOutside2 = _interopRequireDefault(_vClickOutside);
+
+var _vuex = __webpack_require__(53);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -354,7 +358,11 @@ exports.default = {
 			}
 		}
 	},
-	computed: {
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	}), {
 		hasGrouped: function hasGrouped() {
 			return this.state.groupingColumns && this.state.groupingColumns.length > 0;
 		},
@@ -372,7 +380,7 @@ exports.default = {
 			}
 			return result;
 		}
-	},
+	}),
 	methods: {
 		/* SORTING */
 		sortByMany: function sortByMany(column) {
@@ -1063,7 +1071,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-//
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
 //
 //
 //
@@ -1081,6 +1090,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 
+var _vuex = __webpack_require__(53);
+
 exports.default = {
 	props: {
 		value: {
@@ -1092,6 +1103,11 @@ exports.default = {
 			type: Function
 		}
 	},
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	})),
 	methods: {
 		onValueChange: function onValueChange() {
 			this.value = !this.value;
@@ -1114,6 +1130,11 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _vuex = __webpack_require__(53);
+
 exports.default = {
 	data: function data() {
 		return {
@@ -1248,7 +1269,13 @@ exports.default = {
 				}
 			}
 		};
-	}
+	},
+
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	}))
 };
 
 /***/ }),
@@ -1261,7 +1288,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
-//
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
 //
 //
 //
@@ -1290,6 +1318,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 
+var _vuex = __webpack_require__(53);
+
 exports.default = {
 	props: {
 		'data': {
@@ -1297,7 +1327,11 @@ exports.default = {
 			required: true
 		}
 	},
-	computed: {
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	}), {
 		items: function items() {
 			return this.data.children.map(function (x) {
 				if (!x.type) {
@@ -1306,7 +1340,7 @@ exports.default = {
 				return x;
 			});
 		}
-	},
+	}),
 	methods: {
 		show: function show() {
 			this.data.show = true;
@@ -1329,6 +1363,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
 //
 //
 //
@@ -1368,7 +1404,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
+
+var _vuex = __webpack_require__(53);
 
 exports.default = {
 	props: {
@@ -1386,7 +1423,11 @@ exports.default = {
 		return {};
 	},
 
-	computed: {
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	}), {
 		navMenuItems: function navMenuItems() {
 			return this.items.map(function (x) {
 				var type = x.type || 'single';
@@ -1397,7 +1438,7 @@ exports.default = {
 				return x;
 			});
 		}
-	},
+	}),
 	methods: {
 		showHide: function showHide(item) {
 			item.show = !item.show;
@@ -1421,6 +1462,8 @@ exports.default = {
 Object.defineProperty(exports, "__esModule", {
 	value: true
 });
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; //
 //
 //
 //
@@ -1431,7 +1474,8 @@ Object.defineProperty(exports, "__esModule", {
 //
 //
 //
-//
+
+var _vuex = __webpack_require__(53);
 
 exports.default = {
 	props: {
@@ -1444,6 +1488,11 @@ exports.default = {
 			required: false
 		}
 	},
+	computed: _extends({}, (0, _vuex.mapState)({
+		styleClass: function styleClass(state) {
+			return state.base.styleClass;
+		}
+	})),
 	methods: {
 		onValueChange: function onValueChange() {
 			this.$emit('update:value', this.value);
@@ -1843,6 +1892,7 @@ var render = function() {
         }
       ],
       staticClass: "s-table",
+      class: _vm.styleClass,
       on: {
         mousemove: function($event) {
           _vm.resizeColumn($event)
@@ -3575,7 +3625,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("label", { staticClass: "s-checkbox" }, [
+  return _c("label", { staticClass: "s-checkbox", class: _vm.styleClass }, [
     _c("input", {
       staticClass: "invisible",
       attrs: { type: "checkbox" },
@@ -3621,7 +3671,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "s-nav-menu" },
+    { staticClass: "s-nav-menu", class: _vm.styleClass },
     [
       _c("header", [
         _vm._m(0),
@@ -3748,6 +3798,7 @@ var render = function() {
     "div",
     {
       staticClass: "s-nav-menu-item",
+      class: _vm.styleClass,
       on: { mouseover: _vm.show, mouseout: _vm.hide }
     },
     [
@@ -3844,7 +3895,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "s-side-nav-menu" },
+    { staticClass: "s-side-nav-menu", class: _vm.styleClass },
     [
       _vm._l(_vm.navMenuItems, function(item) {
         return [
@@ -3997,7 +4048,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "s-material-input" }, [
+  return _c("div", { staticClass: "s-material-input", class: _vm.styleClass }, [
     _c("div", { staticClass: "input-container" }, [
       _c("input", {
         directives: [
@@ -18182,7 +18233,7 @@ Object.defineProperty(exports, "__esModule", {
 	value: true
 });
 var state = {
-	styleClass: 'undefined1'
+	styleClass: 'test'
 };
 
 var getters = {};

@@ -1,5 +1,5 @@
 <template>
-	<div class="s-material-input">
+	<div class="s-material-input" :class="styleClass">
 		<div class="input-container">
 			<input class="input" type="text" v-model="value" @input="onValueChange" required>
 			<span class="bar"></span>
@@ -10,6 +10,8 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		props: {
 			value: {
@@ -20,6 +22,11 @@
 				type: Function,
 				required: false
 			}
+		},
+		computed: {
+			...mapState({
+				styleClass: state => state.base.styleClass
+			})
 		},
 		methods: {
 			onValueChange: function(){

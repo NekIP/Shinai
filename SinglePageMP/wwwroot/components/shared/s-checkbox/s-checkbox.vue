@@ -1,5 +1,5 @@
 <template>
-	<label class="s-checkbox">
+	<label class="s-checkbox" :class="styleClass">
       	<input 	type="checkbox" 
 		  		:checked="value ? 'checked' : ''"
 		  		@input="onValueChange" 
@@ -16,6 +16,8 @@
     </label>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		props: {
 			value: {
@@ -26,6 +28,11 @@
 				required: false,
 				type: Function
 			}
+		},
+		computed: {
+			...mapState({
+				styleClass: state => state.base.styleClass
+			})
 		},
 		methods: {
 			onValueChange: function(){

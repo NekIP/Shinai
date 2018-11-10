@@ -1,6 +1,7 @@
 import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group, filter, page } from './s-table-functions'
 import { columnFilters } from './s-table-data';
 import vClickOutside from 'v-click-outside';
+import { mapState } from 'vuex';
 
 export default {
 	directives: {
@@ -158,6 +159,9 @@ export default {
 		}
 	},
 	computed: {
+		...mapState({
+			styleClass: state => state.base.styleClass
+		}),
 		hasGrouped() {
 			return this.state.groupingColumns && this.state.groupingColumns.length > 0;
 		},

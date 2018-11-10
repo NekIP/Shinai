@@ -1,5 +1,5 @@
 <template>
-	<div class="s-nav-menu-item" @mouseover="show" @mouseout="hide">
+	<div class="s-nav-menu-item" :class="styleClass" @mouseover="show" @mouseout="hide">
 		<div class="header">
 			<slot name="header-name" :headerName="data.name">
 				{{data.name}}
@@ -27,6 +27,8 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex';
+
 	export default {
 		props: {
 			'data': {
@@ -35,6 +37,9 @@
 			}
 		},
 		computed: {
+			...mapState({
+                styleClass: state => state.base.styleClass
+            }),
 			items() {
 				return this.data.children.map(x => {
 					if (!x.type) {

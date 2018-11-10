@@ -1,5 +1,5 @@
 const state = {
-	styleClass: 'undefined1'
+	styleClass: 'test'
 };
 
 const getters = {

@@ -1,5 +1,5 @@
 <template>
-	<div class="s-nav-menu">
+	<div class="s-nav-menu" :class="styleClass">
 		<header>
 			<div class="logo-container">
 				<div class="logo">
