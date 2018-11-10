@@ -42,8 +42,11 @@ import Vue from 'vue';
 
 /* APPLICATION */
 	import app from './components/app.vue';
+	import store from './store';
+
 	const application = new Vue({
 		el: '.application',
 		render: h => h(app),
-		router
+		router,
+		store
 	});

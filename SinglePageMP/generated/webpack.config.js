@@ -7,6 +7,7 @@ var cssExtractor = new ExtractTextPlugin('style.css', { allChunk: true });
 var VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+var autoprefixer = require('autoprefixer');
 module.exports = {
     entry: './wwwroot/app.js',
     output: {
@@ -34,6 +35,19 @@ module.exports = {
                                 {
                                     loader: "css-loader"
                                 },
+                                /*{
+                                    loader: 'postcss-loader',
+                                    options: {
+                                        ident: 'postcss',
+                                        plugins: [
+                                            autoprefixer({
+                                                browsers:['> 1%', 'last 2 versions']
+                                            })
+                                        ],
+                                        sourceMap: true
+                                    }
+                                },*/
+                                "postcss-loader",
                                 "resolve-url-loader",
                                 {
                                     loader: "sass-loader?sourceMap",
@@ -75,6 +89,19 @@ module.exports = {
                         {
                             loader: "css-loader"
                         },
+                        /*{
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: [
+                                    autoprefixer({
+                                        browsers:['> 1%', 'last 2 versions']
+                                    })
+                                ],
+                                sourceMap: true
+                            }
+                        },*/
+                        "postcss-loader",
                         "resolve-url-loader"
                     ]
                 })
@@ -87,6 +114,19 @@ module.exports = {
                         {
                             loader: "css-loader"
                         },
+                        /*{
+                            loader: 'postcss-loader',
+                            options: {
+                                ident: 'postcss',
+                                plugins: [
+                                    autoprefixer({
+                                        browsers:['> 1%', 'last 2 versions']
+                                    })
+                                ],
+                                sourceMap: true
+                            }
+                        },*/
+                        "postcss-loader",
                         "resolve-url-loader",
                         {
                             loader: "sass-loader?sourceMap",
@@ -166,6 +206,13 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css"
+        }),
+        new Webpack.LoaderOptionsPlugin({
+            options: {
+                postcss: [
+                    autoprefixer()
+                ]
+            }
         })
     ],
     optimization: {

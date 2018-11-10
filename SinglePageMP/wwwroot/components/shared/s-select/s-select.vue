@@ -1,5 +1,5 @@
 <template>
-	<div class="s-select" v-click-outside="hide">
+	<div class="s-select" :class="styleClass" v-click-outside="hide">
 		<div class="select-box" v-on:click="changeIsExpandedState">
 			<select class="select form-control" :class="isExpanded ? 'expanded-select' : ''">
 				<option>
@@ -107,7 +107,8 @@
 
 <script>
     import Fuse from 'fuse.js';
-    import vClickOutside from 'v-click-outside'
+    import vClickOutside from 'v-click-outside';
+    import { mapState } from 'vuex';
 
     const settingsFuse = {
         shouldSort: true,
@@ -160,6 +161,9 @@
             }
         },
         computed: {
+            ...mapState({
+                styleClass: state => state.base.styleClass
+            }),
             options() {
                 let self = this;
                 return this.mapInputOptions(this.allOptionGroups);
