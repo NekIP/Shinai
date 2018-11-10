@@ -338,3 +338,4 @@
 </template>
 <script src="./s-table.js"></script>
 <style src="./s-table.scss" lang="scss" scoped></style>
+<style src="./s-table.material.scss" lang="scss" scoped></style>

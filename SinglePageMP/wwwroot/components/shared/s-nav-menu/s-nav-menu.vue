@@ -43,3 +43,4 @@
 </template>
 <script src="./s-nav-menu.js"></script>
 <style src="./s-nav-menu.scss" lang="scss"></style>
+<style src="./s-nav-menu.material.scss" lang="scss"></style>

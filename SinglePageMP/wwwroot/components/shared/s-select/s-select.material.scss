@@ -1,0 +1,31 @@
+@import '../../../styles/shared/mixins/border-radius.scss';
+
+.s-select {
+	&.material {
+		.select-box {
+			position: relative;
+			cursor: pointer;
+
+			&:hover {
+				.select {
+					box-shadow: 0 6px 9px rgba(127, 150, 187, 0.19);
+				}
+			}
+
+			.select {
+				color: rgb(0, 0, 0);
+				padding: 0.6em 0.5em 0.6em 1em;
+				border-width: 0px;
+				border: 1px solid rgb(203, 209, 216);
+				@include border-radius(2em);
+				background: rgb(255, 255, 255);
+				transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+				cursor: pointer;
+
+				&.expanded-select {
+					@include border-radius(1.5em 1.5em 0 0);
+				}
+			}
+		}
+	}
+}
