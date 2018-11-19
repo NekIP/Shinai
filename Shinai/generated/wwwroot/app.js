@@ -29,6 +29,7 @@ import VueRouter from 'vue-router';
 import home from './components/application/home/home.vue';
 import experiment from './components/application/experiment/experiment.vue';
 Vue.use(VueRouter);
+debugger;
 var router = new VueRouter({
     routes: [
         {
