@@ -1,10 +1,11 @@
 {
-  "version": "1.0.0",
-  "name": "test",
+  "version": "2018.0.3",
+  "name": "shinai",
   "private": true,
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch"
+    "watch": "webpack --watch --config webpack.dev.js",
+    "dev": "webpack --config webpack.dev.js",
+    "prod": "webpack --config webpack.prod.js"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -50,6 +51,7 @@
     "vue-style-loader": "*",
     "vue-template-compiler": "*",
     "webpack": "^4.4.1",
-    "webpack-cli": "^3.1.2"
+    "webpack-cli": "^3.1.2",
+    "webpack-merge": "^4.1.4"
   }
 }

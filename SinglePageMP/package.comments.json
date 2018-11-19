@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "babel-polyfill": "ie support for vue",
+    "bootstrap": "don't use full version of bootstrap. Now using only grid",
+    "chart.js": "Graphics. It weighs a lot. Lazy loading",
+    "dayjs": "like moment js but 10kb",
+    "es6-promise": "ie",
+    "fuse.js": "smart search",
+    "moment": "IMPORTANT: Now it is not used, and it is not recommended to use as weighs much",
+    "vuex": "state storage"
+  }
+}

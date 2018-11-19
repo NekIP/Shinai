@@ -39,7 +39,7 @@ import Vue from 'vue';
 	import experiment from './components/application/experiment/experiment.vue';
 
 	Vue.use(VueRouter);
-
+	debugger;
 	const router = new VueRouter({
 		routes: [
 			{

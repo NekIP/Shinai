@@ -8,6 +8,35 @@ var VueLoaderPlugin = require('vue-loader').VueLoaderPlugin;
 var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 var OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 var autoprefixer = require('autoprefixer');
+var jsLoader = [
+    {
+        loader: 'babel-loader',
+        options: {
+            presets: ['env', 'es2015', 'stage-0', 'vue']
+        }
+    }
+];
+/* IMPORTANT: handlers convert code strictly from bottom to top */
+var sassLoader = cssExtractor.extract({
+    fallback: "style-loader",
+    use: [
+        {
+            loader: "css-loader"
+        },
+        "postcss-loader",
+        "resolve-url-loader",
+        {
+            loader: "sass-loader?sourceMap",
+            options: {
+                includePaths: [
+                    path.resolve(__dirname, 'images'),
+                    path.resolve(__dirname, 'dist')
+                ],
+                sourceMap: true
+            }
+        }
+    ]
+});
 module.exports = {
     entry: './wwwroot/app.js',
     output: {
@@ -21,7 +50,7 @@ module.exports = {
                 loader: 'ts-loader',
                 options: {
                     configFile: 'tsconfig.json',
-                    appendTsSuffixTo: [/\.vue$/]
+                    appendTsSuffixTo: [/\.vue$/] /* vue supprot for typescript */
                 }
             },
             {
@@ -29,57 +58,16 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        scss: cssExtractor.extract({
-                            fallback: "style-loader",
-                            use: [
-                                {
-                                    loader: "css-loader"
-                                },
-                                /*{
-                                    loader: 'postcss-loader',
-                                    options: {
-                                        ident: 'postcss',
-                                        plugins: [
-                                            autoprefixer({
-                                                browsers:['> 1%', 'last 2 versions']
-                                            })
-                                        ],
-                                        sourceMap: true
-                                    }
-                                },*/
-                                "postcss-loader",
-                                "resolve-url-loader",
-                                {
-                                    loader: "sass-loader?sourceMap",
-                                    options: {
-                                        includePaths: [path.resolve(__dirname, 'images'), path.resolve(__dirname, 'dist')]
-                                    }
-                                }
-                            ]
-                        }),
-                        sass: 'vue-style-loader!css-loader!sass-loader?indentedSyntax',
-                        js: [
-                            {
-                                loader: 'babel-loader',
-                                options: {
-                                    presets: ['env', 'es2015', 'stage-0', 'vue']
-                                }
-                            }
-                        ]
+                        scss: sassLoader,
+                        sass: sassLoader,
+                        js: jsLoader
                     }
                 }
             },
             {
                 test: /.js$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'babel-loader',
-                        options: {
-                            presets: ['env', 'es2015', 'stage-0', 'vue']
-                        }
-                    }
-                ]
+                use: jsLoader
             },
             {
                 test: /\.css$/,
@@ -89,18 +77,6 @@ module.exports = {
                         {
                             loader: "css-loader"
                         },
-                        /*{
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                plugins: [
-                                    autoprefixer({
-                                        browsers:['> 1%', 'last 2 versions']
-                                    })
-                                ],
-                                sourceMap: true
-                            }
-                        },*/
                         "postcss-loader",
                         "resolve-url-loader"
                     ]
@@ -108,35 +84,7 @@ module.exports = {
             },
             {
                 test: /\.(sass|scss)$/,
-                use: cssExtractor.extract({
-                    fallback: "style-loader",
-                    use: [
-                        {
-                            loader: "css-loader"
-                        },
-                        /*{
-                            loader: 'postcss-loader',
-                            options: {
-                                ident: 'postcss',
-                                plugins: [
-                                    autoprefixer({
-                                        browsers:['> 1%', 'last 2 versions']
-                                    })
-                                ],
-                                sourceMap: true
-                            }
-                        },*/
-                        "postcss-loader",
-                        "resolve-url-loader",
-                        {
-                            loader: "sass-loader?sourceMap",
-                            options: {
-                                includePaths: [path.resolve(__dirname, 'images'), path.resolve(__dirname, 'dist')],
-                                sourceMap: true
-                            }
-                        }
-                    ]
-                })
+                use: sassLoader
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,
@@ -160,35 +108,6 @@ module.exports = {
                     }
                 ]
             }
-            /*{
-                test: /\.otf$|\.png|\.jpe?g|\.gif$/,
-                use: {
-                    loader: "url-loader",
-                    options: {
-                        name: "[name].[hash].[ext]",
-                    }
-                }
-            },
-            {
-                test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
-            },
-            {
-                test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/font-woff"
-            },
-            {
-                test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=application/octet-stream"
-            },
-            {
-                test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "file"
-            },
-            {
-                test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-                loader: "url?limit=10000&mimetype=image/svg+xml"
-            }*/
         ]
     },
     devtool: 'source-map',
@@ -210,7 +129,7 @@ module.exports = {
         new Webpack.LoaderOptionsPlugin({
             options: {
                 postcss: [
-                    autoprefixer()
+                    autoprefixer() /* add prefixes to css code: -moz-transform: */
                 ]
             }
         })
