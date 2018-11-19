@@ -17,7 +17,7 @@ export default {
 		})
 	},
 	methods: {
-		onValueChange: function(){
+		onValueChange() {
 			this.value = !this.value;
 			this.$emit('update:value', this.value);
 			if (this.callback) {

@@ -3,6 +3,8 @@ import './scripts/all';
 
 import Vue from 'vue';
 
+
+
 /* COMPONENTS REGISTRATION */
 	import table from './components/shared/s-table/s-table.vue';
 	import select from './components/shared/s-select/s-select.vue';
@@ -11,8 +13,10 @@ import Vue from 'vue';
 	import navMenuItem from './components/shared/s-nav-menu-item/s-nav-menu-item.vue';
 	import sideNavMenu from './components/shared/s-side-nav-menu/s-side-nav-menu.vue';
 	import materialInput from './components/shared/s-material-input/s-material-input.vue';
-	import calendar from './components/shared/s-calendar/s-calendar.vue';
+	//import calendar from './components/shared/s-calendar/s-calendar.vue';
+	//import datepickerOrg from './components/shared/s-datepicker-org/s-datepicker.vue';
 	import datepicker from './components/shared/s-datepicker/s-datepicker.vue';
+	import datepickerRange from './components/shared/s-datepicker-range/s-datepicker-range.vue';
 
 	Vue.component('s-table', table);
 	Vue.component('s-select', select);
@@ -21,15 +25,21 @@ import Vue from 'vue';
 	Vue.component('s-nav-menu', navMenu);
 	Vue.component('s-nav-menu-item', navMenuItem);
 	Vue.component('s-side-nav-menu', sideNavMenu);
-	Vue.component('s-calendar', calendar);
+	//Vue.component('s-calendar', calendar);
+	//Vue.component('s-datepicker-org', datepickerOrg);
 	Vue.component('s-datepicker', datepicker);
+	Vue.component('s-datepicker-range', datepickerRange);
+
+
 
 /* ROUTING */
 	import VueRouter from 'vue-router';
 
 	import home from './components/application/home/home.vue';
 	import experiment from './components/application/experiment/experiment.vue';
+
 	Vue.use(VueRouter);
+
 	const router = new VueRouter({
 		routes: [
 			{
@@ -44,6 +54,8 @@ import Vue from 'vue';
 			}
 		]
 	});
+
+
 
 /* APPLICATION */
 	import app from './components/app.vue';

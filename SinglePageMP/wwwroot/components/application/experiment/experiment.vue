@@ -41,16 +41,18 @@
 					</s-select>-->
 				</div>
 			</div>
-			<s-datepicker 
+			<s-datepicker-org 
 				title="Select date range" 
-				:range-keys="['TODAY', 'LAST_30_DAYS', 'LAST_WEEK', 'CUSTOM_DATE_RANGE']" 
+				:range-keys="['TODAY', 'YESTERDAY', 'LAST_7_DAYS', 'LAST_WEEK', 'LAST_30_DAYS', 'LAST_MONTH', 'CUSTOM_DATE_RANGE']" 
 				:allow-custom-date-range="true">
 				<span slot="triggerContainer"  slot-scope="{ selectedRange }"> 
 					<div class="btn btn-default">
 						{{ selectedRange.toString() }}
 					</div>
 				</span>
-			</s-datepicker>
+			</s-datepicker-org>
+			<s-datepicker-range :startDate.sync="dateFrom" :endDate.sync="dateTo"></s-datepicker-range>
+			<s-datepicker :date="testDate"></s-datepicker>
 			<button @click="test">show</button>
 			<!--
 			<button @click="testSet">set</button>
@@ -92,6 +94,8 @@
 		</div>
 </template>
 <script>
+	/*import moment from 'moment';*/
+	
 	export default {
 		name: 'experiment',
 		data() { 
@@ -128,6 +132,9 @@
 						url: 'test.com'
 					},
 				],
+				dateFrom: null,
+				dateTo: null,
+				testDate: new Date(),
 				pageSizes: [100, 200, 500],
 				columns: [
 					{ id: 'mid', name: 'Merchant Id', type: 'number' },
@@ -272,7 +279,9 @@
 		methods: {
 			test() { 
 				alert(this.text);
-				this.addRandomDataForSelect(100);
+				alert(this.dateFrom.format('MMMM D, YYYY'));
+				alert(this.dateTo.format('MMMM D, YYYY'));
+				//this.addRandomDataForSelect(100);
 			},
 			testSet() {
 				this.showChart = !this.showChart

@@ -1,6 +1,19 @@
-import { removeItemInArray, getColumns, getMinWidth, calculateWidth, sort, group, filter, page } from './s-table-functions';
-import { columnFilters } from './s-table-data';
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import { removeItemInArray, getColumns, getMinWidth, calculateWidth } from './s-table.functions.js';
+import { sort, group, filter, page } from './s-table.gates.js';
+import { columnFilters } from './s-table.data.js';
 import vClickOutside from 'v-click-outside';
+import { mapState } from 'vuex';
 export default {
     directives: {
         clickOutside: vClickOutside.directive,
@@ -117,7 +130,6 @@ export default {
         };
     },
     created: function () {
-        console.log('created');
         this.state.columns = getColumns(this.columns, this.sortable, this.filtrable, this.groupable, this.resizable, this.movable, this.hidable);
         var self = this;
         window.onresize = function (event) {
@@ -137,8 +149,9 @@ export default {
             }
         }
     },
-    computed: {
-        hasGrouped: function () {
+    computed: __assign({}, mapState({
+        styleClass: function (state) { return state.base.styleClass; }
+    }), { hasGrouped: function () {
             return this.state.groupingColumns && this.state.groupingColumns.length > 0;
         },
         data: function () {
@@ -152,8 +165,7 @@ export default {
                 gate(result, this.state);
             }
             return result;
-        }
-    },
+        } }),
     methods: {
         /* SORTING */
         sortByMany: function (column) {
@@ -187,7 +199,7 @@ export default {
         },
         removeColumnForSorting: function (column) {
             column.sortingDirection = undefined;
-            removeItemInArray(this.state.sortingColumns, column, function (x) { return x; });
+            removeItemInArray(this.state.sortingColumns, column);
         },
         /* GROUPING */
         addColumForGrouping: function (column) {
@@ -242,7 +254,7 @@ export default {
         removeColumForGrouping: function (column) {
             column.grouping = false;
             this.state.hiddenGroups = {};
-            removeItemInArray(this.state.groupingColumns, column, function (x) { return x; });
+            removeItemInArray(this.state.groupingColumns, column);
             this.cleanSorting();
         },
         hasHiddenGroup: function (joinGroupedValues) {
@@ -277,7 +289,7 @@ export default {
             if (column.filtering) {
                 column.filtering.enabled = false;
                 column.filtering.expected = '';
-                removeItemInArray(this.state.filteringColumns, column, function (x) { return x; });
+                removeItemInArray(this.state.filteringColumns, column);
                 this.forceUpdate();
             }
         },

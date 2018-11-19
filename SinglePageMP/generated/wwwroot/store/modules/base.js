@@ -1,5 +1,5 @@
 var state = {
-    styleClass: styleClass
+    styleClass: 'material'
 };
 var getters = {};
 var actions = {};

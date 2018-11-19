@@ -10,8 +10,8 @@
                         :value="selectedStartDate && selectedStartDate.toISOString().split('T')[0]"
                         @input="tryToSetStartDateViaTextbox($event.target.valueAsDate)"
                         ref="startDatePreliminary"/>
-                </div>
-                
+                </div>    
+
                 <div class="month"> 
                     <ul>
                         <li class="prev" @click="prevMonth"><i class="fa fa-chevron-left" aria-hidden="true"></i></li>
@@ -30,17 +30,22 @@
                 </ul>
 
                 <ul class="days">
-                    <template v-for="item in prevMonthCalendarSheet.items">           
+                    <template v-for="(item, i) in prevMonthCalendarSheet.items">           
                         <li 
-                            v-bind:class="{ 'another-month': !item.isInCurrentMonth, 'active': item.isInCurrentMonth && isActive(item.date), 'in-range': item.isInCurrentMonth && isInRange(item.date) }"
+                            v-bind:class="{ 
+                                'another-month': !item.isInCurrentMonth, 
+                                'active': item.isInCurrentMonth && isActive(item.date), 
+                                'in-range': item.isInCurrentMonth && isInRange(item.date) 
+                            }"
                             @click="setSelectedDate(item.date)"
-                            @mouseover="setPreliminarySelectedDate(item.date)">
+                            @mouseover="setPreliminarySelectedDate(item.date)"
+                            :key="i">
                             <div class="day-container"><span>{{item.date.getDate()}}</span></div>
                         </li>
                     </template>
                 </ul>
             </div>
-             <div class="col col-md-6">
+            <div class="col col-md-6">
                 <div class="input-with-icon-wrapper">
                     <i class="fa fa-calendar" aria-hidden="true"></i>
                         <input 
@@ -50,7 +55,8 @@
                             @input="tryToSetStartDateViaTextbox($event.target.valueAsDate)"
                             ref="endDatePreliminary"/>
                 </div>
-                 <div class="month"> 
+
+                <div class="month"> 
                     <ul>
                         <li @click="nextMonth" class="next"><i class="fa fa-chevron-right" aria-hidden="true"></i></li>
                         <li>{{currMonthCalendarSheet.nameOfMonth}} {{currMonthCalendarSheet.year}}</li>
@@ -68,20 +74,26 @@
                 </ul>
 
                 <ul class="days"> 
-                    <template v-for="item in currMonthCalendarSheet.items">           
+                    <template v-for="(item, i) in currMonthCalendarSheet.items">           
                         <li 
-                            v-bind:class="{ 'another-month': !item.isInCurrentMonth, 'active': item.isInCurrentMonth && isActive(item.date), 'in-range': item.isInCurrentMonth && isInRange(item.date) }"
+                            v-bind:class="{ 
+                                'another-month': !item.isInCurrentMonth, 
+                                'active': item.isInCurrentMonth && isActive(item.date), 
+                                'in-range': item.isInCurrentMonth && isInRange(item.date) 
+                            }"
                             @click="setSelectedDate(item.date)"
-                            @mouseover="setPreliminarySelectedDate(item.date)"><div class="day-container"><span>{{item.date.getDate()}}</span></div></li>
+                            @mouseover="setPreliminarySelectedDate(item.date)"
+                            :key="i">
+                            <div class="day-container">
+                                <span>{{item.date.getDate()}}</span>
+                            </div>
+                        </li>
                     </template>
                 </ul>
             </div>
-        </div>
-        
+        </div>        
     </div>
-
 </template>
-
 <script>
 
 import moment from 'moment'
@@ -276,33 +288,6 @@ class CalendarSheetItem
 
 
 <style lang="scss" scoped>
-
-.input-with-icon-wrapper {
-    position: relative;
-
-    i.fa-calendar {
-        position: absolute; 
-        top: 8px; 
-        left: 10px; 
-        
-        z-index: 2000;
-    }
-
-    input {
-        position: relative;
-        z-index: 1000;
-        padding: 6px 12px 6px 30px;
-    }
-
-    input::-webkit-calendar-picker-indicator{
-        display: none;
-    }
-
-    input[type="date"]::-webkit-input-placeholder{ 
-        visibility: hidden !important;
-    }
-}
-
 .s-calendar {    
     z-index: 4;
     padding: 1em;
@@ -367,11 +352,12 @@ class CalendarSheetItem
             transition-property: background-color;
             transition-duration: 0.2s;
 
-             &:hover {
+            &:hover {
                 background-color: #eee;
                 cursor: pointer;
                 border-radius: 4px;
             }
+            
             &.active {
                 background: #357ebd;
                 color: white !important;
@@ -402,6 +388,31 @@ class CalendarSheetItem
             }
         }
     }
-}
 
+    .input-with-icon-wrapper {
+        position: relative;
+
+        i.fa-calendar {
+            position: absolute; 
+            top: 8px; 
+            left: 10px; 
+            
+            z-index: 2000;
+        }
+
+        input {
+            position: relative;
+            z-index: 1000;
+            padding: 6px 12px 6px 30px;
+        }
+
+        input::-webkit-calendar-picker-indicator{
+            display: none;
+        }
+
+        input[type="date"]::-webkit-input-placeholder{ 
+            visibility: hidden !important;
+        }
+    }
+}
 </style>
