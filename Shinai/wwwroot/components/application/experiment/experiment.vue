@@ -55,8 +55,7 @@
 			<s-datepicker :date="testDate"></s-datepicker>
 			<button @click="test">show</button>
 			<p>message: {{ $t('hello') }}</p>
-			<!--
-			<button @click="testSet">set</button>
+			<!--<button @click="testSet">set</button>
 			<s-checkbox :value.sync="showChart">
 				Hello world
 			</s-checkbox>

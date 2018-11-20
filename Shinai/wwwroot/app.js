@@ -56,11 +56,11 @@ import Vue from 'vue';
 	});
 
 /* LOCALIZATION */
-	import VueI18n from 'vue-i18n'
+	import VueI18n from 'vue-i18n';
 
-	Vue.use(VueI18n)
+	Vue.use(VueI18n);
 
-	const i18n = new VueI18n({locale: 'en'})
+	const i18n = new VueI18n({ locale: 'en' });
 
 /* APPLICATION */
 	import app from './components/app.vue';
@@ -80,8 +80,7 @@ import Vue from 'vue';
 		},
 		watch: {
 			language(value) {
-				console.log('changed from global');
 				this.$i18n.locale = value;
 			}
-		},
+		}
 	});
