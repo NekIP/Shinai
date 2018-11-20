@@ -51,8 +51,8 @@
 					</div>
 				</span>
 			</s-datepicker-org>-->
-			<s-datepicker-range :startDate.sync="dateFrom" :endDate.sync="dateTo"></s-datepicker-range>
-			<s-datepicker :date="testDate"></s-datepicker>
+			<s-datepicker-range class="col-sm-3" :startDate.sync="dateFrom" :endDate.sync="dateTo"></s-datepicker-range>
+			<s-datepicker class="col-sm-3" :date="testDate"></s-datepicker>
 			<button @click="test">show</button>
 			<p>message: {{ $t('hello') }}</p>
 			<!--<button @click="testSet">set</button>

@@ -1,12 +1,17 @@
 <template>
 	<div class="s-datepicker">
 		<div class="header"> 
-			<ul>
-				<li class="prev">
+			<div class="prev">
+				<div href="" role="button" class="arrow-button" @click="decrimentCurrentDate">
 					<i class="fa fa-chevron-left" aria-hidden="true"></i>
-				</li>
-				<li>{{1}}</li>
-			</ul>
+				</div>
+			</div>
+			<div class="info">{{date.format('MMM YYYY')}}</div>
+			<div class="next">
+				<div class="arrow-button" @click="incrementCurrentDate">
+					<i class="fa fa-chevron-right" aria-hidden="true"></i>
+				</div>
+			</div>
 		</div>
 		<div class="calendar-container">
 			<div class="calendar">
@@ -30,7 +35,7 @@
 								'selected': item.selected,
 								'focused': item.focused
 							}">
-                            {{item.value.format("YYYY/MM/DD")}}
+                            {{item.value.format("D")}}
                         </li>
                     </template>
                 </ul>
@@ -102,6 +107,16 @@
 		data() {
 			return {
 				currentLevel: 'DAY'
+			}
+		},
+		watch: {
+			date(val) {
+				if (!dayjs.isDayjs(val)) {
+					this.date = dayjs(val);
+				}
+				else {
+					this.date = val;
+				}
 			}
 		},
 		created() {
@@ -207,7 +222,6 @@
 
 			getItemsInCurrentDate() {
 				let result = [];
-				return result;
 				let date = this.date.clone();
 				let borders = this.getBordersInCurrentDate();
 				for (let currentDate = borders.startDateBlock; 
@@ -266,25 +280,138 @@
 
 			currentLevelIsDecad() {
 				return this.currentLevel == 'DECAD';
+			},
+
+			incrementCurrentDate() {
+				switch (this.currentLevel) {
+					case 'DAY': this.date.add(1, 'month');
+					case 'MONTH': this.date.add(1, 'year');
+					case 'YEAR': this.date.add(10, 'year');
+					case 'DECAD': this.date.add(100, 'year');
+				}
+				this.$forceUpdate();
+			},
+
+			decrimentCurrentDate() {
+				switch (this.currentLevel) {
+					case 'DAY': this.date.add(-1, 'month');
+					case 'MONTH': this.date.add(-1, 'year');
+					case 'YEAR': this.date.add(-10, 'year');
+					case 'DECAD': this.date.add(-100, 'year');
+				}
+				this.$forceUpdate();
 			}
 		}
 	}
 </script>
 <style lang="scss" scoped>
+	$dayWidth: 14%;
+
 	.s-datepicker {
-		
+		width: 100%;
+		height: auto;
+		margin: 5px;
+
+		.header {
+			display: flex;
+			flex-direction: row;
+			margin-bottom: 5px;
+
+			.prev {
+				flex-basis: 20%;
+				text-align: center;
+			}
+
+			.next {
+				flex-basis: 20%;
+				text-align: center;
+			}
+
+			.info {
+				flex-basis: 60%;
+				font-weight: 600;
+				text-align: center;
+			}
+
+			.arrow-button {
+				padding: 6px 10px;
+				border-radius: 1em;
+				cursor: pointer;
+
+				&:hover {
+					background: rgb(240, 240, 240);
+				}
+			}
+		}
+
+		.calendar-container {
+			.calendar {
+				.weekdays {
+					padding: 5px;
+					margin-bottom: 1px;
+					display: flex;
+					flex-direction: row;
+					
+					.weekday {
+						font-weight: 600;
+						flex-basis: $dayWidth;
+						list-style-type: none;
+						text-align: center;
+						//min-width: $dayWidth;
+					}
+				}
+
+				.items {
+					padding: 5px;
+					margin-bottom: 1px;
+					display: flex;
+					flex-direction: row;
+					width: 100%;
+					flex-wrap: wrap;
+
+					.item {
+						list-style-type: none;
+						color: rgb(153, 153, 153);
+						cursor: pointer;
+						border-radius: 1em;
+						padding-top: 5px;
+						padding-bottom: 5px;
+
+						&.focused {
+							color: rgb(0, 0, 0);
+						}
+
+						&.day {
+							//min-width: $dayWidth;
+							flex-basis: $dayWidth;
+							text-align: center;
+						}
+
+						&.selected {
+							background: #3a539b;
+							color: white;
+							font-weight: 500;
+						}
+
+						&:not(.selected):hover {
+							background: rgb(240, 240, 240);
+						}
+					}
+				}
+			}
+		}
 	}
 </style>
 <i18n>
 	{
 		"en": {
-			"sunday": "su",
-			"monday": "mo",
-			"tuesday": "tu",
-			"wednesday": "we",
-			"thursday": "th",
-			"friday": "fr",
-			"saturday": "sa"
+			"sunday": "Su",
+			"monday": "Mo",
+			"tuesday": "Tu",
+			"wednesday": "We",
+			"thursday": "Th",
+			"friday": "Fr",
+			"saturday": "Sa"
 		},
 		"ja": {
 			"monday": "月曜日",
@@ -296,13 +423,13 @@
 			"sunday": "日曜日"
 		},
 		"ru": {
-			"monday": "пн",
-			"tuesday": "вт",
-			"wednesday": "ср",
-			"thursday": "чт",
-			"friday": "пт",
-			"saturday": "сб",
-			"sunday": "вс"
+			"monday": "Пн",
+			"tuesday": "Вт",
+			"wednesday": "Ср",
+			"thursday": "Чт",
+			"friday": "Пт",
+			"saturday": "Сб",
+			"sunday": "Вс"
 		}
 	}
 </i18n>
