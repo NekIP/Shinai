@@ -8,25 +8,27 @@
 				<li>{{1}}</li>
 			</ul>
 		</div>
-		<div class="calendar">
-			<div class="calendar-day" v-if="currentLevelIsDay">
+		<div class="calendar-container">
+			<div class="calendar">
 				<ul class="weekdays">
-					<li>Su</li>
-					<li>Mo</li>
-					<li>Tu</li>
-					<li>We</li>
-					<li>Th</li>
-					<li>Fr</li>
-					<li>Sa</li>
+					<li class="weekday">{{$t('sunday')}}</li>
+					<li class="weekday">{{$t('monday')}}</li>
+					<li class="weekday">{{$t('tuesday')}}</li>
+					<li class="weekday">{{$t('wednesday')}}</li>
+					<li class="weekday">{{$t('thursday')}}</li>
+					<li class="weekday">{{$t('friday')}}</li>
+					<li class="weekday">{{$t('saturday')}}</li>
 				</ul>
 				<ul class="items">
-                    <template v-for="(item, i) in getItemsInCurrentDate()">           
+					<template v-for="(item, i) in getItemsInCurrentDate()">           
                         <li :key="i" class="item" 
 							:class="{
 								'day': currentLevelIsDay(),
 								'month': currentLevelIsMonth(),
 								'year': currentLevelIsYear(),
-								'decad': currentLevelIsDecad()
+								'decad': currentLevelIsDecad(),
+								'selected': item.selected,
+								'focused': item.focused
 							}">
                             {{item.value.format("YYYY/MM/DD")}}
                         </li>
@@ -69,23 +71,32 @@
 			allowArrow: {
 				type: Object,
 				required: false,
-				default: {
-					previous: true,
-					next: true
+				default: () => {
+					return {
+						previous: true,
+						next: true
+					}
 				}
 			},
 			dateBorder: {
 				type: Object,
 				required: false,
-				default: {
-					start: undefined,
-					end: undefined
+				default: () => {
+					return {
+						start: undefined,
+						end: undefined
+					}
 				}
 			},
 			supportedLevels: {
 				type: Array,
 				required: false,
-				default: ['DECAD', 'YEAR', 'MONTH', 'DAY']
+				default: () => [
+					'DECAD', 
+					'YEAR',
+					'MONTH', 
+					'DAY'
+				]
 			}
 		},
 		data() {
@@ -108,7 +119,6 @@
 		methods: {
 			formatDateOnCurrentLevel() {
 				let date = dayjs(this.date).clone();
-				console.log(date);
 				switch (this.currentLevel) {
 					case 'DAY': 
 						return date.clone().format('MMM, YYYY');
@@ -197,6 +207,7 @@
 
 			getItemsInCurrentDate() {
 				let result = [];
+				return result;
 				let date = this.date.clone();
 				let borders = this.getBordersInCurrentDate();
 				for (let currentDate = borders.startDateBlock; 
@@ -264,4 +275,35 @@
 		
 	}
 </style>
+<i18n>
+	{
+		"en": {
+			"sunday": "su",
+			"monday": "mo",
+			"tuesday": "tu",
+			"wednesday": "we",
+			"thursday": "th",
+			"friday": "fr",
+			"saturday": "sa"
+		},
+		"ja": {
+			"monday": "月曜日",
+			"tuesday": "火曜日",
+			"wednesday": "水曜日",
+			"thursday": "木曜日",
+			"friday": "金曜日",
+			"saturday": "土曜日",
+			"sunday": "日曜日"
+		},
+		"ru": {
+			"monday": "пн",
+			"tuesday": "вт",
+			"wednesday": "ср",
+			"thursday": "чт",
+			"friday": "пт",
+			"saturday": "сб",
+			"sunday": "вс"
+		}
+	}
+</i18n>
 

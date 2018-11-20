@@ -20,12 +20,12 @@
 								:class="{ 'selected': isSelected(availableDateRange.value) }"
 								@click="selectDateRange(availableDateRange.value)"
 								:key="availableDateRange.label">
-							{{availableDateRange.label}}
+							{{$t(availableDateRange.label)}}
 						</li>
 					</ul>
 					<div class="buttons">
-						<button class="button apply">Apply</button>
-						<button class="button cancel">Cancel</button>
+						<button class="button apply">{{$t("apply")}}</button>
+						<button class="button cancel">{{$t("cancel")}}</button>
 					</div>
 				</div>
 				<div class="calendars">
@@ -53,54 +53,6 @@
 		}
 	}
 
-	const allDateRanges =	{
-		"TODAY": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day'), 
-				dayjs().endOf('day')), 
-			"Today"),
-		"YESTERDAY": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').add(-1, 'd'), 
-				dayjs().endOf('day').add(-1, 'd')),
-			"Yesterday"), 
-		"THIS_WEEK": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').startOf('w'), 
-				dayjs().endOf('day').endOf('w')),
-			"This Week"),        
-		"LAST_WEEK": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').add(-1, 'w').startOf('w'), 
-				dayjs().endOf('day').add(-1, 'w').endOf('w')), 
-			"Last Week"),   
-		"LAST_7_DAYS": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').add(-6, 'd'), 
-				dayjs().endOf('day')), 
-			"Last 7 Days"),
-		"THIS_MONTH": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').startOf('M'), 
-				dayjs().endOf('day').endOf('M')),
-			"This Month"),  
-		"LAST_MONTH": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').add(-1, 'M').startOf('M'), 
-				dayjs().endOf('day').add(-1, 'M').endOf('M')), 
-			"Last Month"),
-		"LAST_30_DAYS": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day').add(-29, 'd'), 
-				dayjs().endOf('day')), 
-			"Last 30 Days"),
-		"CUSTOM_DATE_RANGE": new DateRangeViewModel(
-			new DateRange(
-				dayjs().startOf('day'), 
-				dayjs().endOf('day')), 
-			"Custom Date Range"),
-	};
-
 	export default {
 		name: 'datepicker-range',
 		directives: {
@@ -108,17 +60,17 @@
     	},
 		props: {
 			startDate: {
-				type: Date,
+				type: Date | Object | undefined | null,
 				required: true
 			},
 			endDate: {
-				type: Date,
+				type: Date | Object | undefined | null,
 				required: true
 			},
 			dateRangeKeys: {
 				type: Array,
 				required: false,
-				default: [
+				default: () => [
 					'TODAY', 
 					'YESTERDAY', 
 					'THIS_WEEK',
@@ -140,13 +92,60 @@
 			return {
 				expanded: false,
 				availableDateRanges: [],
-				selectedDateRange: undefined
+				selectedDateRange: undefined,
+				allDateRanges: {
+					"TODAY": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day'), 
+							dayjs().endOf('day')), 
+						'today'),
+					"YESTERDAY": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').add(-1, 'd'), 
+							dayjs().endOf('day').add(-1, 'd')),
+						'yesterday'), 
+					"THIS_WEEK": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').startOf('w'), 
+							dayjs().endOf('day').endOf('w')),
+						'thisWeek'),        
+					"LAST_WEEK": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').add(-1, 'w').startOf('w'), 
+							dayjs().endOf('day').add(-1, 'w').endOf('w')), 
+						'lastWeek'),   
+					"LAST_7_DAYS": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').add(-6, 'd'), 
+							dayjs().endOf('day')), 
+						'last7Days'),
+					"THIS_MONTH": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').startOf('M'), 
+							dayjs().endOf('day').endOf('M')),
+						'thisMonth'),  
+					"LAST_MONTH": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').add(-1, 'M').startOf('M'), 
+							dayjs().endOf('day').add(-1, 'M').endOf('M')), 
+						'lastMonth'),
+					"LAST_30_DAYS": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day').add(-29, 'd'), 
+							dayjs().endOf('day')), 
+						'last30days'),
+					"CUSTOM_DATE_RANGE": new DateRangeViewModel(
+						new DateRange(
+							dayjs().startOf('day'), 
+							dayjs().endOf('day')), 
+						'customDateRange'),
+				}
 			}
 		},
 		created() {
 			if (!this.startDate) {
-				this.selectedDateRange = (allDateRanges[this.initialRangeKey]
-										|| allDateRanges['TODAY']).value;
+				this.selectedDateRange = (this.allDateRanges[this.initialRangeKey]
+										|| this.allDateRanges['TODAY']).value;
 				this.startDate = this.selectedDateRange.startDate; 
 				this.endDate = this.selectedDateRange.endDate;
 			}
@@ -167,7 +166,7 @@
 			this.updateParentDate();
 			for (let i in this.dateRangeKeys) {
 				let key = this.dateRangeKeys[i];
-				let dateRange = allDateRanges[key];
+				let dateRange = this.allDateRanges[key];
 				if (dateRange) {
 					dateRange.value.key = key;
 					this.availableDateRanges.push(dateRange);
@@ -383,4 +382,49 @@
 		}
 	}
 </style>
+<i18n>
+	{
+		"en": {
+			"today": "Today",
+			"yesterday": "Yesterday",
+			"thisWeek": "This Week",
+			"lastWeek": "Last Week",
+			"last7Days": "Last 7 Days",
+			"thisMonth": "This Month",
+			"lastMonth": "Last Month",
+			"last30days": "Last 30 Days",
+			"customDateRange": "Custom Date Range",
 
+			"apply": "Apply",
+			"cancel": "Cancel"
+		},
+		"ja": {
+			"today": "今日",
+			"yesterday": "昨日",
+			"thisWeek": "今週",
+			"lastWeek": "先週",
+			"last7Days": "過去7日間",
+			"thisMonth": "今月",
+			"lastMonth": "先月",
+			"last30days": "過去30日間",
+			"customDateRange": "カスタム期間",
+
+			"apply": "アプライ",
+			"cancel": "キャンセル"
+		},
+		"ru": {
+			"today": "Сегодня",
+			"yesterday": "Вчера",
+			"thisWeek": "Эта неделя",
+			"lastWeek": "Последняя неделя",
+			"last7Days": "Последние 7 дней",
+			"thisMonth": "Этот месяц",
+			"lastMonth": "Последний месяц",
+			"last30days": "Последние 30 дней",
+			"customDateRange": "Пользовательский период",
+
+			"apply": "Применить",
+			"cancel": "Отменить"
+		}
+	}
+</i18n>

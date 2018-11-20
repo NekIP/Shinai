@@ -96,6 +96,7 @@
 <script>
 	/*import moment from 'moment';*/
 	import { mapMutations } from 'vuex';
+	import dayjs from 'dayjs';
 
 	export default {
 		name: 'experiment',
@@ -133,8 +134,8 @@
 						url: 'test.com'
 					},
 				],
-				dateFrom: null,
-				dateTo: null,
+				dateFrom: dayjs(),
+				dateTo: dayjs(),
 				testDate: new Date(),
 				pageSizes: [100, 200, 500],
 				columns: [
@@ -286,8 +287,8 @@
 				//alert(this.dateFrom.format('MMMM D, YYYY'));
 				//alert(this.dateTo.format('MMMM D, YYYY'));
 				this.setLanguage('ja');
-				setTimeout(() => this.setLanguage('ru'), 2000);
-				setTimeout(() => this.setLanguage('en'), 4000);
+				setTimeout(() => this.setLanguage('ru'), 5000);
+				setTimeout(() => this.setLanguage('en'), 10000);
 				/*alert("df");
 				console.log(this.$i18n);
 				this.$i18n.locale = 'ja';*/
