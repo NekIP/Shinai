@@ -23,6 +23,7 @@
     "vuex": "^3.0.1"
   },
   "devDependencies": {
+    "@kazupon/vue-i18n-loader": "^0.3.0",
     "autoprefixer": "^9.3.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",

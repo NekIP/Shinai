@@ -54,13 +54,19 @@ module.exports = {
                 }
             },
             {
-                test: /\.vue$/,
+				test: /\.vue$/,
+				/* 
+				 * vue loader is a bit old but 
+				 * if you need to change the vue loader to version 15 and above, 
+				 * you will have to change the webpack config 
+				 */
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-						scss: sassLoader,	/* <style lang="scss"> */
-						sass: sassLoader,	/* <style lang="sass"> */
-						js: jsLoader
+						scss: sassLoader,					/* <style lang="scss"> */
+						sass: sassLoader,					/* <style lang="sass"> */
+						js: jsLoader,						/* js with babel translation */
+						i18n: '@kazupon/vue-i18n-loader'	/* localization */
                     },
 					sourceMap: true
                 }

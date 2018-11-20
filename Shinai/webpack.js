@@ -1,1 +1,0 @@
-﻿/* Only needed for grouping in Visual Studio 2017 */

@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="generated\" />
     <Folder Include="wwwroot\components\application\header\" />
   </ItemGroup>
 

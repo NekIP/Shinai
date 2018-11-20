@@ -41,7 +41,7 @@
 					</s-select>-->
 				</div>
 			</div>
-			<s-datepicker-org 
+			<!--<s-datepicker-org 
 				title="Select date range" 
 				:range-keys="['TODAY', 'YESTERDAY', 'LAST_7_DAYS', 'LAST_WEEK', 'LAST_30_DAYS', 'LAST_MONTH', 'CUSTOM_DATE_RANGE']" 
 				:allow-custom-date-range="true">
@@ -50,10 +50,11 @@
 						{{ selectedRange.toString() }}
 					</div>
 				</span>
-			</s-datepicker-org>
+			</s-datepicker-org>-->
 			<s-datepicker-range :startDate.sync="dateFrom" :endDate.sync="dateTo"></s-datepicker-range>
 			<s-datepicker :date="testDate"></s-datepicker>
 			<button @click="test">show</button>
+			<p>message: {{ $t('hello') }}</p>
 			<!--
 			<button @click="testSet">set</button>
 			<s-checkbox :value.sync="showChart">
@@ -95,7 +96,8 @@
 </template>
 <script>
 	/*import moment from 'moment';*/
-	
+	import { mapMutations } from 'vuex';
+
 	export default {
 		name: 'experiment',
 		data() { 
@@ -277,10 +279,19 @@
 			this.addRandomDataForSelect(100);
 		},
 		methods: {
-			test() { 
-				alert(this.text);
-				alert(this.dateFrom.format('MMMM D, YYYY'));
-				alert(this.dateTo.format('MMMM D, YYYY'));
+			...mapMutations({
+				setLanguage: 'setLanguage'
+			}),
+			test() {
+				//alert(this.text);
+				//alert(this.dateFrom.format('MMMM D, YYYY'));
+				//alert(this.dateTo.format('MMMM D, YYYY'));
+				this.setLanguage('ja');
+				setTimeout(() => this.setLanguage('ru'), 2000);
+				setTimeout(() => this.setLanguage('en'), 4000);
+				/*alert("df");
+				console.log(this.$i18n);
+				this.$i18n.locale = 'ja';*/
 				//this.addRandomDataForSelect(100);
 			},
 			testSet() {
@@ -382,5 +393,18 @@
 		border-bottom: 1px solid rgb(150, 150, 150);
 	}
 </style>
+<i18n>
+	{
+		"en": {
+			"hello": "hello world!"
+		},
+		"ja": {
+			"hello": "こんにちは、世界！"
+		},
+		"ru": {
+			"hello": "Привет мир!"
+		}
+	}
+</i18n>
 
 

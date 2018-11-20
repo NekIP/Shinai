@@ -19,10 +19,16 @@
 					<li>Fr</li>
 					<li>Sa</li>
 				</ul>
-				<ul class="days">
+				<ul class="items">
                     <template v-for="(item, i) in getItemsInCurrentDate()">           
-                        <li>
-                            {{item.text}} - {{item.value.format("YYYY/MM/DD")}} - {{item.selected}} - {{item.focused}} 
+                        <li :key="i" class="item" 
+							:class="{
+								'day': currentLevelIsDay(),
+								'month': currentLevelIsMonth(),
+								'year': currentLevelIsYear(),
+								'decad': currentLevelIsDecad()
+							}">
+                            {{item.value.format("YYYY/MM/DD")}}
                         </li>
                     </template>
                 </ul>
@@ -31,10 +37,16 @@
 	</div>
 </template>
 <script>
+	import { mapState } from 'vuex';
 	import dayjs from 'dayjs';
 
 	export default {
 		name: "datepicker",
+		computed: {
+			...mapState({
+				styleClass: state => state.base.styleClass
+			})
+		},
 		props: {
 			date: {
 				type: Date,
