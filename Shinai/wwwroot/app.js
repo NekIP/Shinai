@@ -25,7 +25,7 @@ import Vue from 'vue';
 	Vue.component('s-side-nav-menu', sideNavMenu);
 	//Vue.component('s-calendar', calendar);
 	//Vue.component('s-datepicker-org', datepickerOrg);
-	Vue.component('s-datepicker', datepicker);
+	//Vue.component('s-datepicker', datepicker);
 	Vue.component('s-datepicker-range', datepickerRange);
 
 
@@ -60,14 +60,20 @@ import Vue from 'vue';
 
 	Vue.use(VueI18n);
 
-	const i18n = new VueI18n({ locale: 'en' }); /* 
+	const i18n = new VueI18n({ 
+		locale: 'en', 
+		fallbackLocale: 'en', 
+	}); 										/* 
 												 * don't rename it, 
-												 * becouse this name can use in all childrens 
+												 * because this name can use in all childrens 
 												 */
 
 /* APPLICATION */
 	import app from './components/app.vue';
-	import store from './store';
+	import store from './store';	/* 
+									* don't rename it, 
+									* because this name can use in all childrens 
+									*/
 	import { mapState } from 'vuex';
 
 	/* 
@@ -88,6 +94,7 @@ import Vue from 'vue';
 				language: state => state.localization.language
 			})
 		},
+
 		watch: {
 			language(value) {
 				this.$i18n.locale = value;

@@ -1,29 +1,40 @@
 const path = require('path');
-let ExtractTextPlugin = require('extract-text-webpack-plugin');
-let Webpack = require("webpack");
-let cssExtractor = new ExtractTextPlugin('style.css', { allChunk: true });
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const Webpack = require("webpack");
+const cssExtractor = new ExtractTextPlugin('style.css', { allChunk: true });
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require('autoprefixer');
 
-const jsLoader = [
-	{
-		loader: 'babel-loader',
-		options: {
-			presets: ['env', 'es2015', 'stage-0', 'vue'],
-			sourceMap: true
-		}
+const babelLoader = {
+	loader: 'babel-loader',
+	options: {
+		presets: ['env', 'es2015', 'stage-0', 'vue'],
+		sourceMap: true
 	}
+};
+
+const jsLoader = [babelLoader];
+
+const fileLoader = {
+	loader: 'file-loader',
+	options: {
+		name: "[name].[hash].[ext]"
+	}
+};
+
+const cssLoader = [
+	{
+		loader: "css-loader"
+	},
+	"postcss-loader",						/* prefixes */
+	"resolve-url-loader"
 ];
 
 /* IMPORTANT: handlers convert code strictly from bottom to top */
 const sassLoader = cssExtractor.extract({
 	fallback: "style-loader",
 	use: [
-		{
-			loader: "css-loader"
-		},
-		"postcss-loader",						/* prefixes */
-		"resolve-url-loader", 					/* need for resolve paths to resources in css */
+		...cssLoader, 					/* need for resolve paths to resources in css */
 		{
 			loader: "sass-loader?sourceMap", 	/* first resolver is source-map, after this will be sass-loader */
 			options: {
@@ -37,6 +48,14 @@ const sassLoader = cssExtractor.extract({
 	]
 });
 
+const typescriptLoader = {
+	loader: 'ts-loader',
+	options: {
+		configFile: 'tsconfig.json',
+		appendTsSuffixTo: [/\.vue$/]		/* vue supprot for typescript */
+	}
+};
+
 module.exports = {
     entry: './wwwroot/app.js',
     output: {
@@ -47,11 +66,7 @@ module.exports = {
         rules: [
             {
                 test: /\.tsx?$/,
-                loader: 'ts-loader',
-                options: {
-                    configFile: 'tsconfig.json',
-                    appendTsSuffixTo: [/\.vue$/]		/* vue supprot for typescript */
-                }
+				...typescriptLoader
             },
             {
 				test: /\.vue$/,
@@ -66,7 +81,13 @@ module.exports = {
 						scss: sassLoader,					/* <style lang="scss"> */
 						sass: sassLoader,					/* <style lang="sass"> */
 						js: jsLoader,						/* js with babel translation */
-						i18n: '@kazupon/vue-i18n-loader'	/* localization */
+						i18n: '@kazupon/vue-i18n-loader',	/* localization */
+						css: cssExtractor.extract({
+							fallback: "style-loader",
+							use: [
+								...cssLoader
+							]
+						})
                     },
 					sourceMap: true
                 }
@@ -81,11 +102,7 @@ module.exports = {
 				loaders: cssExtractor.extract({
 					fallback: "style-loader",
 					use: [
-						{
-							loader: "css-loader"
-						}, 
-						"postcss-loader",
-						"resolve-url-loader"
+						...cssLoader
 					]
 				})
             },
@@ -96,23 +113,13 @@ module.exports = {
 			{
 				test: /\.(png|svg|jpg|gif)$/,
 				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: "[name].[hash].[ext]"
-						}
-					}
+					fileLoader
 				]
 			},
 			{
 				test: /\.(woff|woff2|eot|ttf|otf)$/,
 				use: [
-					{
-						loader: 'file-loader',
-						options: {
-							name: "[name].[hash].[ext]"
-						}
-					}
+					fileLoader
 				]
 			}
         ]
@@ -121,7 +128,11 @@ module.exports = {
 		modules: [
 			"node_modules",
 			path.resolve(__dirname, "wwwroot")
-		]
+		],
+		alias: {
+			assistants: path.resolve(__dirname, 'wwwroot/scripts/assistants/'),
+			shared: path.resolve(__dirname, 'wwwroot/scripts/shared/')
+		}
 	},
     plugins: [
         cssExtractor,							/* extract css from js files */

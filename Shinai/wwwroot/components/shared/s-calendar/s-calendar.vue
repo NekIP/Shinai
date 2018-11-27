@@ -10,7 +10,7 @@
                         :value="selectedStartDate && selectedStartDate.toISOString().split('T')[0]"
                         @input="tryToSetStartDateViaTextbox($event.target.valueAsDate)"
                         ref="startDatePreliminary"/>
-                </div>    
+                </div>
 
                 <div class="month"> 
                     <ul>
