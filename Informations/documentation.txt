@@ -1,0 +1,22 @@
+Localization:
+	Each component contains an i18n tag that stores localization.
+	The application supports dynamic language change, 
+	in the Vuex global state store (wwwroot / store), 
+	there is a Localization module (wwwroot / store / modules / localization) 
+	that stores the Language state. 
+	When the application is initialized at the app.js entry point, 
+	the localization object vue-i18n is created (http://kazupon.github.io/vue-i18n/). 
+	When the Language is changed, this object is installed.
+
+	Structure of naming languages: 
+		{ISO 639-1}-{ISO 3166-1 alpha-2}
+
+	Wiki: 	
+		https://ru.wikipedia.org/wiki/ISO_3166-1
+		https://ru.wikipedia.org/wiki/ISO_639
+
+	Examples:
+		en-US - english, United States
+		fr-FR - france, France
+		en-GB - english, Great Britain
+	

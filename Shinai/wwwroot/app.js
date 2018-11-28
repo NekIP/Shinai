@@ -25,7 +25,7 @@ import Vue from 'vue';
 	Vue.component('s-side-nav-menu', sideNavMenu);
 	//Vue.component('s-calendar', calendar);
 	//Vue.component('s-datepicker-org', datepickerOrg);
-	//Vue.component('s-datepicker', datepicker);
+	Vue.component('s-datepicker', datepicker);
 	Vue.component('s-datepicker-range', datepickerRange);
 
 
@@ -61,8 +61,8 @@ import Vue from 'vue';
 	Vue.use(VueI18n);
 
 	const i18n = new VueI18n({ 
-		locale: 'en', 
-		fallbackLocale: 'en', 
+		locale: 'en-EN', 
+		fallbackLocale: 'en-EN', 
 	}); 										/* 
 												 * don't rename it, 
 												 * because this name can use in all childrens 
@@ -87,6 +87,10 @@ import Vue from 'vue';
 		router,
 		store,
 		i18n,
+
+		created() {
+			this.$i18n.locale = this.language;
+		},
 
 		/* current language is bound to state in vuex */
 		computed: {

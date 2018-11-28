@@ -1,7 +1,7 @@
 <template>
 	<div class="experiment col-sm-12">
 			<div class="title col-sm-12">
-        		<h1>Transaction Detail for 11/05/2018 - 11/05/2018</h1>
+        		<h1>Transaction Detail for {{dateFrom.format('DD/MM/YYYY')}} - {{dateTo}}</h1>
     		</div>
 			<div class="form">
 				<div class="row col-lg-12">
@@ -51,9 +51,9 @@
 					</div>
 				</span>
 			</s-datepicker-org>-->
-			<s-datepicker-range class="col-sm-3" :startDate.sync="dateFrom" :endDate.sync="dateTo"></s-datepicker-range>
-			<s-datepicker class="col-sm-3" :date="testDate"></s-datepicker>
-			<button @click="test">show</button>
+			<s-datepicker-range class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range>
+			<s-datepicker class="col-sm-3" :start-date="dateFrom" :end-date="dateTo"></s-datepicker>
+			<button @click="test">Change lang {{languages[currentLanguageIndex]}}</button>
 			<p>message: {{ $t('hello') }}</p>
 			<!--<button @click="testSet">set</button>
 			<s-checkbox :value.sync="showChart">
@@ -136,7 +136,8 @@
 				],
 				dateFrom: dayjs(),
 				dateTo: dayjs(),
-				testDate: new Date(),
+				testDate1: dayjs(),
+				testDate2: dayjs(),
 				pageSizes: [100, 200, 500],
 				columns: [
 					{ id: 'mid', name: 'Merchant Id', type: 'number' },
@@ -271,7 +272,9 @@
 					}             
 				],
 				showChart: false,
-				text: ''
+				text: '',
+				languages: ['en-EN', 'en-US', 'en-GB', 'en-EN', 'de-DE', 'ja-JA', 'es-ES', 'es-MX', 'ru-RU', 'fr-FR', 'it-IT'],
+				currentLanguageIndex: 0			
 			}
 		},
 		created: function() {
@@ -286,9 +289,8 @@
 				//alert(this.text);
 				//alert(this.dateFrom.format('MMMM D, YYYY'));
 				//alert(this.dateTo.format('MMMM D, YYYY'));
-				this.setLanguage('ja');
-				setTimeout(() => this.setLanguage('ru'), 5000);
-				setTimeout(() => this.setLanguage('en'), 10000);
+				this.currentLanguageIndex = (this.currentLanguageIndex + 1) % (this.languages.length - 1);
+				this.setLanguage(this.languages[this.currentLanguageIndex]);
 				/*alert("df");
 				console.log(this.$i18n);
 				this.$i18n.locale = 'ja';*/

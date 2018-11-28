@@ -1,5 +1,5 @@
 const state = {
-	language: 'en'
+	language: 'en-EN'
 };
 
 const getters = {
@@ -12,7 +12,6 @@ const actions = {
 
 const mutations = {
 	setLanguage(state, val) {
-		console.log('dfgdfg');
 		state.language = val;
 	}
 };

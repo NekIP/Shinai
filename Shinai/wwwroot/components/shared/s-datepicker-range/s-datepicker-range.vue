@@ -38,4 +38,119 @@
 <script src="./s-datepicker-range.js"></script>
 <style 	src="./s-datepicker-range.scss" lang="scss"></style>
 <style 	src="./s-datepicker-range.material.scss" lang="scss"></style>
-<i18n 	src="./s-datepicker-range.localization.json"></i18n>
+<i18n>
+{
+	"en-EN": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"thisWeek": "This Week",
+		"lastWeek": "Last Week",
+		"last7Days": "Last 7 Days",
+		"thisMonth": "This Month",
+		"lastMonth": "Last Month",
+		"last30days": "Last 30 Days",
+		"customDateRange": "Custom Date Range",
+
+		"apply": "Apply",
+		"cancel": "Cancel"
+	},
+	"ja-JA": {
+		"today": "今日",
+		"yesterday": "昨日",
+		"thisWeek": "今週",
+		"lastWeek": "先週",
+		"last7Days": "過去7日間",
+		"thisMonth": "今月",
+		"lastMonth": "先月",
+		"last30days": "過去30日間",
+		"customDateRange": "カスタム期間",
+
+		"apply": "アプライ",
+		"cancel": "キャンセル"
+	},
+	"ru-RU": {
+		"today": "Сегодня",
+		"yesterday": "Вчера",
+		"thisWeek": "Эта неделя",
+		"lastWeek": "Последняя неделя",
+		"last7Days": "Последние 7 дней",
+		"thisMonth": "Этот месяц",
+		"lastMonth": "Последний месяц",
+		"last30days": "Последние 30 дней",
+		"customDateRange": "Пользовательский период",
+
+		"apply": "Применить",
+		"cancel": "Отменить"
+	},
+	"es-ES": {
+		"today": "Hoy",
+		"yesterday": "Ayer",
+		"thisWeek": "Esta semana",
+		"lastWeek": "La semana pasada",
+		"last7Days": "Los últimos 7 días",
+		"thisMonth": "Este mes",
+		"lastMonth": "El mes pasado",
+		"last30days": "Últimos 30 días",
+		"customDateRange": "Rango de fecha personalizado",
+
+		"apply": "Aplicar",
+		"cancel": "Cancelar"
+	},
+	"es-MX": {
+		"today": "Hoy",
+		"yesterday": "Ayer",
+		"thisWeek": "Esta semana",
+		"lastWeek": "La semana pasada",
+		"last7Days": "Los últimos 7 días",
+		"thisMonth": "Este mes",
+		"lastMonth": "El mes pasado",
+		"last30days": "Últimos 30 días",
+		"customDateRange": "Rango de fecha personalizado",
+
+		"apply": "Aplicar",
+		"cancel": "Cancelar"
+	},
+	"fr-FR": {
+		"today": "Aujourd'hui",
+		"yesterday": "Hier",
+		"thisWeek": "Cette semaine",
+		"lastWeek": "La semaine dernière",
+		"last7Days": "Les 7 derniers jours",
+		"thisMonth": "Ce mois-ci",
+		"lastMonth": "Le mois dernier",
+		"last30days": "Les 30 derniers jours",
+		"customDateRange": "Plage de dates personnalisée",
+
+		"apply": "Appliquer",
+		"cancel": "Annuler"
+	},
+	"it-IT": {
+		"today": "Oggi",
+		"yesterday": "Ieri",
+		"thisWeek": "Questa settimana",
+		"lastWeek": "La settimana scorsa",
+		"last7Days": "Ultimi 7 giorni",
+		"thisMonth": "Questo mese",
+		"lastMonth": "Lo scorso mese",
+		"last30days": "Ultimi 30 giorni",
+		"customDateRange": "Intervallo di date personalizzato",
+
+		"apply": "Applicare",
+		"cancel": "Annulla"
+	},
+	"de-DE": {
+		"today": "Heute",
+		"yesterday": "Gestern",
+		"thisWeek": "Diese Woche",
+		"lastWeek": "Letzte Woche",
+		"last7Days": "Letzten 7 Tage",
+		"thisMonth": "Diesen Monat",
+		"lastMonth": "Im vergangenen Monat",
+		"last30days": "Letzte 30 Tage",
+		"customDateRange": "Benutzerdefinierter Datumsbereich",
+
+		"apply": "Sich bewerben",
+		"cancel": "Stornieren"
+	}
+}
+</i18n>

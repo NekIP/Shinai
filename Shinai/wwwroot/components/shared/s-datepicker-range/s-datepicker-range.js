@@ -161,9 +161,7 @@ export default {
 
 		formatLocalizedDate(date, format) {
 			let localizedFormatedDate = formatLocalizedDate(date, this.language, format);
-			return capitalizeFirstLetter(
-				
-			);
+			return capitalizeFirstLetter(localizedFormatedDate);
 		}
 	}
 }
