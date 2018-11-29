@@ -15,6 +15,9 @@ import Vue from 'vue';
 	import materialInput from './components/shared/s-material-input/s-material-input.vue';
 	import datepicker from './components/shared/s-datepicker/s-datepicker.vue';
 	import datepickerRange from './components/shared/s-datepicker-range/s-datepicker-range.vue';
+	import window from './components/shared/s-window/s-window.vue';
+	import datePickerAnother from './components/shared/s-datepicker-another/s-date-picker.vue';
+	import dateRangePickerAnother from './components/shared/s-datepicker-another/s-daterange-picker.vue';
 
 	Vue.component('s-table', table);
 	Vue.component('s-select', select);
@@ -27,8 +30,10 @@ import Vue from 'vue';
 	//Vue.component('s-datepicker-org', datepickerOrg);
 	Vue.component('s-datepicker', datepicker);
 	Vue.component('s-datepicker-range', datepickerRange);
+	Vue.component('s-window', window);
 
-
+	Vue.component('s-date-picker-another', datePickerAnother);
+	Vue.component('s-daterange-picker-another', dateRangePickerAnother);
 
 /* ROUTING */
 	import VueRouter from 'vue-router';

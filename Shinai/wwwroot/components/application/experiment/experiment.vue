@@ -1,8 +1,41 @@
 <template>
 	<div class="experiment col-sm-12">
+			<div class="row">
+				<button @click="showWindow = true">Show Modal</button>
+
+				<s-window v-if="showWindow" @close="showWindow = false">	
+					<h3>custom content</h3>
+					<s-select 
+						default-title="Currency" 
+						multiple-selected-title-chunk="Currency"
+						:allow-multiple="true"
+						:all-option-groups="options" 
+						@selection-changed="console.log($event)">
+					</s-select>
+				</s-window>
+			</div>
 			<div class="title col-sm-12">
-        		<h1>Transaction Detail for {{dateFrom.format('DD/MM/YYYY')}} - {{dateTo}}</h1>
-    		</div>
+				<h1>Transaction Detail for 11/05/2018 - 11/05/2018</h1>
+			</div>
+			<div class="row">
+				<div class="col col-md-12">
+					<h4>Another date picker implementation</h4>
+					<s-date-picker-another 
+						class="col col-lg-3" 
+						v-model="firstDatepickerDate">
+					</s-date-picker-another>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col col-md-12">	
+					<h4>Another daterange picker implementation</h4>
+					<s-daterange-picker-another 
+						class="col col-lg-6" 
+						v-model="dateRangeTest" 
+						:unlink-panels="true">
+					</s-daterange-picker-another>
+				</div>
+			</div>
 			<div class="form">
 				<div class="row col-lg-12">
 					<s-select 
@@ -97,11 +130,14 @@
 	/*import moment from 'moment';*/
 	import { mapMutations } from 'vuex';
 	import dayjs from 'dayjs';
-
+	import { DateRange } from '../../../scripts/datepicker/definitions.js';
 	export default {
 		name: 'experiment',
 		data() { 
 			return {
+				firstDatepickerDate: new Date(),
+				dateRangeTest: new DateRange(new Date(2018, 10, 25), new Date(2018, 11, 27)),
+				showWindow: false,
 				data: [
 					{
 						mid: 20001,
