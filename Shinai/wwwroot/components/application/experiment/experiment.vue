@@ -85,7 +85,7 @@
 				</span>
 			</s-datepicker-org>-->
 			<s-datepicker-range class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range>
-			<s-datepicker class="col-sm-3" :start-date="dateFrom" :end-date="dateTo"></s-datepicker>
+			<s-datepicker class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker>
 			<button @click="test">Change lang {{languages[currentLanguageIndex]}}</button>
 			<p>message: {{ $t('hello') }}</p>
 			<!--<button @click="testSet">set</button>

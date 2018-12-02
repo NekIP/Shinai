@@ -82,6 +82,7 @@
 				</div>
 			</div>
 		</div>
+		<button @click="applySelected">apply</button>
 	</div>
 </template>
 <script>
@@ -90,6 +91,7 @@
 	import 'dayjs/locale/ru';
 	import { formatLocalizedDate, getLocalizedStartOfWeek, getLocalizedEndOfWeek } from 'assistants/date-localization';
 	import { capitalizeFirstLetter } from 'assistants/string';
+	import { updateParentField } from 'assistants/vue/two-side-binding';
 	
 	function convertDate(date) {
 		if (date == undefined) {
@@ -209,16 +211,34 @@
 			}
 		},
 
-		created() {
-			
+		watch: {
+			startDate() {
+				this.selecting.startDate = undefined;
+				this.selecting.endDate = undefined;
+			},
+
+			endDate() {
+				this.selecting.startDate = undefined;
+				this.selecting.endDate = undefined;
+			}
 		},
 		
 		methods: {
-			apply() {
-				setDate(x => this.startDate = x, this.localStartDate);
-				this.$emit('update:startDate', this.startDate);
-				setDate(x => this.endDate = x, this.localEndDate);
-				this.$emit('update:endDate', this.endDate);
+			applySelected() {
+				if (!this.selecting.enabled) {
+					if (this.selecting.startDate && this.selecting.endDate) {
+						if (dateEquals(this.selecting.startDate, this.selecting.endDate)) {
+							this.selecting.startDate = this.selecting.startDate.startOf('day');
+							this.selecting.endDate = this.selecting.endDate.endOf('day');
+						}
+						this.startDate = this.selecting.startDate;
+						this.endDate = this.selecting.endDate;
+						updateParentField(this, this.startDate, 'startDate');
+						updateParentField(this, this.endDate, 'endDate');
+						this.selecting.startDate = undefined;
+						this.selecting.endDate = undefined;
+					}
+				}
 			},
 
 			incrementDates() {
