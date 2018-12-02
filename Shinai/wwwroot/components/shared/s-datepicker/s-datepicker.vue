@@ -21,9 +21,17 @@
 					</ul>
 					<ul class="items">
 						<template v-for="(item, i) in getBlockOfDaysIn(localStartDate)">           
-							<li :key="i" class="item day" 
+							<li :key="i" 
+								@mouseenter="hover(item.date)"
+								@click="selectDate(item.date)"
+								class="item day" 
 								:class="{
-									'selected': item.selected,
+									'selected': item.inThisMonth && 
+										(item.selected.startDate || item.selected.endDate || item.selected.inRange || item.selected.singleRange),
+									'start-date': item.inThisMonth && item.selected.startDate,
+									'end-date': item.inThisMonth && item.selected.endDate,
+									'in-range': item.inThisMonth && item.selected.inRange,
+									'single-range': item.inThisMonth && item.selected.singleRange,
 									'focused': item.inThisMonth
 								}">
 								{{item.date.format("D")}}
@@ -54,11 +62,18 @@
 					</ul>
 					<ul class="items">
 						<template v-for="(item, i) in getBlockOfDaysIn(localEndDate)">           
-							<li :key="i" class="item day" 
+							<li :key="i" 
+								@mouseenter="hover(item.date)"
+								@click="selectDate(item.date)"
+								class="item day" 
 								:class="{
-									'selected': item.selected,
-									'focused': item.inThisMonth,
-									'ff': true
+									'selected': item.inThisMonth && 
+										(item.selected.startDate || item.selected.endDate || item.selected.inRange || item.selected.singleRange),
+									'start-date': item.inThisMonth && item.selected.startDate,
+									'end-date': item.inThisMonth && item.selected.endDate,
+									'in-range': item.inThisMonth && item.selected.inRange,
+									'single-range': item.inThisMonth && item.selected.singleRange,
+									'focused': item.inThisMonth
 								}">
 								{{item.date.format("D")}}
 							</li>
@@ -115,37 +130,15 @@
 	}
 
 	function dateEquals(date1, date2) {
-		return date1.format('DD/MM/YYYY') == date2.format('DD/MM/YYYY');
+		if (date1 && date2) {
+			return date1.format('DD/MM/YYYY') == date2.format('DD/MM/YYYY');
+		}
+		return false;
 	}
 
 	function dateInBorder(date, start, end) {
 		return date.isBefore(end.clone().add(1, 'ms'))
 			&& date.isAfter(start.clone().add(-1, 'ms'));
-	}
-
-	function getBlockOfDaysIn(date, firstDayOfWeek, startDate, endDate) {
-		let startDateFocused = date.startOf('month');
-		let endDateFocused = date.endOf('month');
-		let startDateBlock = getLocalizedStartOfWeek(
-			date.startOf('month'), 
-			firstDayOfWeek);
-		let endDateBlock = getLocalizedEndOfWeek(
-			date.endOf('month').add(7, 'day'), 
-			firstDayOfWeek);
-		let result = [];
-		for (let i = startDateBlock; 
-				i.isBefore(endDateBlock.add(1, 'ms'));
-				i = i.clone().add(1, 'day')) {
-			let value = i.clone();
-			result.push({
-				date: i.clone(),
-				selected: dateInBorder(i, startDateFocused, endDateFocused) && 
-					(dateEquals(i, startDate) || dateEquals(i, endDate)),
-				
-				inThisMonth: dateInBorder(i, startDateFocused, endDateFocused) 
-			});
-		}
-		return result;
 	}
 	
 	export default {
@@ -175,12 +168,14 @@
 					'friday'
 				],
 				cache: {
-					localEndDate: undefined,
-					selectedStartDate: undefined,
-					selectedEndDate: undefined
+					localEndDate: undefined
 				},
-				selecting: false,
-				hoveredDate: undefined
+				selecting: {
+					enabled: false,
+					startDate: undefined,
+					endDate: undefined,
+					hoveredDate: undefined
+				}
 			}
 		},
 
@@ -205,24 +200,6 @@
 				},
 				set(value) {
 					this.cache.localEndDate = value;
-				}
-			},
-
-			selectedStartDate: {
-				get() {
-					return this.cache.selectedStartDate || convertDate(this.startDate);
-				},
-				set(value) {
-					this.cache.selectedStartDate = value;
-				}
-			},
-
-			selectedEndDate: {
-				get() {
-					return this.cache.selectedEndDate || convertDate(this.endDate);
-				},
-				set(value) {
-					this.cache.selectedEndDate = value;
 				}
 			},
 
@@ -253,66 +230,130 @@
 			},
 
 			getBlockOfDaysIn(date) {
-				return getBlockOfDaysIn(
-					date.clone(), 
-					this.$t("firstDayOfWeek"),
-					this.startDate,
-					this.endDate);
+				let firstDayOfWeek = this.$t("firstDayOfWeek");
+				let startDate = this.startDate;
+				let endDate = this.endDate;
+				date = date.clone();
+
+				let startDateFocused = date.startOf('month');
+				let endDateFocused = date.endOf('month');
+				let startDateBlock = getLocalizedStartOfWeek(
+					date.startOf('month'), 
+					firstDayOfWeek);
+				let endDateBlock = startDateBlock.add(41, 'day');
+
+				let result = [];
+				for (let i = startDateBlock; 
+						i.isBefore(endDateBlock.add(1, 'ms'));
+						i = i.clone().add(1, 'day')) {
+					let value = i.clone();
+					let isSelectedStartDate = this.selecting.startDate 
+						? dateEquals(i, this.selecting.startDate)
+						: this.selecting.enabled 
+							? false 
+							: dateEquals(i, this.startDate);
+					let isSelectedEndDate = this.selecting.endDate 
+						? dateEquals(i, this.selecting.endDate)
+						: this.selecting.enabled 
+							? false 
+							: dateEquals(i, this.endDate);
+					let singleRange = isSelectedStartDate 
+						? dateEquals(this.selecting.startDate || this.startDate, 
+							this.selecting.hoveredDate || this.selecting.endDate || this.endDate)
+						: isSelectedEndDate
+							? dateEquals(this.selecting.endDate || this.endDate, 
+								this.selecting.hoveredDate || this.selecting.startDate || this.startDate)
+							: false;
+					isSelectedStartDate = isSelectedStartDate && !singleRange;
+					isSelectedEndDate = isSelectedEndDate && !singleRange;
+					let inRange = 
+						!singleRange
+						&& !isSelectedStartDate 
+						&& !isSelectedEndDate 
+						&& this.dateInSelectedRange(i);
+					result.push({
+						date: i.clone(),
+						selected: {
+							startDate: isSelectedStartDate,
+							endDate: isSelectedEndDate,
+							inRange: inRange,
+							singleRange: singleRange
+						},
+						inThisMonth: dateInBorder(i, startDateFocused, endDateFocused)
+					});
+				}
+
+				return result;
 			},
 
 			selectDate(date) {
-				if ((this.selectedStartDate && this.selectedEndDate)
-					|| (!this.selectedStartDate && !this.selectedEndDate)) {
-					this.selecting = true;
-					this.selectedStartDate = date.clone();
+				if ((this.selecting.startDate && this.selecting.endDate)
+					|| (!this.selecting.startDate && !this.selecting.endDate)) {
+					this.selecting.enabled = true;
+					this.selecting.startDate = date.clone();
+					this.selecting.endDate = undefined;
+					this.selecting.hoveredDate = date.clone();
 					return;
 				}
-				if (this.selectedStartDate) {
-					if (date.isBefore(this.selectedStartDate)) {
-						this.selectedEndDate = this.selectedStartDate.clone();
-						this.selectedStartDate = date.clone();
-					}
-					else {
-						this.selectedEndDate = date.clone();
-					}
-					this.selecting = false;
+
+				if (this.selecting.startDate) {
+					this.selecting.endDate = date.clone();
+					this.selecting.enabled = false;
+					this.selecting.hoveredDate = undefined;
 					return;
 				}
-				if (this.selectedEndDate) {
-					if (date.isAfter(this.selectedEndDate)) {
-						this.selectedStartDate = this.selectedEndDate.clone();
-						this.selectedEndDate = date.clone();
-					}
-					else {
-						this.selectedStartDate = date.clone();
-					}
-					this.selecting = false;
+
+				if (this.selecting.endDate) {
+					this.selecting.startDate = date.clone();
+					this.selecting.enabled = false;
+					this.selecting.hoveredDate = undefined;
 					return;
 				}
 			},
 
 			swapSelectedDate() {
-				let date = this.selectedEndDate ? this.selectedEndDate.clone() : undefined;
-				this.selectedEndDate = this.selectedStartDate ? this.selectedStartDate.clone() : undefined;
-				this.selectedStartDate = date;
+				let date = this.selecting.endDate ? this.selecting.endDate.clone() : undefined;
+				this.selecting.endDate = this.selecting.startDate ? this.selecting.startDate.clone() : undefined;
+				this.selecting.startDate = date;
 			},
 
 			hover(date) {
-				if (this.selecting) {
-					this.hoveredDate = date.clone();
-					if ((this.selectedStartDate && this.selectedStartDate.isAfter(date))
-						|| (this.selectedEndDate && this.selectedEndDate.isBefore(date))) {
+				if (this.selecting.enabled) {
+					this.selecting.hoveredDate = date.clone();
+					if ((this.selecting.startDate && this.selecting.startDate.isAfter(date))
+						|| (this.selecting.endDate && this.selecting.endDate.isBefore(date))) {
 						this.swapSelectedDate();
 					}
 				}
 				else {
-					this.hoveredDate = undefined;
+					this.selecting.hoveredDate = undefined;
 				}
 			},
 
 			formatLocalizedDate(date, format) {
 				let localizedFormatedDate = formatLocalizedDate(date, this.language, format);
 				return capitalizeFirstLetter(localizedFormatedDate);
+			},
+
+			dateInSelectedRange(date) {
+				if (this.selecting.enabled) {
+					if (this.selecting.hoveredDate) {
+						if (this.selecting.startDate) {
+							return dateInBorder(date, this.selecting.startDate, this.selecting.hoveredDate);
+						}
+						if (this.selecting.endDate) {
+							return dateInBorder(date, this.selecting.hoveredDate, this.selecting.endDate);
+						}
+					}
+					return false;
+				}
+				return this.selecting.startDate && this.selecting.endDate
+					? dateInBorder(date, 
+						this.selecting.startDate, 
+						this.selecting.endDate)
+					: dateInBorder(date, 
+						this.startDate, 
+						this.endDate)
 			}
 		}
 	};
@@ -406,9 +447,33 @@
 							}
 
 							&.selected {
-								background: #3a539b;
-								color: white;
-								font-weight: 500;
+								transition: border-radius 0.3s ease;
+
+								&.start-date {
+									background: #3a539b;
+									color: white;
+									font-weight: 500;
+									border-radius: 1em 0 0 1em;
+								}
+
+								&.in-range {
+									background: rgb(240, 240, 240);
+									border-radius: 0em;
+								}
+
+								&.end-date {
+									background: #3a539b;
+									color: white;
+									font-weight: 500;
+									border-radius: 0em 1em 1em 0em;
+								}
+
+								&.single-range {
+									background: #3a539b;
+									color: white;
+									font-weight: 500;
+									border-radius: 1em;
+								}
 							}
 
 							&:not(.selected):hover {
