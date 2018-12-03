@@ -86,60 +86,11 @@
 <script>
 	import { mapState } from 'vuex';
 	import dayjs from 'dayjs';
-	import 'dayjs/locale/ru';
-	import { formatLocalizedDate, getLocalizedStartOfWeek, getLocalizedEndOfWeek } from 'assistants/date-localization';
-	import { capitalizeFirstLetter } from 'assistants/string';
-	import { updateParentField } from 'assistants/vue/two-side-binding';
-	
-	function convertDate(date) {
-		if (date == undefined) {
-			return dayjs();
-		}
-		if (dayjs.isDayjs(date)) {
-			return date;
-		}
-		if (date instanceof Date || date instanceof String) {
-			return dayjs(date);
-		}
-		throw new Error("Unrecognized format of date!");
-	}
 
-	function setDate(setter, date) {
-		setter(convertDate(date));
-	}
-
-	function getWeekdaysInLocalizedOrder(weekdays, firstDayOfWeek) {
-		let result = [];
-		let indexOfFirstDayOfWeek = -1;
-		for (let i = 0; i < weekdays.length; i++) {
-			let weekday = weekdays[i];
-			if (weekday == firstDayOfWeek) {
-				indexOfFirstDayOfWeek = i;
-			}
-			if (indexOfFirstDayOfWeek != -1) {
-				result.push(weekday);
-			}
-		}
-		if (indexOfFirstDayOfWeek != -1) {
-			for (let i = 0; i < indexOfFirstDayOfWeek; i++) {
-				let weekday = weekdays[i];
-				result.push(weekday);
-			}
-		}
-		return result;
-	}
-
-	function dateEquals(date1, date2) {
-		if (date1 && date2) {
-			return date1.format('DD/MM/YYYY') == date2.format('DD/MM/YYYY');
-		}
-		return false;
-	}
-
-	function dateInBorder(date, start, end) {
-		return date.isBefore(end.clone().add(1, 'ms'))
-			&& date.isAfter(start.clone().add(-1, 'ms'));
-	}
+	import StringUtils from 'utils/string';
+	import DateUtils from 'utils/date';
+	import DateLocalizationUtils from 'utils/date-localization';
+	import TwoSideBindingUtils from 'utils/vue/two-side-binding';
 	
 	export default {
 		name: "datepicker",
@@ -173,7 +124,7 @@
 
 			endMonth: {
 				get() {
-					return this.cache.endMonth || convertDate(this.endDate);
+					return this.cache.endMonth || DateUtils.convertDate(this.endDate);
 				},
 				set(value) {
 					this.cache.endMonth = value;
@@ -181,8 +132,8 @@
 			},
 
 			weekdaysInLocalizedOrder() {
-				let firstDayOfWeek = this.$t("firstDayOfWeek");
-				return getWeekdaysInLocalizedOrder(this.weekdays, firstDayOfWeek);
+				let firstDayOfWeek = this.getFirstDayOfWeek();
+				return DateUtils.getWeekdaysFromFirstDayOfWeek(this.weekdays, firstDayOfWeek);
 			}
 		},
 
@@ -229,13 +180,13 @@
 				date = date.clone();
 				let startDateInThisMonth = date.startOf('month');
 				let endDateInThisMonth = date.endOf('month');
-				let startDateBlock = getLocalizedStartOfWeek(date.startOf('month'), firstDayOfWeek);
+				let startDateBlock = DateLocalizationUtils.getLocalizedStartOfWeek(date.startOf('month'), firstDayOfWeek);
 				let endDateBlock = startDateBlock.add(41, 'day').add(1, 'ms');
 				let result = [];
 				for (let iterationDate = startDateBlock.clone(); 
 						 iterationDate.isBefore(endDateBlock); 
 						 iterationDate = iterationDate.clone().add(1, 'day')) {
-					let inThisMonth = dateInBorder(iterationDate, startDateInThisMonth, endDateInThisMonth);
+					let inThisMonth = DateUtils.dateInBorder(iterationDate, startDateInThisMonth, endDateInThisMonth);
 					let typeOfSelectedDate = this.getTypeOfSelected(iterationDate);
 					let isSelected = typeOfSelectedDate && inThisMonth;
 					result.push({
@@ -285,20 +236,20 @@
 				let selected = this.selected;
 				let startDate = this.startDate;
 				return selected.startDate 
-					? dateEquals(date, selected.startDate)
+					? DateUtils.dateEquals(date, selected.startDate)
 					: this.isSelecting
 						? false 
-						: dateEquals(date, startDate);
+						: DateUtils.dateEquals(date, startDate);
 			},
 
 			isSelectedEndDate(date) {
 				let selected = this.selected;
 				let endDate = this.endDate;
 				return selected.endDate 
-					? dateEquals(date, selected.endDate)
+					? DateUtils.dateEquals(date, selected.endDate)
 					: this.isSelecting
 						? false 
-						: dateEquals(date, endDate);
+						: DateUtils.dateEquals(date, endDate);
 			},
 
 			isSelectedStartDateEqualsEnd(isSelectedStartDate, isSelectedEndDate) {
@@ -315,7 +266,7 @@
 					startDate = selected.endDate || this.endDate;
 					endDate = selected.hoveredDate || selected.startDate || this.startDate;
 				}
-				return dateEquals(startDate, endDate);
+				return DateUtils.dateEquals(startDate, endDate);
 			},
 
 			isInSelectedRange(date, isSelectedStartDateEqualsEnd, isSelectedStartDate, isSelectedEndDate) {
@@ -330,19 +281,19 @@
 				if (this.isSelecting) {
 					if (selected.hoveredDate) {
 						if (selected.startDate) {
-							return dateInBorder(date, selected.startDate, selected.hoveredDate);
+							return DateUtils.dateInBorder(date, selected.startDate, selected.hoveredDate);
 						}
 						if (this.selected.endDate) {
-							return dateInBorder(date, selected.hoveredDate, selected.endDate);
+							return DateUtils.dateInBorder(date, selected.hoveredDate, selected.endDate);
 						}
 					}
 					return false;
 				}
 				return selected.startDate && selected.endDate
-					? dateInBorder(date, 
+					? DateUtils.dateInBorder(date, 
 						selected.startDate, 
 						selected.endDate)
-					: dateInBorder(date, 
+					: DateUtils.dateInBorder(date, 
 						this.startDate, 
 						this.endDate)
 			},
@@ -408,7 +359,7 @@
 			},
 
 			isSelectedRangeInOneDay() {
-				return dateEquals(this.selected.startDate, this.selected.endDate);
+				return DateUtils.dateEquals(this.selected.startDate, this.selected.endDate);
 			},
 
 			setSelectedFromStartToEndDay() {
@@ -424,8 +375,8 @@
 			},
 
 			updateParentDates() {
-				updateParentField(this, this.startDate, 'startDate');
-				updateParentField(this, this.endDate, 'endDate');
+				TwoSideBindingUtils.updateParentField(this, this.startDate, 'startDate');
+				TwoSideBindingUtils.updateParentField(this, this.endDate, 'endDate');
 			},
 
 /* MONTH DATE */
@@ -443,8 +394,9 @@
 			},
 
 			formatLocalizedDate(date, format) {
-				let localizedFormatedDate = formatLocalizedDate(date, this.language, format);
-				return capitalizeFirstLetter(localizedFormatedDate);
+				let localizedFormatedDate = DateLocalizationUtils
+					.formatLocalizedDate(date, this.language, format);
+				return StringUtils.capitalizeFirstLetter(localizedFormatedDate);
 			}
 		}
 	};

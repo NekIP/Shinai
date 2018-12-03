@@ -130,7 +130,7 @@ module.exports = {
 			path.resolve(__dirname, "wwwroot")
 		],
 		alias: {
-			assistants: path.resolve(__dirname, 'wwwroot/scripts/assistants/'),
+			utils: path.resolve(__dirname, 'wwwroot/scripts/utils/'),
 			shared: path.resolve(__dirname, 'wwwroot/scripts/shared/')
 		}
 	},

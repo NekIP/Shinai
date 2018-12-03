@@ -2,12 +2,11 @@ import { mapState } from 'vuex';
 import dayjs from 'dayjs';
 import vClickOutside from 'v-click-outside'
 
-import { DateRangeViewModel, DateRange, allDateRanges } from './s-datepicker-range.functions';
+import { DateRange, allDateRanges } from './s-datepicker-range.functions';
 
-import { capitalizeFirstLetter } from 'assistants/string';
-import { formatLocalizedDate } from 'assistants/date-localization';
-import { updateParentField } from 'assistants/vue/two-side-binding';
-
+import StringUtils from 'utils/string';
+import DateLocalizationUtils from 'utils/date-localization';
+import TwoSideBindingUtils from 'utils/vue/two-side-binding';
 
 export default {
 	name: 'datepicker-range',
@@ -106,13 +105,14 @@ export default {
 		},
 
 		updateParentDate() {
-			updateParentField(this, this.startDate, 'startDate');
-			updateParentField(this, this.endDate, 'endDate');
+			TwoSideBindingUtils.updateParentField(this, this.startDate, 'startDate');
+			TwoSideBindingUtils.updateParentField(this, this.endDate, 'endDate');
 		},
 
 		formatLocalizedDate(date, format) {
-			let localizedFormatedDate = formatLocalizedDate(date, this.language, format);
-			return capitalizeFirstLetter(localizedFormatedDate);
+			let localizedFormatedDate = DateLocalizationUtils
+				.formatLocalizedDate(date, this.language, format);
+			return StringUtils.capitalizeFirstLetter(localizedFormatedDate);
 		}
 	}
 }
