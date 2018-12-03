@@ -2,7 +2,7 @@ import { mapState } from 'vuex';
 import dayjs from 'dayjs';
 import vClickOutside from 'v-click-outside'
 
-import { DateRangeViewModel, DateRange } from './s-datepicker-range.functions';
+import { DateRangeViewModel, DateRange, allDateRanges } from './s-datepicker-range.functions';
 
 import { capitalizeFirstLetter } from 'assistants/string';
 import { formatLocalizedDate } from 'assistants/date-localization';
@@ -53,60 +53,12 @@ export default {
 		return {
 			expanded: false,
 			availableDateRanges: [],
-			selectedDateRange: undefined,
-			allDateRanges: {
-				"TODAY": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day'), 
-						dayjs().endOf('day')), 
-					'today'),
-				"YESTERDAY": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').add(-1, 'd'), 
-						dayjs().endOf('day').add(-1, 'd')),
-					'yesterday'), 
-				"THIS_WEEK": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').startOf('w'), 
-						dayjs().endOf('day').endOf('w')),
-					'thisWeek'),        
-				"LAST_WEEK": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').add(-1, 'w').startOf('w'), 
-						dayjs().endOf('day').add(-1, 'w').endOf('w')), 
-					'lastWeek'),   
-				"LAST_7_DAYS": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').add(-6, 'd'), 
-						dayjs().endOf('day')), 
-					'last7Days'),
-				"THIS_MONTH": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').startOf('M'), 
-						dayjs().endOf('day').endOf('M')),
-					'thisMonth'),  
-				"LAST_MONTH": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').add(-1, 'M').startOf('M'), 
-						dayjs().endOf('day').add(-1, 'M').endOf('M')), 
-					'lastMonth'),
-				"LAST_30_DAYS": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day').add(-29, 'd'), 
-						dayjs().endOf('day')), 
-					'last30days'),
-				"CUSTOM_DATE_RANGE": new DateRangeViewModel(
-					new DateRange(
-						dayjs().startOf('day'), 
-						dayjs().endOf('day')), 
-					'customDateRange'),
-			}
+			selectedDateRange: undefined
 		}
 	},
 	created() {
 		if (!this.startDate) {
-			this.selectedDateRange = (this.allDateRanges[this.initialRangeKey]
-									|| this.allDateRanges['TODAY']).value;
+			this.selectedDateRange = (allDateRanges[this.initialRangeKey] || allDateRanges['TODAY']).value;
 			this.startDate = this.selectedDateRange.startDate; 
 			this.endDate = this.selectedDateRange.endDate;
 		}
@@ -127,7 +79,7 @@ export default {
 		this.updateParentDate();
 		for (let i in this.dateRangeKeys) {
 			let key = this.dateRangeKeys[i];
-			let dateRange = this.allDateRanges[key];
+			let dateRange = allDateRanges[key];
 			if (dateRange) {
 				dateRange.value.key = key;
 				this.availableDateRanges.push(dateRange);
@@ -145,7 +97,6 @@ export default {
 
 		selectDateRange(dateRange) {
 			this.selectedDateRange = dateRange;
-			
 			if (dateRange.key != 'CUSTOM_DATE_RANGE') {
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();

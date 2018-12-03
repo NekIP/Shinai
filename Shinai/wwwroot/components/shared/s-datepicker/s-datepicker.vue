@@ -3,11 +3,11 @@
 		<div class="calendar">
 			<div class="header"> 
 				<div class="prev">
-					<div role="button" class="arrow-button" @click="decrimentDates">
+					<div role="button" class="arrow-button" @click="decrimentMonth">
 						<i class="fa fa-chevron-left" aria-hidden="true"></i>
 					</div>
 				</div>
-				<div class="info">{{formatLocalizedDate(localStartDate, 'MMM YYYY')}}</div>
+				<div class="info">{{formatLocalizedDate(startMonth, 'MMM YYYY')}}</div>
 				<div class="next"></div>
 			</div>
 			<div class="calendar-container">
@@ -20,19 +20,18 @@
 						</li>
 					</ul>
 					<ul class="items">
-						<template v-for="(item, i) in getBlockOfDaysIn(localStartDate)">           
+						<template v-for="(item, i) in getBlockOfDaysIn(startMonth)">           
 							<li :key="i" 
 								@mouseenter="hover(item.date)"
 								@click="selectDate(item.date)"
 								class="item day" 
 								:class="{
-									'selected': item.inThisMonth && 
-										(item.selected.startDate || item.selected.endDate || item.selected.inRange || item.selected.singleRange),
-									'start-date': item.inThisMonth && item.selected.startDate,
-									'end-date': item.inThisMonth && item.selected.endDate,
-									'in-range': item.inThisMonth && item.selected.inRange,
-									'single-range': item.inThisMonth && item.selected.singleRange,
-									'focused': item.inThisMonth
+									'selected': item.selected,
+									'start-date': item.typeOfSelected.startDate,
+									'end-date': item.typeOfSelected.endDate,
+									'in-range': item.typeOfSelected.inRange,
+									'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
+									'in-this-month': item.inThisMonth
 								}">
 								{{item.date.format("D")}}
 							</li>
@@ -44,9 +43,9 @@
 		<div class="calendar">
 			<div class="header"> 
 				<div class="prev"></div>
-				<div class="info">{{formatLocalizedDate(localEndDate, 'MMM YYYY')}}</div>
+				<div class="info">{{formatLocalizedDate(endMonth, 'MMM YYYY')}}</div>
 				<div class="next">
-					<div role="button" class="arrow-button" @click="incrementDates">
+					<div role="button" class="arrow-button" @click="incrementMonth">
 						<i class="fa fa-chevron-right" aria-hidden="true"></i>
 					</div>
 				</div>
@@ -61,19 +60,18 @@
 						</li>
 					</ul>
 					<ul class="items">
-						<template v-for="(item, i) in getBlockOfDaysIn(localEndDate)">           
+						<template v-for="(item, i) in getBlockOfDaysIn(endMonth)">           
 							<li :key="i" 
 								@mouseenter="hover(item.date)"
 								@click="selectDate(item.date)"
 								class="item day" 
 								:class="{
-									'selected': item.inThisMonth && 
-										(item.selected.startDate || item.selected.endDate || item.selected.inRange || item.selected.singleRange),
-									'start-date': item.inThisMonth && item.selected.startDate,
-									'end-date': item.inThisMonth && item.selected.endDate,
-									'in-range': item.inThisMonth && item.selected.inRange,
-									'single-range': item.inThisMonth && item.selected.singleRange,
-									'focused': item.inThisMonth
+									'selected': item.selected,
+									'start-date': item.typeOfSelected.startDate,
+									'end-date': item.typeOfSelected.endDate,
+									'in-range': item.typeOfSelected.inRange,
+									'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
+									'in-this-month': item.inThisMonth
 								}">
 								{{item.date.format("D")}}
 							</li>
@@ -158,6 +156,36 @@
 			}
 		},
 
+		computed: {
+			...mapState({
+				styleClass: state => state.base.styleClass,
+				language: state => state.localization.language
+			}),
+
+			startMonth: {
+				get() {
+					return this.endMonth.clone().add(-1, 'month');
+				},
+				set(value) {
+					this.cache.startDate = value;
+				}
+			},
+
+			endMonth: {
+				get() {
+					return this.cache.endMonth || convertDate(this.endDate);
+				},
+				set(value) {
+					this.cache.endMonth = value;
+				}
+			},
+
+			weekdaysInLocalizedOrder() {
+				let firstDayOfWeek = this.$t("firstDayOfWeek");
+				return getWeekdaysInLocalizedOrder(this.weekdays, firstDayOfWeek);
+			}
+		},
+
 		data() {
 			return {
 				weekdays: [
@@ -170,10 +198,10 @@
 					'friday'
 				],
 				cache: {
-					localEndDate: undefined
+					endMonth: undefined
 				},
-				selecting: {
-					enabled: false,
+				isSelecting: false,
+				selected: {
 					startDate: undefined,
 					endDate: undefined,
 					hoveredDate: undefined
@@ -181,199 +209,242 @@
 			}
 		},
 
-		computed: {
-			...mapState({
-				styleClass: state => state.base.styleClass,
-				language: state => state.localization.language
-			}),
-
-			localStartDate: {
-				get() {
-					return this.localEndDate.clone().add(-1, 'month');
-				},
-				set(value) {
-					this.cache.startDate = value;
-				}
-			},
-
-			localEndDate: {
-				get() {
-					return this.cache.localEndDate || convertDate(this.endDate);
-				},
-				set(value) {
-					this.cache.localEndDate = value;
-				}
-			},
-
-			weekdaysInLocalizedOrder() {
-				let firstDayOfWeek = this.$t("firstDayOfWeek");
-				return getWeekdaysInLocalizedOrder(this.weekdays, firstDayOfWeek);
-			}
-		},
-
 		watch: {
 			startDate() {
-				this.selecting.startDate = undefined;
-				this.selecting.endDate = undefined;
+				this.selected.startDate = undefined;
+				this.selected.endDate = undefined;
 			},
 
 			endDate() {
-				this.selecting.startDate = undefined;
-				this.selecting.endDate = undefined;
+				this.selected.startDate = undefined;
+				this.selected.endDate = undefined;
 			}
 		},
 		
 		methods: {
-			applySelected() {
-				if (!this.selecting.enabled) {
-					if (this.selecting.startDate && this.selecting.endDate) {
-						if (dateEquals(this.selecting.startDate, this.selecting.endDate)) {
-							this.selecting.startDate = this.selecting.startDate.startOf('day');
-							this.selecting.endDate = this.selecting.endDate.endOf('day');
-						}
-						this.startDate = this.selecting.startDate;
-						this.endDate = this.selecting.endDate;
-						updateParentField(this, this.startDate, 'startDate');
-						updateParentField(this, this.endDate, 'endDate');
-						this.selecting.startDate = undefined;
-						this.selecting.endDate = undefined;
-					}
-				}
-			},
 
-			incrementDates() {
-				this.localEndDate = this.localEndDate.add(1, 'month');
-			},
-
-			decrimentDates() {
-				this.localEndDate = this.localEndDate.add(-1, 'month');
-			},
-
+/* DAYS IN BLOCK */
 			getBlockOfDaysIn(date) {
-				let firstDayOfWeek = this.$t("firstDayOfWeek");
-				let startDate = this.startDate;
-				let endDate = this.endDate;
+				let firstDayOfWeek = this.getFirstDayOfWeek();
 				date = date.clone();
-
-				let startDateFocused = date.startOf('month');
-				let endDateFocused = date.endOf('month');
-				let startDateBlock = getLocalizedStartOfWeek(
-					date.startOf('month'), 
-					firstDayOfWeek);
-				let endDateBlock = startDateBlock.add(41, 'day');
-
+				let startDateInThisMonth = date.startOf('month');
+				let endDateInThisMonth = date.endOf('month');
+				let startDateBlock = getLocalizedStartOfWeek(date.startOf('month'), firstDayOfWeek);
+				let endDateBlock = startDateBlock.add(41, 'day').add(1, 'ms');
 				let result = [];
-				for (let i = startDateBlock; 
-						i.isBefore(endDateBlock.add(1, 'ms'));
-						i = i.clone().add(1, 'day')) {
-					let value = i.clone();
-					let isSelectedStartDate = this.selecting.startDate 
-						? dateEquals(i, this.selecting.startDate)
-						: this.selecting.enabled 
-							? false 
-							: dateEquals(i, this.startDate);
-					let isSelectedEndDate = this.selecting.endDate 
-						? dateEquals(i, this.selecting.endDate)
-						: this.selecting.enabled 
-							? false 
-							: dateEquals(i, this.endDate);
-					let singleRange = isSelectedStartDate 
-						? dateEquals(this.selecting.startDate || this.startDate, 
-							this.selecting.hoveredDate || this.selecting.endDate || this.endDate)
-						: isSelectedEndDate
-							? dateEquals(this.selecting.endDate || this.endDate, 
-								this.selecting.hoveredDate || this.selecting.startDate || this.startDate)
-							: false;
-					isSelectedStartDate = isSelectedStartDate && !singleRange;
-					isSelectedEndDate = isSelectedEndDate && !singleRange;
-					let inRange = 
-						!singleRange
-						&& !isSelectedStartDate 
-						&& !isSelectedEndDate 
-						&& this.dateInSelectedRange(i);
+				for (let iterationDate = startDateBlock.clone(); 
+						 iterationDate.isBefore(endDateBlock); 
+						 iterationDate = iterationDate.clone().add(1, 'day')) {
+					let inThisMonth = dateInBorder(iterationDate, startDateInThisMonth, endDateInThisMonth);
+					let typeOfSelectedDate = this.getTypeOfSelected(iterationDate);
+					let isSelected = typeOfSelectedDate && inThisMonth;
 					result.push({
-						date: i.clone(),
-						selected: {
-							startDate: isSelectedStartDate,
-							endDate: isSelectedEndDate,
-							inRange: inRange,
-							singleRange: singleRange
+						date: iterationDate.clone(),
+						selected: isSelected,
+						typeOfSelected: {
+							startDate: isSelected && typeOfSelectedDate.startDate,
+							endDate: isSelected && typeOfSelectedDate.endDate,
+							startDateEqualsEnd: isSelected && typeOfSelectedDate.startDateEqualsEnd,
+							inRange: isSelected && typeOfSelectedDate.inRange
 						},
-						inThisMonth: dateInBorder(i, startDateFocused, endDateFocused)
+						inThisMonth: inThisMonth
 					});
 				}
-
 				return result;
 			},
 
+/* DATE SELECTED? */
+			getTypeOfSelected(date) {
+				let isSelectedStartDate = this.isSelectedStartDate(date);
+				let isSelectedEndDate = this.isSelectedEndDate(date);
+				let isSelectedStartDateEqualsEnd = this.isSelectedStartDateEqualsEnd(
+					isSelectedStartDate, 
+					isSelectedEndDate
+				);
+				if (isSelectedStartDateEqualsEnd) {
+					[isSelectedStartDate, isSelectedEndDate] = [false, false];
+				}
+				let isInSelectedRange = this.isInSelectedRange(date,
+					isSelectedStartDateEqualsEnd, 
+					isSelectedStartDate, 
+					isSelectedEndDate
+				);
+				if (isSelectedStartDate || isSelectedEndDate 
+					|| isSelectedStartDateEqualsEnd || isInSelectedRange) {
+					return {
+						startDate: isSelectedStartDate,
+						endDate: isSelectedEndDate,
+						startDateEqualsEnd: isSelectedStartDateEqualsEnd,
+						inRange: isInSelectedRange
+					}
+				}
+				return null;
+			},
+
+			isSelectedStartDate(date) {
+				let selected = this.selected;
+				let startDate = this.startDate;
+				return selected.startDate 
+					? dateEquals(date, selected.startDate)
+					: this.isSelecting
+						? false 
+						: dateEquals(date, startDate);
+			},
+
+			isSelectedEndDate(date) {
+				let selected = this.selected;
+				let endDate = this.endDate;
+				return selected.endDate 
+					? dateEquals(date, selected.endDate)
+					: this.isSelecting
+						? false 
+						: dateEquals(date, endDate);
+			},
+
+			isSelectedStartDateEqualsEnd(isSelectedStartDate, isSelectedEndDate) {
+				if (!isSelectedStartDate && !isSelectedEndDate) {
+					return false;
+				}
+				let selected = this.selected;
+				let [startDate, endDate] = [null, null];
+				if (isSelectedStartDate) {
+					startDate = selected.startDate || this.startDate;
+					endDate = selected.hoveredDate || selected.endDate || this.endDate;
+				}
+				else if (isSelectedEndDate) {
+					startDate = selected.endDate || this.endDate;
+					endDate = selected.hoveredDate || selected.startDate || this.startDate;
+				}
+				return dateEquals(startDate, endDate);
+			},
+
+			isInSelectedRange(date, isSelectedStartDateEqualsEnd, isSelectedStartDate, isSelectedEndDate) {
+				if (isSelectedStartDateEqualsEnd || isSelectedStartDate || isSelectedEndDate) {
+					return false;
+				}
+				return this.dateInSelectedRange(date);
+			},
+
+			dateInSelectedRange(date) {
+				let selected = this.selected;
+				if (this.isSelecting) {
+					if (selected.hoveredDate) {
+						if (selected.startDate) {
+							return dateInBorder(date, selected.startDate, selected.hoveredDate);
+						}
+						if (this.selected.endDate) {
+							return dateInBorder(date, selected.hoveredDate, selected.endDate);
+						}
+					}
+					return false;
+				}
+				return selected.startDate && selected.endDate
+					? dateInBorder(date, 
+						selected.startDate, 
+						selected.endDate)
+					: dateInBorder(date, 
+						this.startDate, 
+						this.endDate)
+			},
+
+/* SELECT DATE */
 			selectDate(date) {
-				if ((this.selecting.startDate && this.selecting.endDate)
-					|| (!this.selecting.startDate && !this.selecting.endDate)) {
-					this.selecting.enabled = true;
-					this.selecting.startDate = date.clone();
-					this.selecting.endDate = undefined;
-					this.selecting.hoveredDate = date.clone();
+				let selected = this.selected;
+				if ((selected.startDate && selected.endDate)
+					|| (!selected.startDate && !selected.endDate)) {
+					this.isSelecting = true;
+					selected.startDate = date.clone();
+					selected.endDate = undefined;
+					selected.hoveredDate = date.clone();
 					return;
 				}
 
-				if (this.selecting.startDate) {
-					this.selecting.endDate = date.clone();
-					this.selecting.enabled = false;
-					this.selecting.hoveredDate = undefined;
+				if (selected.startDate) {
+					selected.endDate = date.clone();
+					this.isSelecting = false;
+					selected.hoveredDate = undefined;
 					return;
 				}
 
-				if (this.selecting.endDate) {
-					this.selecting.startDate = date.clone();
-					this.selecting.enabled = false;
-					this.selecting.hoveredDate = undefined;
+				if (selected.endDate) {
+					selected.startDate = date.clone();
+					this.isSelecting = false;
+					selected.hoveredDate = undefined;
 					return;
 				}
 			},
 
 			swapSelectedDate() {
-				let date = this.selecting.endDate ? this.selecting.endDate.clone() : undefined;
-				this.selecting.endDate = this.selecting.startDate ? this.selecting.startDate.clone() : undefined;
-				this.selecting.startDate = date;
+				let selected = this.selected;
+				let date = selected.endDate ? selected.endDate.clone() : undefined;
+				selected.endDate = selected.startDate ? selected.startDate.clone() : undefined;
+				selected.startDate = date;
 			},
 
 			hover(date) {
-				if (this.selecting.enabled) {
-					this.selecting.hoveredDate = date.clone();
-					if ((this.selecting.startDate && this.selecting.startDate.isAfter(date))
-						|| (this.selecting.endDate && this.selecting.endDate.isBefore(date))) {
+				let selected = this.selected;
+				if (this.isSelecting) {
+					selected.hoveredDate = date.clone();
+					if ((selected.startDate && selected.startDate.isAfter(date))
+						|| (selected.endDate && selected.endDate.isBefore(date))) {
 						this.swapSelectedDate();
 					}
 				}
 				else {
-					this.selecting.hoveredDate = undefined;
+					selected.hoveredDate = undefined;
 				}
+			},
+
+/* APPLY SELECTED FIELDS TO PARENT */
+			applySelected() {
+				let selected = this.selected;
+				if (!selected.enabled && selected.startDate && selected.endDate) {
+					if (this.isSelectedRangeInOneDay()) {
+						this.setSelectedFromStartToEndDay();
+					}
+					this.setSelectedDateToParents();
+					this.updateParentDates();
+				}
+			},
+
+			isSelectedRangeInOneDay() {
+				return dateEquals(this.selected.startDate, this.selected.endDate);
+			},
+
+			setSelectedFromStartToEndDay() {
+				this.selected.startDate = this.selected.startDate.startOf('day');
+				this.selected.endDate = this.selected.endDate.endOf('day');
+			},
+
+			setSelectedDateToParents() {
+				this.startDate = this.selected.startDate;
+				this.endDate = this.selected.endDate;
+				this.selected.startDate = undefined;
+				this.selected.endDate = undefined;
+			},
+
+			updateParentDates() {
+				updateParentField(this, this.startDate, 'startDate');
+				updateParentField(this, this.endDate, 'endDate');
+			},
+
+/* MONTH DATE */
+			incrementMonth() {
+				this.endMonth = this.endMonth.add(1, 'month');
+			},
+
+			decrimentMonth() {
+				this.endMonth = this.endMonth.add(-1, 'month');
+			},
+
+/* OTHERS */
+			getFirstDayOfWeek() {
+				return this.$t("firstDayOfWeek");
 			},
 
 			formatLocalizedDate(date, format) {
 				let localizedFormatedDate = formatLocalizedDate(date, this.language, format);
 				return capitalizeFirstLetter(localizedFormatedDate);
-			},
-
-			dateInSelectedRange(date) {
-				if (this.selecting.enabled) {
-					if (this.selecting.hoveredDate) {
-						if (this.selecting.startDate) {
-							return dateInBorder(date, this.selecting.startDate, this.selecting.hoveredDate);
-						}
-						if (this.selecting.endDate) {
-							return dateInBorder(date, this.selecting.hoveredDate, this.selecting.endDate);
-						}
-					}
-					return false;
-				}
-				return this.selecting.startDate && this.selecting.endDate
-					? dateInBorder(date, 
-						this.selecting.startDate, 
-						this.selecting.endDate)
-					: dateInBorder(date, 
-						this.startDate, 
-						this.endDate)
 			}
 		}
 	};
@@ -456,7 +527,7 @@
 							padding-top: 5px;
 							padding-bottom: 5px;
 
-							&.focused {
+							&.in-this-month {
 								color: rgb(0, 0, 0);
 							}
 
@@ -476,11 +547,6 @@
 									border-radius: 1em 0 0 1em;
 								}
 
-								&.in-range {
-									background: rgb(240, 240, 240);
-									border-radius: 0em;
-								}
-
 								&.end-date {
 									background: #3a539b;
 									color: white;
@@ -488,7 +554,12 @@
 									border-radius: 0em 1em 1em 0em;
 								}
 
-								&.single-range {
+								&.in-range {
+									background: rgb(240, 240, 240);
+									border-radius: 0em;
+								}
+
+								&.start-date-equals-end {
 									background: #3a539b;
 									color: white;
 									font-weight: 500;
