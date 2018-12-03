@@ -85,6 +85,17 @@ export default {
 			}
 		}
 	},
+	watch: {
+		startDate(value) {
+			this.startDate = value;
+			this.updateParentDate();
+		},
+
+		endDate(value) {
+			this.endDate = value;
+			this.updateParentDate();
+		}
+	},
 	methods: {
 		hide() { 
 			this.expanded = false 

@@ -23,21 +23,22 @@
 							{{$t(availableDateRange.label)}}
 						</li>
 					</ul>
-					<div class="buttons">
-						<button class="button apply">{{$t("apply")}}</button>
-						<button class="button cancel">{{$t("cancel")}}</button>
-					</div>
 				</div>
 				<div class="calendars">
-					
+					<s-datepicker-range-calendars 
+							:start-date.sync="startDate" 
+							:end-date.sync="endDate"
+							@apply="hide"
+							@cancel="hide">
+					</s-datepicker-range-calendars>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
 <script src="./s-datepicker-range.js"></script>
-<style 	src="./s-datepicker-range.scss" lang="scss"></style>
-<style 	src="./s-datepicker-range.material.scss" lang="scss"></style>
+<style 	src="./s-datepicker-range.scss" lang="scss" scoped></style>
+<style 	src="./s-datepicker-range.material.scss" lang="scss" scoped></style>
 <i18n>
 {
 	"en-EN": {

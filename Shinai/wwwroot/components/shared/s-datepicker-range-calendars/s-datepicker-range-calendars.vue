@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="button-container left">
-					<s-button class="apply" @click="applySelected">Apply</s-button>
+					<s-button class="apply" @click="apply">{{$t('apply')}}</s-button>
 				</div>
 			</div>
 			<div class="calendar">
@@ -84,7 +84,7 @@
 					</div>
 				</div>
 				<div class="button-container right">
-					<s-button>Cancel</s-button>
+					<s-button @click="cancel">{{$t('cancel')}}</s-button>
 				</div>
 			</div>
 		</div>
@@ -140,21 +140,12 @@
 
 			weekdaysInLocalizedOrder() {
 				let firstDayOfWeek = this.getFirstDayOfWeek();
-				return DateUtils.getWeekdaysFromFirstDayOfWeek(this.weekdays, firstDayOfWeek);
+				return DateUtils.getWeekdaysFromFirstDayOfWeek(firstDayOfWeek);
 			}
 		},
 
 		data() {
 			return {
-				weekdays: [
-					'saturday',
-					'sunday',
-					'monday',
-					'tuesday',
-					'wednesday',
-					'thursday',
-					'friday'
-				],
 				cache: {
 					endMonth: undefined
 				},
@@ -395,6 +386,16 @@
 				this.endMonth = this.endMonth.add(-1, 'month');
 			},
 
+/* EVENTS */
+			apply() {
+				this.applySelected();
+				this.$emit('apply');
+			},
+
+			cancel() {
+				this.$emit('cancel');
+			},
+
 /* OTHERS */
 			getFirstDayOfWeek() {
 				return this.$t("firstDayOfWeek");
@@ -420,8 +421,6 @@
 			flex-direction: row;
 
 			.calendar {
-				min-width: 80%;
-
 				.header {
 					display: flex;
 					flex-direction: row;
@@ -563,7 +562,9 @@
 			"thursday": "Th",
 			"friday": "Fr",
 			"saturday": "Sa",
-			"firstDayOfWeek": "sunday"
+			"firstDayOfWeek": "sunday",
+			"apply": "Apply",
+			"cancel": "Cancel"
 		},
 		"en-GB": {
 			"sunday": "Su",
@@ -573,7 +574,9 @@
 			"thursday": "Th",
 			"friday": "Fr",
 			"saturday": "Sa",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Apply",
+			"cancel": "Cancel"
 		},
 		"en-US": {
 			"sunday": "Su",
@@ -583,7 +586,9 @@
 			"thursday": "Th",
 			"friday": "Fr",
 			"saturday": "Sa",
-			"firstDayOfWeek": "sunday"
+			"firstDayOfWeek": "sunday",
+			"apply": "Apply",
+			"cancel": "Cancel"
 		},
 		"ja-JA": {
 			"sunday": "日曜日",
@@ -593,7 +598,9 @@
 			"thursday": "木曜日",
 			"friday": "金曜日",
 			"saturday": "土曜日",
-			"firstDayOfWeek": "sunday"
+			"firstDayOfWeek": "sunday",
+			"apply": "アプライ",
+			"cancel": "キャンセル"
 		},
 		"ru-RU": {
 			"monday": "Пн",
@@ -603,7 +610,9 @@
 			"friday": "Пт",
 			"saturday": "Сб",
 			"sunday": "Вс",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Применить",
+			"cancel": "Отменить"
 		},
 		"es-ES": {
 			"monday": "Lu",
@@ -613,7 +622,9 @@
 			"friday": "Vi",
 			"saturday": "Sá",
 			"sunday": "Do",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Aplicar",
+			"cancel": "Cancelar"
 		},
 		"es-MX": {
 			"sunday": "Do",
@@ -623,7 +634,9 @@
 			"thursday": "Ju",
 			"friday": "Vi",
 			"saturday": "Sá",
-			"firstDayOfWeek": "sunday"
+			"firstDayOfWeek": "sunday",
+			"apply": "Aplicar",
+			"cancel": "Cancelar"
 		},
 		"fr-FR": {
 			"monday": "Lu",
@@ -633,7 +646,9 @@
 			"friday": "Ve",
 			"saturday": "Sa",
 			"sunday": "Di",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Appliquer",
+			"cancel": "Annuler"
 		},
 		"it-IT": {
 			"monday": "Lu",
@@ -643,7 +658,9 @@
 			"friday": "Ve",
 			"saturday": "Sa",
 			"sunday": "Do",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Applicare",
+			"cancel": "Annulla"
 		},
 		"de-DE": {
 			"monday": "Mo",
@@ -653,7 +670,9 @@
 			"friday": "Fr",
 			"saturday": "Sa",
 			"sunday": "So",
-			"firstDayOfWeek": "monday"
+			"firstDayOfWeek": "monday",
+			"apply": "Sich bewerben",
+			"cancel": "Stornieren"
 		}
 	}
 </i18n>

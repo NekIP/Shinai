@@ -1,6 +1,16 @@
 import dayjs from 'dayjs';
 
 export default class DateUtils {
+	static weekdays = [
+		'saturday',
+		'sunday',
+		'monday',
+		'tuesday',
+		'wednesday',
+		'thursday',
+		'friday'
+	]
+
 	static convertDate(date) {
 		if (date == undefined) {
 			return dayjs();
@@ -14,11 +24,11 @@ export default class DateUtils {
 		throw new Error("Unrecognized format of date!");
 	}
 
-	static getWeekdaysFromFirstDayOfWeek(weekdays, firstDayOfWeek) {
+	static getWeekdaysFromFirstDayOfWeek(firstDayOfWeek) {
 		let result = [];
 		let indexOfFirstDayOfWeek = -1;
-		for (let i = 0; i < weekdays.length; i++) {
-			let weekday = weekdays[i];
+		for (let i = 0; i < this.weekdays.length; i++) {
+			let weekday = this.weekdays[i];
 			if (weekday == firstDayOfWeek) {
 				indexOfFirstDayOfWeek = i;
 			}
@@ -28,7 +38,7 @@ export default class DateUtils {
 		}
 		if (indexOfFirstDayOfWeek != -1) {
 			for (let i = 0; i < indexOfFirstDayOfWeek; i++) {
-				let weekday = weekdays[i];
+				let weekday = this.weekdays[i];
 				result.push(weekday);
 			}
 		}

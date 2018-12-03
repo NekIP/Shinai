@@ -15,7 +15,7 @@
 				</s-window>
 			</div>
 			<div class="title col-sm-12">
-				<h1>Transaction Detail for 11/05/2018 - 11/05/2018</h1>
+				<h1>Transaction Detail for  - 11/05/2018</h1>
 			</div>
 			<div class="row">
 				<div class="col col-md-12">
@@ -85,7 +85,7 @@
 				</span>
 			</s-datepicker-org>-->
 			<s-datepicker-range class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range>
-			<s-datepicker class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker>
+			<s-datepicker-range-calendars class="col-sm-5" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range-calendars>
 			<button @click="test">Change lang {{languages[currentLanguageIndex]}}</button>
 			<p>message: {{ $t('hello') }}</p>
 			<s-button class="col-sm-2" @click="testButton">Hello button</s-button>
@@ -314,7 +314,7 @@
 				],
 				showChart: false,
 				text: '',
-				languages: ['en-EN', 'en-US', 'en-GB', 'en-EN', 'de-DE', 'ja-JA', 'es-ES', 'es-MX', 'ru-RU', 'fr-FR', 'it-IT'],
+				languages: ['en-EN', 'en-US', 'en-GB', 'de-DE', 'ja-JA', 'es-ES', 'es-MX', 'ru-RU', 'fr-FR', 'it-IT', ''],
 				currentLanguageIndex: 0			
 			}
 		},
