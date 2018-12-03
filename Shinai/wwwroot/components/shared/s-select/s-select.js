@@ -57,12 +57,9 @@ export default {
 			styleClass: state => state.base.styleClass
 		}),
 		options() {
-			let self = this;
 			return this.mapInputOptions(this.allOptionGroups);
 		},
 		allowAnimationForList() {
-			console.log(this.$data);
-			console.log(this.$props);
 			return this.options.length < 300;
 		}
 	},

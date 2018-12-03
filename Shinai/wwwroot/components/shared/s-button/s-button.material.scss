@@ -1,0 +1,53 @@
+$backgroundColor: #f2f1ef;
+$hoveredBackgroundColor: #e6e6e6;
+$borderColor: #d0d0d0;
+$textColor: #2c3e50;
+$outlineColor: #3a529b9b;
+
+.s-button {
+	&.material {
+		position: relative;
+		overflow: hidden;
+		width: 100%;
+		background: $backgroundColor;
+		margin: 2px;
+		border: 1px solid $borderColor;
+		border-radius: 1em;
+		padding: 0.3em 1em;
+		cursor: pointer;
+		outline: none;
+		color: $textColor;
+		transition: background 0.17s cubic-bezier(.25,.8,.25,1);
+
+		&:hover {
+			background: $hoveredBackgroundColor;
+		}
+
+		&:active {
+			background: $hoveredBackgroundColor;
+		}
+
+		&:focus {
+			//box-shadow: 0 0 0 1.25px $outlineColor;
+		}
+
+		&:before {
+			content: "";
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			display: block;
+			width: 0;
+			padding-top: 0;
+			border-radius: 100%;
+			background-color: #ffffff75;
+			transform: translate(-50%, -50%);
+		}
+		  
+		&:active:before {
+			width: 120%;
+			padding-top: 120%;
+			transition: width .2s ease-out, padding-top .2s ease-out;
+		}
+	}
+}

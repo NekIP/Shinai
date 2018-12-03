@@ -1,82 +1,84 @@
 <template>
 	<div class="s-datepicker">
-		<div class="calendar">
-			<div class="header"> 
-				<div class="prev">
-					<div role="button" class="arrow-button" @click="decrimentMonth">
-						<i class="fa fa-chevron-left" aria-hidden="true"></i>
+		<div class="calendars">
+			<div class="calendar">
+				<div class="header"> 
+					<div class="prev">
+						<div role="button" class="arrow-button" @click="decrimentMonth">
+							<i class="fa fa-chevron-left" aria-hidden="true"></i>
+						</div>
 					</div>
+					<div class="info">{{formatLocalizedDate(startMonth, 'MMM YYYY')}}</div>
+					<div class="next"></div>
 				</div>
-				<div class="info">{{formatLocalizedDate(startMonth, 'MMM YYYY')}}</div>
-				<div class="next"></div>
-			</div>
-			<div class="calendar-container">
-				<div class="calendar">
-					<ul class="weekdays">
-						<li 	v-for="item in weekdaysInLocalizedOrder" 
-								:key="item"
-								class="weekday">
-							{{$t(item)}}
-						</li>
-					</ul>
-					<ul class="items">
-						<template v-for="(item, i) in getBlockOfDaysIn(startMonth)">           
-							<li :key="i" 
-								@mouseenter="hover(item.date)"
-								@click="selectDate(item.date)"
-								class="item day" 
-								:class="{
-									'selected': item.selected,
-									'start-date': item.typeOfSelected.startDate,
-									'end-date': item.typeOfSelected.endDate,
-									'in-range': item.typeOfSelected.inRange,
-									'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
-									'in-this-month': item.inThisMonth
-								}">
-								{{item.date.format("D")}}
+				<div class="calendar-container">
+					<div class="calendar">
+						<ul class="weekdays">
+							<li 	v-for="item in weekdaysInLocalizedOrder" 
+									:key="item"
+									class="weekday">
+								{{$t(item)}}
 							</li>
-						</template>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<div class="calendar">
-			<div class="header"> 
-				<div class="prev"></div>
-				<div class="info">{{formatLocalizedDate(endMonth, 'MMM YYYY')}}</div>
-				<div class="next">
-					<div role="button" class="arrow-button" @click="incrementMonth">
-						<i class="fa fa-chevron-right" aria-hidden="true"></i>
+						</ul>
+						<ul class="items">
+							<template v-for="(item, i) in getBlockOfDaysIn(startMonth)">           
+								<li :key="i" 
+									@mouseenter="hover(item.date)"
+									@click="selectDate(item.date)"
+									class="item day" 
+									:class="{
+										'selected': item.selected,
+										'start-date': item.typeOfSelected.startDate,
+										'end-date': item.typeOfSelected.endDate,
+										'in-range': item.typeOfSelected.inRange,
+										'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
+										'in-this-month': item.inThisMonth
+									}">
+									{{item.date.format("D")}}
+								</li>
+							</template>
+						</ul>
 					</div>
 				</div>
 			</div>
-			<div class="calendar-container">
-				<div class="calendar">
-					<ul class="weekdays">
-						<li 	v-for="item in weekdaysInLocalizedOrder" 
-								:key="item"
-								class="weekday">
-							{{$t(item)}}
-						</li>
-					</ul>
-					<ul class="items">
-						<template v-for="(item, i) in getBlockOfDaysIn(endMonth)">           
-							<li :key="i" 
-								@mouseenter="hover(item.date)"
-								@click="selectDate(item.date)"
-								class="item day" 
-								:class="{
-									'selected': item.selected,
-									'start-date': item.typeOfSelected.startDate,
-									'end-date': item.typeOfSelected.endDate,
-									'in-range': item.typeOfSelected.inRange,
-									'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
-									'in-this-month': item.inThisMonth
-								}">
-								{{item.date.format("D")}}
+			<div class="calendar">
+				<div class="header"> 
+					<div class="prev"></div>
+					<div class="info">{{formatLocalizedDate(endMonth, 'MMM YYYY')}}</div>
+					<div class="next">
+						<div role="button" class="arrow-button" @click="incrementMonth">
+							<i class="fa fa-chevron-right" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+				<div class="calendar-container">
+					<div class="calendar">
+						<ul class="weekdays">
+							<li 	v-for="item in weekdaysInLocalizedOrder" 
+									:key="item"
+									class="weekday">
+								{{$t(item)}}
 							</li>
-						</template>
-					</ul>
+						</ul>
+						<ul class="items">
+							<template v-for="(item, i) in getBlockOfDaysIn(endMonth)">           
+								<li :key="i" 
+									@mouseenter="hover(item.date)"
+									@click="selectDate(item.date)"
+									class="item day" 
+									:class="{
+										'selected': item.selected,
+										'start-date': item.typeOfSelected.startDate,
+										'end-date': item.typeOfSelected.endDate,
+										'in-range': item.typeOfSelected.inRange,
+										'start-date-equals-end': item.typeOfSelected.startDateEqualsEnd,
+										'in-this-month': item.inThisMonth
+									}">
+									{{item.date.format("D")}}
+								</li>
+							</template>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -405,122 +407,124 @@
 	$dayWidth: 14%;
 
 	.s-datepicker {
-		width: 100%;
-		height: auto;
-		margin: 5px;
-		display: flex;
-		flex-direction: row;
+		.calendars {
+			width: 100%;
+			height: auto;
+			margin: 5px;
+			display: flex;
+			flex-direction: row;
 
-		.calendar {
-			min-width: 80%;
+			.calendar {
+				min-width: 80%;
 
-			.header {
-				display: flex;
-				flex-direction: row;
-				margin-bottom: 5px;
+				.header {
+					display: flex;
+					flex-direction: row;
+					margin-bottom: 5px;
 
-				.prev {
-					flex-basis: 20%;
-					text-align: center;
-				}
-
-				.next {
-					flex-basis: 20%;
-					text-align: center;
-				}
-
-				.info {
-					flex-basis: 60%;
-					font-weight: 600;
-					text-align: center;
-				}
-
-				.arrow-button {
-					padding: 6px 10px;
-					border-radius: 1em;
-					cursor: pointer;
-
-					&:hover {
-						background: rgb(240, 240, 240);
+					.prev {
+						flex-basis: 20%;
+						text-align: center;
 					}
-				}
-			}
 
-			.calendar-container {
-				.calendar {
-					.weekdays {
-						padding: 5px;
-						margin-bottom: 1px;
-						display: flex;
-						flex-direction: row;
-						
-						.weekday {
-							font-weight: 600;
-							flex-basis: $dayWidth;
-							list-style-type: none;
-							text-align: center;
-							//min-width: $dayWidth;
+					.next {
+						flex-basis: 20%;
+						text-align: center;
+					}
+
+					.info {
+						flex-basis: 60%;
+						font-weight: 600;
+						text-align: center;
+					}
+
+					.arrow-button {
+						padding: 6px 10px;
+						border-radius: 1em;
+						cursor: pointer;
+
+						&:hover {
+							background: rgb(240, 240, 240);
 						}
 					}
+				}
 
-					.items {
-						padding: 5px;
-						margin-bottom: 1px;
-						display: flex;
-						flex-direction: row;
-						width: 100%;
-						flex-wrap: wrap;
-
-						.item {
-							list-style-type: none;
-							color: rgb(153, 153, 153);
-							cursor: pointer;
-							border-radius: 1em;
-							padding-top: 5px;
-							padding-bottom: 5px;
-
-							&.in-this-month {
-								color: rgb(0, 0, 0);
-							}
-
-							&.day {
-								//min-width: $dayWidth;
+				.calendar-container {
+					.calendar {
+						.weekdays {
+							padding: 5px;
+							margin-bottom: 1px;
+							display: flex;
+							flex-direction: row;
+							
+							.weekday {
+								font-weight: 600;
 								flex-basis: $dayWidth;
+								list-style-type: none;
 								text-align: center;
+								//min-width: $dayWidth;
 							}
+						}
 
-							&.selected {
-								transition: border-radius 0.3s ease;
+						.items {
+							padding: 5px;
+							margin-bottom: 1px;
+							display: flex;
+							flex-direction: row;
+							width: 100%;
+							flex-wrap: wrap;
 
-								&.start-date {
-									background: #3a539b;
-									color: white;
-									font-weight: 500;
-									border-radius: 1em 0 0 1em;
+							.item {
+								list-style-type: none;
+								color: rgb(153, 153, 153);
+								cursor: pointer;
+								border-radius: 1em;
+								padding-top: 5px;
+								padding-bottom: 5px;
+
+								&.in-this-month {
+									color: rgb(0, 0, 0);
 								}
 
-								&.end-date {
-									background: #3a539b;
-									color: white;
-									font-weight: 500;
-									border-radius: 0em 1em 1em 0em;
+								&.day {
+									//min-width: $dayWidth;
+									flex-basis: $dayWidth;
+									text-align: center;
 								}
 
-								&.in-range {
+								&.selected {
+									transition: border-radius 0.3s ease;
+
+									&.start-date {
+										background: #3a539b;
+										color: white;
+										font-weight: 500;
+										border-radius: 1em 0 0 1em;
+									}
+
+									&.end-date {
+										background: #3a539b;
+										color: white;
+										font-weight: 500;
+										border-radius: 0em 1em 1em 0em;
+									}
+
+									&.in-range {
+										background: rgb(240, 240, 240);
+										border-radius: 0em;
+									}
+
+									&.start-date-equals-end {
+										background: #3a539b;
+										color: white;
+										font-weight: 500;
+										border-radius: 1em;
+									}
+								}
+
+								&:not(.selected):hover {
 									background: rgb(240, 240, 240);
-									border-radius: 0em;
 								}
-
-								&.start-date-equals-end {
-									background: #3a539b;
-									color: white;
-									font-weight: 500;
-									border-radius: 1em;
-								}
-							}
-
-							&:not(.selected):hover {
-								background: rgb(240, 240, 240);
 							}
 						}
 					}

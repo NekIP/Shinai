@@ -1,0 +1,44 @@
+.s-button {
+	background: white;
+	margin: 2px;
+	border: 1px solid rgb(206, 206, 206);
+	border-radius: 0.35em;
+	padding: 0.3em 1em;
+	cursor: pointer;
+	outline: none;
+
+	&:hover {
+		background: rgb(243, 243, 243);
+	}
+
+	&:active {
+		background: rgb(231, 231, 231);
+	}
+
+	&.apply {
+		background: #00b16a;
+		color: white;
+
+		&:hover {
+			background: #009b5d;
+		}
+	}
+
+	&.submit {
+		background: #f39c12;
+		color: white;
+
+		&:hover {
+			background: #db8d10;
+		}
+	}
+
+	&.danger {
+		background: #d91e18;
+		color: white;
+
+		&:hover {
+			background: #c31c16;
+		}
+	}
+}

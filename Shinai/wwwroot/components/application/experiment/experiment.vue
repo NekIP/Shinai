@@ -88,6 +88,11 @@
 			<s-datepicker class="col-sm-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker>
 			<button @click="test">Change lang {{languages[currentLanguageIndex]}}</button>
 			<p>message: {{ $t('hello') }}</p>
+			<s-button class="col-sm-2" @click="testButton">Hello button</s-button>
+			<s-button class="col-sm-2">Test button</s-button>
+			<s-button class="col-sm-2 apply">Apply</s-button>
+			<br>
+			<br>
 			<!--<button @click="testSet">set</button>
 			<s-checkbox :value.sync="showChart">
 				Hello world
@@ -321,6 +326,9 @@
 			...mapMutations({
 				setLanguage: 'setLanguage'
 			}),
+			testButton() {
+				console.log('work');
+			},
 			test() {
 				//alert(this.text);
 				//alert(this.dateFrom.format('MMMM D, YYYY'));
