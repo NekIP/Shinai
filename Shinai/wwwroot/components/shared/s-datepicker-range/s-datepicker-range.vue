@@ -19,16 +19,17 @@
 								v-for="availableDateRange in availableDateRanges"
 								:class="{ 'selected': isSelected(availableDateRange.value) }"
 								@click="selectDateRange(availableDateRange.value)"
+								@mouseenter="hoverDateRange(availableDateRange.value)"
 								:key="availableDateRange.label">
 							{{$t(availableDateRange.label)}}
 						</li>
 					</ul>
 				</div>
-				<div class="calendars">
+				<div class="calendars" v-if="enabledDateRange">
 					<s-datepicker-range-calendars 
 							:start-date.sync="startDate" 
 							:end-date.sync="endDate"
-							@apply="hide"
+							@apply="apply"
 							@cancel="hide">
 					</s-datepicker-range-calendars>
 				</div>
@@ -51,9 +52,31 @@
 		"lastMonth": "Last Month",
 		"last30days": "Last 30 Days",
 		"customDateRange": "Custom Date Range",
-
-		"apply": "Apply",
-		"cancel": "Cancel"
+		"firstDayOfWeek": "sunday"
+	},
+	"en-GB": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"thisWeek": "This Week",
+		"lastWeek": "Last Week",
+		"last7Days": "Last 7 Days",
+		"thisMonth": "This Month",
+		"lastMonth": "Last Month",
+		"last30days": "Last 30 Days",
+		"customDateRange": "Custom Date Range",
+		"firstDayOfWeek": "monday"
+	},
+	"en-US": {
+		"today": "Today",
+		"yesterday": "Yesterday",
+		"thisWeek": "This Week",
+		"lastWeek": "Last Week",
+		"last7Days": "Last 7 Days",
+		"thisMonth": "This Month",
+		"lastMonth": "Last Month",
+		"last30days": "Last 30 Days",
+		"customDateRange": "Custom Date Range",
+		"firstDayOfWeek": "sunday"
 	},
 	"ja-JA": {
 		"today": "今日",
@@ -65,9 +88,7 @@
 		"lastMonth": "先月",
 		"last30days": "過去30日間",
 		"customDateRange": "カスタム期間",
-
-		"apply": "アプライ",
-		"cancel": "キャンセル"
+		"firstDayOfWeek": "sunday"
 	},
 	"ru-RU": {
 		"today": "Сегодня",
@@ -79,9 +100,7 @@
 		"lastMonth": "Последний месяц",
 		"last30days": "Последние 30 дней",
 		"customDateRange": "Пользовательский период",
-
-		"apply": "Применить",
-		"cancel": "Отменить"
+		"firstDayOfWeek": "monday"
 	},
 	"es-ES": {
 		"today": "Hoy",
@@ -93,9 +112,7 @@
 		"lastMonth": "El mes pasado",
 		"last30days": "Últimos 30 días",
 		"customDateRange": "Rango de fecha personalizado",
-
-		"apply": "Aplicar",
-		"cancel": "Cancelar"
+		"firstDayOfWeek": "monday"
 	},
 	"es-MX": {
 		"today": "Hoy",
@@ -107,9 +124,7 @@
 		"lastMonth": "El mes pasado",
 		"last30days": "Últimos 30 días",
 		"customDateRange": "Rango de fecha personalizado",
-
-		"apply": "Aplicar",
-		"cancel": "Cancelar"
+		"firstDayOfWeek": "sunday"
 	},
 	"fr-FR": {
 		"today": "Aujourd'hui",
@@ -121,9 +136,7 @@
 		"lastMonth": "Le mois dernier",
 		"last30days": "Les 30 derniers jours",
 		"customDateRange": "Plage de dates personnalisée",
-
-		"apply": "Appliquer",
-		"cancel": "Annuler"
+		"firstDayOfWeek": "monday"
 	},
 	"it-IT": {
 		"today": "Oggi",
@@ -135,9 +148,7 @@
 		"lastMonth": "Lo scorso mese",
 		"last30days": "Ultimi 30 giorni",
 		"customDateRange": "Intervallo di date personalizzato",
-
-		"apply": "Applicare",
-		"cancel": "Annulla"
+		"firstDayOfWeek": "monday"
 	},
 	"de-DE": {
 		"today": "Heute",
@@ -149,9 +160,7 @@
 		"lastMonth": "Im vergangenen Monat",
 		"last30days": "Letzte 30 Tage",
 		"customDateRange": "Benutzerdefinierter Datumsbereich",
-
-		"apply": "Sich bewerben",
-		"cancel": "Stornieren"
+		"firstDayOfWeek": "monday"
 	}
 }
 </i18n>

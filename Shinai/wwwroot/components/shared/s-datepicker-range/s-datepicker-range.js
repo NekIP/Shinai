@@ -2,7 +2,7 @@ import { mapState } from 'vuex';
 import dayjs from 'dayjs';
 import vClickOutside from 'v-click-outside'
 
-import { DateRange, allDateRanges } from './s-datepicker-range.functions';
+import { DateRange, getDateRanges } from './s-datepicker-range.functions';
 
 import StringUtils from 'utils/string';
 import DateLocalizationUtils from 'utils/date-localization';
@@ -13,7 +13,25 @@ export default {
 	computed: {
 		...mapState({
 			language: state => state.localization.language
-		})
+		}),
+
+		allDateRanges() {
+			let firstDayOfWeek = this.getFirstDayOfWeek();
+			return getDateRanges(firstDayOfWeek);
+		},
+
+		availableDateRanges() {
+			let result = [];
+			for (let i in this.dateRangeKeys) {
+				let key = this.dateRangeKeys[i];
+				let dateRange = this.allDateRanges[key];
+				if (dateRange) {
+					dateRange.value.key = key;
+					result.push(dateRange);
+				}
+			}
+			return result;
+		}
 	},
 	directives: {
 		clickOutside: vClickOutside.directive
@@ -38,26 +56,35 @@ export default {
 				'LAST_7_DAYS',
 				'THIS_MONTH',  
 				'LAST_MONTH', 
-				'LAST_30_DAYS', 
-				'CUSTOM_DATE_RANGE'
+				'LAST_30_DAYS'/*, 
+				'CUSTOM_DATE_RANGE'*/
 			]
 		},
 		initialRangeKey: {
 			type: String,
 			required: false,
 			default: 'TODAY'
+		},
+		enabledChangeDateWhenHovered: {
+			type: Boolean,
+			required: false,
+			default: true
+		},
+		enabledDateRange: {
+			type: Boolean,
+			required: false,
+			default: true
 		}
 	},
 	data() {
 		return {
 			expanded: false,
-			availableDateRanges: [],
 			selectedDateRange: undefined
 		}
 	},
 	created() {
 		if (!this.startDate) {
-			this.selectedDateRange = (allDateRanges[this.initialRangeKey] || allDateRanges['TODAY']).value;
+			this.selectedDateRange = (this.allDateRanges[this.initialRangeKey] || this.allDateRanges['TODAY']).value;
 			this.startDate = this.selectedDateRange.startDate; 
 			this.endDate = this.selectedDateRange.endDate;
 		}
@@ -76,25 +103,6 @@ export default {
 				this.endDate)
 		}
 		this.updateParentDate();
-		for (let i in this.dateRangeKeys) {
-			let key = this.dateRangeKeys[i];
-			let dateRange = allDateRanges[key];
-			if (dateRange) {
-				dateRange.value.key = key;
-				this.availableDateRanges.push(dateRange);
-			}
-		}
-	},
-	watch: {
-		startDate(value) {
-			this.startDate = value;
-			this.updateParentDate();
-		},
-
-		endDate(value) {
-			this.endDate = value;
-			this.updateParentDate();
-		}
 	},
 	methods: {
 		hide() { 
@@ -110,9 +118,20 @@ export default {
 			if (dateRange.key != 'CUSTOM_DATE_RANGE') {
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();
-				this.updateParentDate();
-				this.hide();
+				this.apply();
 			}
+		},
+
+		hoverDateRange(dateRange) {
+			if (this.enabledChangeDateWhenHovered && dateRange.key != 'CUSTOM_DATE_RANGE') {
+				this.startDate = dateRange.startDate.clone();
+				this.endDate = dateRange.endDate.clone();
+			}
+		},
+
+		apply() {
+			this.updateParentDate();
+			this.hide();
 		},
 
 		updateParentDate() {
@@ -124,6 +143,10 @@ export default {
 			let localizedFormatedDate = DateLocalizationUtils
 				.formatLocalizedDate(date, this.language, format);
 			return StringUtils.capitalizeFirstLetter(localizedFormatedDate);
+		},
+
+		getFirstDayOfWeek() {
+			return this.$t("firstDayOfWeek");
 		}
 	}
 }
