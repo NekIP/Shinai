@@ -40,6 +40,9 @@
 						</ul>
 					</div>
 				</div>
+				<div class="button-container left">
+					<s-button class="apply" @click="applySelected">Apply</s-button>
+				</div>
 			</div>
 			<div class="calendar">
 				<div class="header"> 
@@ -80,9 +83,11 @@
 						</ul>
 					</div>
 				</div>
+				<div class="button-container right">
+					<s-button>Cancel</s-button>
+				</div>
 			</div>
 		</div>
-		<button @click="applySelected">apply</button>
 	</div>
 </template>
 <script>
@@ -527,6 +532,19 @@
 								}
 							}
 						}
+					}
+				}
+
+				.button-container {
+					//border-top: 1px solid #c3c3c3;
+					//margin-top: 5px;
+
+					&.left {
+						padding: 1px 3% 5px 40%;
+					}
+
+					&.right {
+						padding: 1px 40% 5px 3%;
 					}
 				}
 			}
