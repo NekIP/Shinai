@@ -457,6 +457,7 @@
 				.calendar-container {
 					.calendar {
 						.weekdays {
+							user-select: none;
 							padding: 5px;
 							margin-bottom: 1px;
 							display: flex;
@@ -478,6 +479,7 @@
 							flex-direction: row;
 							width: 100%;
 							flex-wrap: wrap;
+							user-select: none;
 
 							.item {
 								list-style-type: none;
