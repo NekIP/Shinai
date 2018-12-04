@@ -110,8 +110,8 @@ export default {
 		hide() {
 			this.expanded = false;
 			if (this.cache.startDate && this.cache.endDate) {
-				this.startDate = this.cache.startDate.clone();
-				this.endDate = this.cache.endDate.clone();
+				this.setDatesFromCache();
+				this.clearCache();
 			}
 		},
 
@@ -124,8 +124,7 @@ export default {
 			if (dateRange.key != 'CUSTOM_DATE_RANGE') {
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();
-				this.cache.startDate = undefined;
-				this.cache.endDate = undefined;
+				this.clearCache();
 				this.apply();
 			}
 		},
@@ -133,8 +132,7 @@ export default {
 		hoverDateRange(dateRange) {
 			if (this.enabledChangeDateWhenHovered && dateRange.key != 'CUSTOM_DATE_RANGE') {
 				if (!this.cache.startDate && !this.cache.endDate) {
-					this.cache.startDate = this.startDate.clone();
-					this.cache.endDate = this.endDate.clone();
+					this.cloneDatesToCache();
 				}
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();
@@ -163,6 +161,22 @@ export default {
 
 		getFirstDayOfWeek() {
 			return this.$t("firstDayOfWeek");
+		},
+
+/* CACHE */
+		clearCache() {
+			this.cache.startDate = undefined;
+			this.cache.endDate = undefined;
+		},
+
+		cloneDatesToCache() {
+			this.cache.startDate = this.startDate.clone();
+			this.cache.endDate = this.endDate.clone();
+		},
+
+		setDatesFromCache() {
+			this.startDate = this.cache.startDate.clone();
+			this.endDate = this.cache.endDate.clone();
 		}
 	}
 }

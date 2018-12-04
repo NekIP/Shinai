@@ -412,8 +412,11 @@
 </script>
 <style lang="scss" scoped>
 	$dayWidth: 14%;
-
+	$textColor: #2c3e50;
+	
 	.s-datepicker {
+		color: $textColor;
+
 		.calendars {
 			width: 100%;
 			height: auto;

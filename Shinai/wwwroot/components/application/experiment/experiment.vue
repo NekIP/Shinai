@@ -84,12 +84,12 @@
 					</div>
 				</span>
 			</s-datepicker-org>-->
-			<s-datepicker-range class="col-sm-12 col-md-5 col-lg-5" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range>
+			<s-datepicker-range class="col-sm-12 col-md-3 col-lg-3" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range>
 			<s-datepicker-range-calendars class="col-sm-5" :start-date.sync="dateFrom" :end-date.sync="dateTo"></s-datepicker-range-calendars>
 			<button @click="test">Change lang {{languages[currentLanguageIndex]}}</button>
 			<p>message: {{ $t('hello') }}</p>
-			<s-button class="col-sm-2" @click="testButton">Hello button</s-button>
-			<s-button class="col-sm-2">Test button</s-button>
+			<s-button class="col-sm-2 white" @click="testButton">Hello button</s-button>
+			<s-button class="col-sm-2 white">Test button</s-button>
 			<s-button class="col-sm-2 apply">Apply</s-button>
 			<br>
 			<br>

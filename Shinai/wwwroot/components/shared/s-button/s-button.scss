@@ -15,6 +15,14 @@
 		background: rgb(231, 231, 231);
 	}
 
+	&.white {
+		background: #ffffff;
+
+		&:hover {
+			background: #f2f1ef;
+		}
+	}
+
 	&.apply {
 		background: #00b16a;
 		color: white;

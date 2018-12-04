@@ -13,11 +13,14 @@ $animationLength: .2s;
 .s-datepicker-range {
 	&.material {
 		.header {
+			color: $textColor;
+
 			.button {
 				border-radius: 2em;
 				padding: 0.3em 1em;
 				transition: border-radius $animationLength ease $animationLength;
 				outline: none;
+				border: 1px solid $borderColor;
 
 				&.expanded {
 					border-radius: 0.4em 0.4em 0 0;
@@ -26,7 +29,8 @@ $animationLength: .2s;
 				}
 
 				&:hover {
-					outline: none;
+					box-shadow: none;
+					background: $backgroundColor;
 				}
 			}
 		}
