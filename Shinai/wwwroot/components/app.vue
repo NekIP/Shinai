@@ -34,6 +34,7 @@
 			height: -webkit-calc(100% - 57px);
 			font-family: Roboto;
 			scroll-behavior: smooth;
+			background: #e3e3e321;
 
 			&::-webkit-scrollbar-track {
 				-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);

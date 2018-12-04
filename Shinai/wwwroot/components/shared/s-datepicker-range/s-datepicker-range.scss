@@ -17,9 +17,12 @@
 $firstThreshold: 750px;
 
 .s-datepicker-range {
-	font-size: 13px;
+	font-size: 15px;
+	width: 100%;
 
 	.header {
+		width: 100%;
+
 		.button {
 			background: white;
 			color: black;
@@ -32,6 +35,8 @@ $firstThreshold: 750px;
 			line-height: 23px;
 			display: flex;
 			flex-direction: row;
+			width: 100%;
+			text-align: left;
 
 			&:hover {
 				border: 1px solid #56b4ef;
@@ -42,8 +47,8 @@ $firstThreshold: 750px;
 			.fa-calendar {
 				flex-grow: 1;
 				margin-right: 10px;
-				margin-top: 0.3em;
-				font-size: 1.2em;
+				margin-top: 0.2em;
+				font-size: 1em;
 			}
 
 			.values {
@@ -87,6 +92,7 @@ $firstThreshold: 750px;
 				@media (max-width: $firstThreshold) {
 					width: 100%;
 				}
+				font-size: 13px;
 
 				.items-container {
 					list-style: none;

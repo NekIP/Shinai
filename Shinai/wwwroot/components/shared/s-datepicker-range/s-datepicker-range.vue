@@ -1,7 +1,7 @@
 <template>
 	<div class="s-datepicker-range" :class="styleClass" v-click-outside="hide">
 		<div class="header">
-			<button class="button" @click="expanded = !expanded">
+			<button class="button" :class="{ 'expanded': expanded }" @click="expanded = !expanded">
 				<i aria-hidden="true" class="fa fa-calendar"></i>
 				<span class="values">
 					<slot name="header">
@@ -12,28 +12,30 @@
 			</button>
 		</div>
 		<div class="body-container">
-			<div class="body" v-if="expanded">
-				<div class="options">
-					<ul class="items-container">
-						<li 	class="item" 
-								v-for="availableDateRange in availableDateRanges"
-								:class="{ 'selected': isSelected(availableDateRange.value) }"
-								@click="selectDateRange(availableDateRange.value)"
-								@mouseenter="hoverDateRange(availableDateRange.value)"
-								:key="availableDateRange.label">
-							{{$t(availableDateRange.label)}}
-						</li>
-					</ul>
+			<transition name="body">
+				<div class="body" v-if="expanded">
+					<div class="options">
+						<ul class="items-container">
+							<li 	class="item" 
+									v-for="availableDateRange in availableDateRanges"
+									:class="{ 'selected': isSelected(availableDateRange.value) }"
+									@click="selectDateRange(availableDateRange.value)"
+									@mouseenter="hoverDateRange(availableDateRange.value)"
+									:key="availableDateRange.label">
+								{{$t(availableDateRange.label)}}
+							</li>
+						</ul>
+					</div>
+					<div class="calendars" v-if="enabledDateRange">
+							<s-datepicker-range-calendars 
+									:start-date.sync="startDate" 
+									:end-date.sync="endDate"
+									@apply="apply"
+									@cancel="cancel">
+							</s-datepicker-range-calendars>
+					</div>
 				</div>
-				<div class="calendars" v-if="enabledDateRange">
-					<s-datepicker-range-calendars 
-							:start-date.sync="startDate" 
-							:end-date.sync="endDate"
-							@apply="apply"
-							@cancel="cancel">
-					</s-datepicker-range-calendars>
-				</div>
-			</div>
+			</transition>
 		</div>
 	</div>
 </template>
