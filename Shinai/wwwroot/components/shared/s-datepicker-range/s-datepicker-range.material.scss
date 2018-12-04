@@ -3,6 +3,7 @@ $textColor: #2c3e50;
 $borderColor: #d0d0d0;
 $blue: #3a539b;
 $animationLength: .2s;
+$firstThreshold: 750px;
 
 %selected-item {
 	background-color: $blue;
@@ -42,6 +43,9 @@ $animationLength: .2s;
 
 				.options {
 					border-right: 1px solid $borderColor;
+					@media (max-width: $firstThreshold) {
+						border-right-width: 0;
+					}
 
 					.items-container {
 						.item {
@@ -50,6 +54,9 @@ $animationLength: .2s;
 							padding: 5px 5px 5px 15px;
 							border-radius: 2em 0 0 2em;
 							//border: 1px solid $borderColor;
+							@media (max-width: $firstThreshold) {
+								border-radius: 2em;
+							}
 
 							&:hover {
 								@extend %selected-item;

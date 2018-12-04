@@ -40,9 +40,6 @@
 						</ul>
 					</div>
 				</div>
-				<div class="button-container left">
-					<s-button class="apply" @click="apply">{{$t('apply')}}</s-button>
-				</div>
 			</div>
 			<div class="calendar">
 				<div class="header"> 
@@ -83,12 +80,12 @@
 						</ul>
 					</div>
 				</div>
-				<div class="button-container right">
-					<s-button @click="cancel">{{$t('cancel')}}</s-button>
-				</div>
 			</div>
 		</div>
-		<div></div>
+		<div class="button-container">
+			<s-button class="apply" @click="apply">{{$t('apply')}}</s-button>
+			<s-button class="cancel" @click="cancel">{{$t('cancel')}}</s-button>
+		</div>
 	</div>
 </template>
 <script>
@@ -413,7 +410,9 @@
 <style lang="scss" scoped>
 	$dayWidth: 14%;
 	$textColor: #2c3e50;
-	
+	$firstThreshold: 750px;
+	$secondTreshold: 600px;
+
 	.s-datepicker {
 		color: $textColor;
 
@@ -423,6 +422,9 @@
 			margin: 5px;
 			display: flex;
 			flex-direction: row;
+			@media (max-width: $secondTreshold) {
+				flex-flow: row wrap;
+			}
 
 			.calendar {
 				.header {
@@ -539,18 +541,23 @@
 						}
 					}
 				}
+			}
+		}
 
-				.button-container {
-					//border-top: 1px solid #c3c3c3;
-					//margin-top: 5px;
+		.button-container {
+			//border-top: 1px solid #c3c3c3;
+			//margin-top: 5px;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			
+			@media (min-width: $secondTreshold) {
+				.apply {
+					flex-basis: 30%;
+				}
 
-					&.left {
-						padding: 1px 3% 5px 40%;
-					}
-
-					&.right {
-						padding: 1px 40% 5px 3%;
-					}
+				.cancel {
+					flex-basis: 30%;
 				}
 			}
 		}
