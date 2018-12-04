@@ -1,5 +1,40 @@
+$backgroundColor: #f2f1ef;
+$textColor: #2c3e50;
+$borderColor: #d0d0d0;
+$blue: #3a539b;
+
+%selected-item {
+	background-color: $blue;
+	border: 1px solid $blue;
+	color: #fff;
+}
+
 .s-datepicker-range {
 	&.material {
+		.body-container {
+			.body {
+				.options {
+					border-right: 1px solid $borderColor;
 
+					.items-container {
+						.item {
+							color: $blue;
+							//background: $backgroundColor;
+							padding: 5px 5px 5px 15px;
+							border-radius: 2em 0 0 2em;
+							//border: 1px solid $borderColor;
+
+							&:hover {
+								@extend %selected-item;
+							}
+
+							&.selected {
+								@extend %selected-item;
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }

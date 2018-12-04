@@ -1,5 +1,5 @@
 <template>
-	<div class="s-datepicker-range" v-click-outside="hide">
+	<div class="s-datepicker-range" :class="styleClass" v-click-outside="hide">
 		<div class="header">
 			<button class="button" @click="expanded = !expanded">
 				<i aria-hidden="true" class="fa fa-calendar"></i>
@@ -30,7 +30,7 @@
 							:start-date.sync="startDate" 
 							:end-date.sync="endDate"
 							@apply="apply"
-							@cancel="hide">
+							@cancel="cancel">
 					</s-datepicker-range-calendars>
 				</div>
 			</div>

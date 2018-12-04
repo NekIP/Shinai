@@ -5,6 +5,7 @@ import vClickOutside from 'v-click-outside'
 import { DateRange, getDateRanges } from './s-datepicker-range.functions';
 
 import StringUtils from 'utils/string';
+import DateUtils from 'utils/date';
 import DateLocalizationUtils from 'utils/date-localization';
 import TwoSideBindingUtils from 'utils/vue/two-side-binding';
 
@@ -12,7 +13,8 @@ export default {
 	name: 'datepicker-range',
 	computed: {
 		...mapState({
-			language: state => state.localization.language
+			language: state => state.localization.language,
+			styleClass: state => state.base.styleClass
 		}),
 
 		allDateRanges() {
@@ -79,14 +81,17 @@ export default {
 	data() {
 		return {
 			expanded: false,
-			selectedDateRange: undefined
+			cache: {
+				startDate: undefined,
+				endDate: undefined
+			}
 		}
 	},
 	created() {
 		if (!this.startDate) {
-			this.selectedDateRange = (this.allDateRanges[this.initialRangeKey] || this.allDateRanges['TODAY']).value;
-			this.startDate = this.selectedDateRange.startDate; 
-			this.endDate = this.selectedDateRange.endDate;
+			let selectedDateRange = (this.allDateRanges[this.initialRangeKey] || this.allDateRanges['TODAY']).value;
+			this.startDate = selectedDateRange.startDate; 
+			this.endDate = selectedDateRange.endDate;
 		}
 		else {
 			if (!dayjs.isDayjs(this.startDate)) {
@@ -98,32 +103,39 @@ export default {
 			else if (!dayjs.isDayjs(this.endDate)) {
 				this.endDate = dayjs(this.endDate);
 			}
-			this.selectedDateRange = new DateRange(
-				this.startDate, 
-				this.endDate)
 		}
 		this.updateParentDate();
 	},
 	methods: {
-		hide() { 
-			this.expanded = false 
+		hide() {
+			this.expanded = false;
+			if (this.cache.startDate && this.cache.endDate) {
+				this.startDate = this.cache.startDate.clone();
+				this.endDate = this.cache.endDate.clone();
+			}
 		},
 
 		isSelected(dateRange) { 
-			return this.selectedDateRange == dateRange 
+			return DateUtils.dateEquals(this.startDate, dateRange.startDate) 
+				&& DateUtils.dateEquals(this.endDate, dateRange.endDate) ;
 		},
 
 		selectDateRange(dateRange) {
-			this.selectedDateRange = dateRange;
 			if (dateRange.key != 'CUSTOM_DATE_RANGE') {
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();
+				this.cache.startDate = undefined;
+				this.cache.endDate = undefined;
 				this.apply();
 			}
 		},
 
 		hoverDateRange(dateRange) {
 			if (this.enabledChangeDateWhenHovered && dateRange.key != 'CUSTOM_DATE_RANGE') {
+				if (!this.cache.startDate && !this.cache.endDate) {
+					this.cache.startDate = this.startDate.clone();
+					this.cache.endDate = this.endDate.clone();
+				}
 				this.startDate = dateRange.startDate.clone();
 				this.endDate = dateRange.endDate.clone();
 			}
@@ -131,6 +143,10 @@ export default {
 
 		apply() {
 			this.updateParentDate();
+			this.hide();
+		},
+
+		cancel() {
 			this.hide();
 		},
 
