@@ -91,6 +91,9 @@
 			<s-button class="col-sm-2 white" @click="testButton">Hello button</s-button>
 			<s-button class="col-sm-2 white">Test button</s-button>
 			<s-button class="col-sm-2 apply">Apply</s-button>
+			<s-input :value.sync="inputTest1"></s-input>
+			<s-input :value.sync="inputTest2" type="int"></s-input>
+			<s-input :value.sync="inputTest3" type="password"></s-input>
 			<br>
 			<br>
 			<!--<button @click="testSet">set</button>
@@ -180,6 +183,9 @@
 				testDate1: dayjs(),
 				testDate2: dayjs(),
 				pageSizes: [100, 200, 500],
+				inputTest1: '',
+				inputTest2: 0,
+				inputTest3: 'wer',
 				columns: [
 					{ id: 'mid', name: 'Merchant Id', type: 'number' },
 					{ id: 'date', type: 'date' },

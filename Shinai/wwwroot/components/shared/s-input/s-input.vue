@@ -1,13 +1,18 @@
 <template>
-	<span class="s-input">
-		<span>
-			<slot name="icon"></slot>
+	<span class="s-input" :class="styleClass">
+		<span class="icon">
+			<slot name="icon">
+				<i v-if="format.name == 'string'" class="fa fa-pencil" aria-hidden="true"></i>
+				<i v-if="format.name == 'float' || format.name == 'int'" class="fa fa-sort-numeric-asc" aria-hidden="true"></i>
+				<i v-if="format.name == 'password'" class="fa fa-key" aria-hidden="true"></i>
+			</slot>
 		</span>
-		<input />
+		<input class="input" />
 	</span>
 </template>
 <script>
 	import EmailUtils from 'utils/email';
+	import { mapState } from 'vuex';
 
 	class Format {
 		constructor(
@@ -135,12 +140,20 @@
 			}
 		},
 		computed: {
+			...mapState({
+				styleClass: state => state.base.styleClass
+			}),
+
 			format() {
 				return FormatParser.parse(this.type);
 			},
 
 			formatValidator() {
-				return ValidationCreator.create(this.format);
+				//return ValidationCreator.create(this.format);
+			},
+
+			formatCorrectors() {
+				
 			}
 		},
 		methods: {
@@ -151,5 +164,48 @@
 	}
 </script>
 <style lang="scss" scoped>
+	$backgroundColor: #f2f1ef;
+	$hoveredBackgroundColor: #e6e6e6;
+	$borderColor: #d0d0d0;
+	$textColor: #2c3e50;
+	$outlineColor: #3a529b9b;
 
+	.s-input {
+		&.material {
+			color: $textColor;
+
+			.icon {
+			}
+
+			.input {
+				border-radius: 2em;
+				background: $backgroundColor;
+
+				&:focus {
+					background: white;
+					border-color: #133f84;
+				}
+			}
+		}
+	}
+</style>
+<style lang="scss" scoped>
+	.s-input {
+		position: relative;
+
+		.icon {
+			position: absolute;
+			padding: 0.3em;
+			margin: 0.6em 0.4em 0.5em 0.4em;
+			border-right: 1px solid rgb(230, 230, 230);
+		}
+
+		.input {
+			user-select: all;
+			outline: none;
+			border: 1px solid rgb(201, 201, 201);
+			border-radius: 0.4em;
+			padding: 0.4em 0.4em 0.4em 2em;
+		}
+	}
 </style>
