@@ -345,7 +345,7 @@
 /* APPLY SELECTED FIELDS TO PARENT */
 			applySelected() {
 				let selected = this.selected;
-				if (!selected.enabled && selected.startDate && selected.endDate) {
+				if (!this.isSelecting && selected.startDate && selected.endDate) {
 					if (this.isSelectedRangeInOneDay()) {
 						this.setSelectedFromStartToEndDay();
 					}
@@ -387,7 +387,9 @@
 /* EVENTS */
 			apply() {
 				this.applySelected();
-				this.$emit('apply');
+				if (!this.isSelecting) {
+					this.$emit('apply');
+				}
 			},
 
 			cancel() {
