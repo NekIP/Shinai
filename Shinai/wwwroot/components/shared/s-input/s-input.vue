@@ -56,7 +56,8 @@
 				new Validator((val, frmt) => 
 					frmt.min && frmt.max ? +val >= frmt.min && +val < frmt.max : true, 
 					(frmt) => `The length of the string must be longer ${frmt.min} and shorter ${frmt.max}.`
-				)
+				),
+				
 			]
 			let stringValidator = (val, frmt) => 
 				frmt.min && frmt.max 

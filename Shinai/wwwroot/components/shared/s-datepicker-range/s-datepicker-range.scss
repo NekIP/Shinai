@@ -17,15 +17,14 @@
 $firstThreshold: 750px;
 
 .s-datepicker-range {
-	font-size: 15px;
 	width: 100%;
 
 	.header {
 		width: 100%;
-
+		color: black;
+		
 		.button {
 			background: white;
-			color: black;
 			border: 1px solid rgb(204, 204, 204);
 			cursor: pointer;
 			outline: inherit;
@@ -48,7 +47,6 @@ $firstThreshold: 750px;
 				flex-grow: 1;
 				margin-right: 10px;
 				margin-top: 0.2em;
-				font-size: 1em;
 			}
 
 			.values {
@@ -58,6 +56,13 @@ $firstThreshold: 750px;
 			.fa-caret-down {
 				flex-grow: 0;
 				margin-top: 0.3em;
+				margin-left: 0.5em;
+				font-size: 1.1em;
+			}
+
+			.fa-caret-up {
+				flex-grow: 0;
+				margin-top: 0.2em;
 				margin-left: 0.5em;
 				font-size: 1.1em;
 			}
@@ -121,7 +126,7 @@ $firstThreshold: 750px;
 			}
 
 			.calendars {
-				font-size: 16px;
+
 			}
 
 			&:before {

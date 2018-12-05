@@ -418,6 +418,7 @@
 <style lang="scss" scoped>
 	.experiment {
 		//background: rgb(251, 254, 255);
+		font-size: 13px;
 	}
 
 	.title {

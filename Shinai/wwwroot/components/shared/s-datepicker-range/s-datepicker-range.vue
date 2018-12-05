@@ -8,7 +8,8 @@
 						{{formatLocalizedDate(startDate, 'MMMM D, YYYY')}} - {{formatLocalizedDate(endDate, 'MMMM D, YYYY')}}
 					</slot>
 				</span>
-				<i aria-hidden="true" class="fa fa-caret-down"></i>
+				<i v-if="!expanded" aria-hidden="true" class="fa fa-caret-down"></i>
+				<i v-if="expanded" aria-hidden="true" class="fa fa-caret-up"></i>
 			</button>
 		</div>
 		<div class="body-container">

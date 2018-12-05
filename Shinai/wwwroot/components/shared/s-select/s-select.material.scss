@@ -1,4 +1,9 @@
 @import '../../../styles/shared/mixins/border-radius.scss';
+$backgroundColor: #f2f1ef;
+$hoveredBackgroundColor: #e6e6e6;
+$borderColor: #d0d0d0;
+$textColor: #2c3e50;
+$outlineColor: #3a529b9b;
 
 .s-select {
 	&.material {
@@ -8,24 +13,70 @@
 
 			&:hover {
 				.select {
-					box-shadow: 0 6px 9px rgba(127, 150, 187, 0.19);
+					background: $hoveredBackgroundColor;
 				}
 			}
 
 			.select {
-				color: rgb(0, 0, 0);
-				padding: 0.6em 0.5em 0.6em 1em;
-				border-width: 0px;
-				border: 1px solid rgb(203, 209, 216);
+				color: $textColor;
+				border: 1px solid $borderColor;
 				@include border-radius(2em);
-				background: rgb(255, 255, 255);
-				transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+				background: $backgroundColor;
+				//transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
+				box-shadow: none;
+				transition: border-radius .2s ease .2s, border-bottom-width .0s ease .2s;
 				cursor: pointer;
 
 				&.expanded-select {
-					@include border-radius(1.5em 1.5em 0 0);
+					@include border-radius(0.4em 0.4em 0 0);
+					transition: border-radius .2s ease;
+					border-bottom-width: 0px;
 				}
 			}
 		}
+
+		&.white {
+			.select-box {
+				&:hover {
+					.select {
+						background: $backgroundColor;
+					}
+				}
+
+				.select {
+					background: #fff;
+				}
+			}
+		}
+
+		.select-container {
+			.select-body {
+				color: $textColor;
+
+				.toolbar {
+					.search {
+	
+						.search-text-box {
+						}
+					}
+	
+					.selector {
+					}
+
+				}
+	
+				.options {
+					.item {
+						&.single {
+
+						}
+	
+						&.group {
+
+						}
+					}
+				}
+			}
+		}	
 	}
 }

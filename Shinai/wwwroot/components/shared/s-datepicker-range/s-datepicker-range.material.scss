@@ -18,10 +18,11 @@ $firstThreshold: 750px;
 
 			.button {
 				border-radius: 2em;
-				padding: 0.3em 1em;
+				padding: 0.4em 1em 0.4em 1em;
 				transition: border-radius $animationLength ease $animationLength;
 				outline: none;
 				border: 1px solid $borderColor;
+				color: $textColor;
 
 				&.expanded {
 					border-radius: 0.4em 0.4em 0 0;
@@ -40,6 +41,9 @@ $firstThreshold: 750px;
 			.body {
 				margin-top: 0px;
 				border-radius: 0 0.4em 0.4em 0.4em;
+				@media (max-width: $firstThreshold) {
+					border-radius: 0 0 0.4em 0.4em;
+				}
 
 				.options {
 					border-right: 1px solid $borderColor;

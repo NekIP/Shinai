@@ -1,29 +1,12 @@
 @import '../../../styles/shared/mixins/hardware.scss';
 @import '../../../styles/shared/mixins/border-radius.scss';
 
+$hoveredBackgroundColor: #e6e6e6;
+
 .s-select {
 	@include hardware();
 	width: 100%;
-	font-size: 14px;
-	margin: 5px;
 	z-index: 1;
-	
-	.segpay-btn-link {
-		padding: 0;
-
-		&:hover {
-			text-decoration: underline;
-			color: orange;
-		}
-	}
-
-	.over-select {
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-	}
 
 	.select-box {
 		position: relative;
@@ -39,22 +22,34 @@
 		}
 
 		.select {
-			font-size: 14px;
 			width: 100%;
 			color: rgb(236, 236, 236);
-			padding: 0.4em 0.5em 0.5em 1em;
+			padding: 0.5em 1em 0.5em 1em;
 			border-width: 0px;
 			border: 1px solid rgb(203, 209, 216);
 			white-space: nowrap;
 			display: block;
-			font-weight: 500;
 			overflow: hidden;
-			text-shadow: 1px 1px rgba(0, 0, 0, 0.14);
 			max-height: 34px;
 			@include border-radius(1em);
 			background: linear-gradient(to bottom, #bebfc0 0%, #a2a3a5 100%);
 			box-shadow: 0px 3px 2px rgba(117, 137, 173, 0.18)/*, 0 3px 6px rgba(115, 142, 192, 0.23)*/;
 			cursor: pointer;
+			text-align: left;
+			display: flex;
+			flex-direction: row;
+			outline: none;
+
+			.title {
+				flex-grow: 16;
+			}
+
+			.caret {
+				flex-grow: 0;
+				margin-top: 0.3em;
+				margin-left: 0.5em;
+				font-size: 1.1em;
+			}
 
 			&.expanded-select {
 				@include border-radius(1.5em 1.5em 0 0);
@@ -73,7 +68,7 @@
 			background-color: #ffffff;
 			-webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
 			box-shadow: 0 6px 12px rgba(0,0,0,.175);
-			@include border-radius(0px 0px 1em 1em);
+			@include border-radius(0px 0px 0.4em 0.4em);
 			border: 1px solid rgb(203, 209, 216);
 			position: absolute;
 			top: 0;
@@ -171,20 +166,21 @@
 			}
 
 			&::-webkit-scrollbar-track {
-				background-color: #F5F5F5;
+				background-color: rgb(255, 255, 255);
 				@include border-radius(0 0 1em 0);
 				overflow: hidden;
 			}
 
 			&::-webkit-scrollbar {
 				width: 10px;
-				background-color: #F5F5F5;
+				background-color: rgb(255, 255, 255);
 				@include border-radius(0 0 1em 0);
 				overflow: hidden;
 			}
 
 			&::-webkit-scrollbar-thumb {
-				background-color: rgb(140, 159, 177);
+				background-color: $hoveredBackgroundColor;
+				border-radius: 0 0 1em 1em;
 			}
 
 			.hint--info:before {

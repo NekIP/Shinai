@@ -1,14 +1,17 @@
 <template>
 	<div class="s-select" :class="styleClass" v-click-outside="hide">
 		<div class="select-box" v-on:click="changeIsExpandedState">
-			<select class="select form-control" :class="isExpanded ? 'expanded-select' : ''">
-				<option>
-					<slot name="header" :selected="getSelected(options)">
-						{{title}}
-					</slot>
-				</option>
-			</select>
-			<div class="over-select"></div>
+			<button class="select" :class="isExpanded ? 'expanded-select' : ''">
+                <span class="title">
+                    <slot name="header" :selected="getSelected(options)">
+                        {{title}}
+                    </slot>
+                </span>
+                <span class="caret">
+                    <i v-if="!isExpanded" aria-hidden="true" class="fa fa-caret-down"></i>
+				    <i v-if="isExpanded" aria-hidden="true" class="fa fa-caret-up"></i>
+                </span>
+			</button>
 		</div>
     	<div class="select-container">
             <transition name="select-body">

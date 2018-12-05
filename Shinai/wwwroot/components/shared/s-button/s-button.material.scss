@@ -13,7 +13,7 @@ $outlineColor: #3a529b9b;
 		margin: 2px;
 		border: 1px solid $borderColor;
 		border-radius: 2em;
-		padding: 0.3em 1em;
+		padding: 0.4em 0.1em 0.4em 0.1em;
 		cursor: pointer;
 		outline: none;
 		color: $textColor;
@@ -30,6 +30,41 @@ $outlineColor: #3a529b9b;
 
 		&:focus {
 			//box-shadow: 0 0 0 1.25px $outlineColor;
+		}
+
+		&.white {
+			background: #ffffff;
+	
+			&:hover {
+				background: #f2f1ef;
+			}
+		}
+	
+		&.apply {
+			background: #00b16a;
+			color: white;
+	
+			&:hover {
+				background: #009b5d;
+			}
+		}
+	
+		&.submit {
+			background: #f39c12;
+			color: white;
+	
+			&:hover {
+				background: #db8d10;
+			}
+		}
+	
+		&.danger {
+			background: #d91e18;
+			color: white;
+	
+			&:hover {
+				background: #c31c16;
+			}
 		}
 
 		&:before {
