@@ -21,7 +21,11 @@ $mobile-scale: 2;
 			border-color: $color;
 
 			svg {
+				//display: block;
+				
+
 				path {
+					stroke-width: 2;
 					fill: $color;
 				}
 
@@ -35,7 +39,11 @@ $mobile-scale: 2;
 	&:hover {
 		.checkbox {
 			svg {
+				//display: block;
+				
+				
 				path {
+					stroke-width: 2;
 					stroke-dashoffset: 0;
 				}
 			}
@@ -74,11 +82,12 @@ $mobile-scale: 2;
 			position: absolute;
 			top: -2px;
 			left: -2px;
+			//display: none;
 
 			path {
 				fill: none;
 				stroke: $color;
-				stroke-width: 2;
+				stroke-width: 0;
 				stroke-linecap: round;
 				stroke-linejoin: round;
 				stroke-dasharray: 71px;

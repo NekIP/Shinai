@@ -42,6 +42,9 @@ $hoveredBackgroundColor: #e6e6e6;
 
 			.title {
 				flex-grow: 16;
+				width: 100%;
+				text-overflow: ellipsis;
+				overflow-x: hidden;
 			}
 
 			.caret {
@@ -118,7 +121,7 @@ $hoveredBackgroundColor: #e6e6e6;
 			.options {
 				list-style-type: none;
 				margin: 0;
-				padding: 5px 0 5px 5px;
+				padding: 5px 0 1em 1.5em;
 
 				.item {
 					margin: 5px 0px;

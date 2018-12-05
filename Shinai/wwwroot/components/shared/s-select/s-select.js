@@ -174,7 +174,7 @@ export default {
 		},
 
 		match(option) {
-			return option.text.includes(this.searchString);
+			return option.text.toUpperCase().includes(this.searchString.toUpperCase());
 			/*let fuse = new Fuse([option], settingsFuse);
 			let result = fuse.search(this.searchString);
 			return result.length > 0;*/
