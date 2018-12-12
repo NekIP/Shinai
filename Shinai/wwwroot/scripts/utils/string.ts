@@ -1,5 +1,5 @@
 export default class StringUtils {
-	static capitalizeFirstLetter(string) {
+	static capitalizeFirstLetter(string: string): string {
 		if (!string) {
 			return string;
 		}

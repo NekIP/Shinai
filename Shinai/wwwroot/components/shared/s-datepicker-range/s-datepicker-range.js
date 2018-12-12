@@ -4,10 +4,10 @@ import vClickOutside from 'v-click-outside'
 
 import { DateRange, getDateRanges } from './s-datepicker-range.functions';
 
-import StringUtils from 'utils/string';
-import DateUtils from 'utils/date';
-import DateLocalizationUtils from 'utils/date-localization';
-import TwoSideBindingUtils from 'utils/vue/two-side-binding';
+import StringUtils from 'utils/string.ts';
+import DateUtils from 'utils/date.ts';
+import DateLocalizationUtils from 'utils/date-localization.ts';
+import TwoSideBindingUtils from 'utils/vue/two-side-binding.ts';
 
 export default {
 	name: 'datepicker-range',
