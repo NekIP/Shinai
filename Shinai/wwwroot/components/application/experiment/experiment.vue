@@ -137,8 +137,10 @@
 <script>
 	/*import moment from 'moment';*/
 	import { mapMutations } from 'vuex';
+	import Title from 'utils/title.ts';
 	import dayjs from 'dayjs';
 	import { DateRange } from '../../../scripts/datepicker/definitions.js';
+
 	export default {
 		name: 'experiment',
 		data() { 
