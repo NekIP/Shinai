@@ -107,6 +107,9 @@
 			<div class="col-sm-12" style="height: 50px"></div>
 			<material-design-input :value.sync="text">Test</material-design-input>
 			<div class="col-sm-12" style="height: 50px"></div--> 
+
+			
+
 			<s-table
 				:items="data"
 				:columns="columns"
@@ -137,9 +140,12 @@
 <script>
 	/*import moment from 'moment';*/
 	import { mapMutations } from 'vuex';
-	import Title from 'utils/title.ts';
 	import dayjs from 'dayjs';
 	import { DateRange } from '../../../scripts/datepicker/definitions.js';
+	import ApiClient from 'utils/api-client'; ;
+	import Title from 'utils/title';
+
+	Title.set('Experiment');
 
 	export default {
 		name: 'experiment',
@@ -329,6 +335,8 @@
 		created: function() {
 			this.addRandomData(100); // cols.reduce((a, b) => a + b, 0)
 			this.addRandomDataForSelect(100);
+			ApiClient.get('/n234r908whv349p7rh34uio/test/one', undefined, (data) => console.log(data));
+			ApiClient.post('/n234r908whv349p7rh34uio/test/one', undefined, (data) => console.log(data + 'from post'));
 		},
 		methods: {
 			...mapMutations({

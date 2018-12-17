@@ -11,7 +11,7 @@
 	</span>
 </template>
 <script>
-	import EmailUtils from 'utils/email.ts';
+	import EmailUtils from 'utils/email';
 	import { mapState } from 'vuex';
 
 	class Format {

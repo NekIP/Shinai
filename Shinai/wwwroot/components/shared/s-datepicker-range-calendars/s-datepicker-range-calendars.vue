@@ -1,5 +1,5 @@
 <template>
-	<div class="s-datepicker">
+	<div class="s-datepicker-range-calendars">
 		<div class="calendars">
 			<div class="calendar">
 				<div class="header"> 
@@ -92,10 +92,10 @@
 	import { mapState } from 'vuex';
 	import dayjs from 'dayjs';
 
-	import StringUtils from 'utils/string.ts';
-	import DateUtils from 'utils/date.ts';
-	import DateLocalizationUtils from 'utils/date-localization.ts';
-	import TwoSideBindingUtils from 'utils/vue/two-side-binding.ts';
+	import StringUtils from 'utils/string';
+	import DateUtils from 'utils/date';
+	import DateLocalizationUtils from 'utils/date-localization';
+	import TwoSideBindingUtils from 'utils/vue/two-side-binding';
 	
 	export default {
 		name: "datepicker",
@@ -415,7 +415,7 @@
 	$firstThreshold: 750px;
 	$secondTreshold: 600px;
 
-	.s-datepicker {
+	.s-datepicker-range-calendars {
 		color: $textColor;
 
 		.calendars {
@@ -429,6 +429,11 @@
 			}
 
 			.calendar {
+				flex-basis: 50%;
+				@media (max-width: $secondTreshold) {
+					flex-basis: 100%;
+				}
+
 				.header {
 					display: flex;
 					flex-direction: row;

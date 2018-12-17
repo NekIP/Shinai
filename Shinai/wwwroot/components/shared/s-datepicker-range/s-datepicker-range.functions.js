@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import DateLocalizationUtils from 'utils/date-localization.ts';
+import DateLocalizationUtils from 'utils/date-localization';
 
 export class DateRangeViewModel {
 	constructor(value, label) {

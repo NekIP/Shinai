@@ -28,7 +28,7 @@
                                     class="int hint--bottom hint--info"
                                     :data-hint="allSelected ?  'Unselect all' : 'Select All'"
                                     :value.sync="allSelected" 
-                                    :callback="setSelectStateForAll">
+                                    @changed="setSelectStateForAll">
                             </s-checkbox>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                                     :key="option.value">
                                 <s-checkbox
                                     :value.sync="option.selected"
-                                    :callback="selectStateChanged">
+                                    @changed="selectStateChanged">
                                     {{option.text}}
                                 </s-checkbox>
                             </li>
@@ -55,7 +55,7 @@
                                                 class="hint hint--bottom hint--info"
                                                 :data-hint="option.selected ? 'Unselect Group' : 'Select Group'"
                                                 :value.sync="option.selected"
-                                                :callback="val => setSelectStateForGroup(val, option)">
+                                                @changed="val => setSelectStateForGroup(val, option)">
                                             </s-checkbox>
                                         </div>
                                     </div>
@@ -64,7 +64,7 @@
                                     <li     class="item single" 
                                             v-if="filter(item)" 
                                             :key="item.value">
-                                        <s-checkbox :value.sync="item.selected" :callback="selectStateChanged">
+                                        <s-checkbox :value.sync="item.selected" @changed="selectStateChanged">
                                             {{item.text}}
                                         </s-checkbox>
                                     </li>

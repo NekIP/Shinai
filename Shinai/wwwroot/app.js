@@ -6,20 +6,20 @@ import Vue from 'vue';
 
 
 /* COMPONENTS REGISTRATION */
-	import table from './components/shared/s-table/s-table.vue';
-	import select from './components/shared/s-select/s-select.vue';
-	import checkbox from './components/shared/s-checkbox/s-checkbox.vue';
-	import navMenu from './components/shared/s-nav-menu/s-nav-menu.vue';
-	import navMenuItem from './components/shared/s-nav-menu-item/s-nav-menu-item.vue';
-	import sideNavMenu from './components/shared/s-side-nav-menu/s-side-nav-menu.vue';
-	import materialInput from './components/shared/s-material-input/s-material-input.vue';
-	import datepickerRangeCalendars from './components/shared/s-datepicker-range-calendars/s-datepicker-range-calendars.vue';
-	import datepickerRange from './components/shared/s-datepicker-range/s-datepicker-range.vue';
-	import window from './components/shared/s-window/s-window.vue';
-	import datePickerAnother from './components/shared/s-datepicker-another/s-date-picker.vue';
-	import dateRangePickerAnother from './components/shared/s-datepicker-another/s-daterange-picker.vue';
-	import button from './components/shared/s-button/s-button.vue';
-	import input from './components/shared/s-input/s-input.vue';
+	import table from 'components/shared/s-table/s-table.vue';
+	import select from 'components/shared/s-select/s-select.vue';
+	import checkbox from 'components/shared/s-checkbox/s-checkbox.vue';
+	import navMenu from 'components/shared/s-nav-menu/s-nav-menu.vue';
+	import navMenuItem from 'components/shared/s-nav-menu-item/s-nav-menu-item.vue';
+	import sideNavMenu from 'components/shared/s-side-nav-menu/s-side-nav-menu.vue';
+	import materialInput from 'components/shared/s-material-input/s-material-input.vue';
+	import datepickerRangeCalendars from 'components/shared/s-datepicker-range-calendars/s-datepicker-range-calendars.vue';
+	import datepickerRange from 'components/shared/s-datepicker-range/s-datepicker-range.vue';
+	import window from 'components/shared/s-window/s-window.vue';
+	//import datePickerAnother from 'components/shared/s-datepicker-another/s-date-picker.vue';
+	//import dateRangePickerAnother from 'components/shared/s-datepicker-another/s-daterange-picker.vue';
+	import button from 'components/shared/s-button/s-button.vue';
+	import input from 'components/shared/s-input/s-input.vue';
 
 	Vue.component('s-table', table);
 	Vue.component('s-select', select);
@@ -28,21 +28,19 @@ import Vue from 'vue';
 	Vue.component('s-nav-menu', navMenu);
 	Vue.component('s-nav-menu-item', navMenuItem);
 	Vue.component('s-side-nav-menu', sideNavMenu);
-	//Vue.component('s-calendar', calendar);
-	//Vue.component('s-datepicker-org', datepickerOrg);
 	Vue.component('s-datepicker-range-calendars', datepickerRangeCalendars);
 	Vue.component('s-datepicker-range', datepickerRange);
 	Vue.component('s-window', window);
 	Vue.component('s-button', button);
 	Vue.component('s-input', input);
-	Vue.component('s-date-picker-another', datePickerAnother);
-	Vue.component('s-daterange-picker-another', dateRangePickerAnother);
+	//Vue.component('s-date-picker-another', datePickerAnother);
+	//Vue.component('s-daterange-picker-another', dateRangePickerAnother);
 
 /* ROUTING */
 	import VueRouter from 'vue-router';
 
-	import home from './components/application/home/home.vue';
-	import experiment from './components/application/experiment/experiment.vue';
+	import home from 'components/application/home/home.vue';
+	import experiment from 'components/application/experiment/experiment.vue';
 
 	Vue.use(VueRouter);
 
@@ -70,14 +68,14 @@ import Vue from 'vue';
 
 	const i18n = new VueI18n({ 
 		locale: 'en-EN', 
-		fallbackLocale: 'en-EN', 
+		fallbackLocale: 'en-EN'
 	}); 										/* 
 												 * don't rename it, 
 												 * because this name can use in all childrens 
 												 */
 
 /* APPLICATION */
-	import app from './components/app.vue';
+	import app from 'components/app.vue';
 	import store from './store';	/* 
 									* don't rename it, 
 									* because this name can use in all childrens 

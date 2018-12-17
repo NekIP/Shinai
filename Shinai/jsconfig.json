@@ -1,0 +1,11 @@
+{
+	"baseUrl": ".",
+    "exclude": [
+        "node_modules"
+	],
+    "paths": {
+		"utils/*": ["./wwwroot/scripts/utils/*"],
+		"shared/*": ["./wwwroot/scripts/shared/*"],
+		"components/*": ["./wwwroot/components/*"]
+	}
+}

@@ -1,33 +1,21 @@
-import { Dayjs, isDayjs } from 'dayjs';
-
-export const dayjs = (date=undefined): Dayjs => date ? new Dayjs(date) : date;
-
-export enum DayOfWeek {
-	saturday,
-	sunday,
-	monday,
-	tuesday,
-	wednesday,
-	thursday,
-	friday
-}
+import dayjs from 'dayjs';
 
 export default class DateUtils {
 	static weekdays = [
-		DayOfWeek.saturday,
-		DayOfWeek.sunday,
-		DayOfWeek.monday,
-		DayOfWeek.tuesday,
-		DayOfWeek.wednesday,
-		DayOfWeek.thursday,
-		DayOfWeek.friday
+		'saturday',
+		'sunday',
+		'monday',
+		'tuesday',
+		'wednesday',
+		'thursday',
+		'friday'
 	]
 
-	static convertDate(date) : Dayjs {
+	static convertDate(date) {
 		if (date == undefined) {
 			return dayjs();
 		}
-		if (isDayjs(date)) {
+		if (dayjs.isDayjs(date)) {
 			return date;
 		}
 		if (date instanceof Date || date instanceof String) {
@@ -36,8 +24,8 @@ export default class DateUtils {
 		throw new Error("Unrecognized format of date!");
 	}
 
-	static getWeekdaysFromFirstDayOfWeek(firstDayOfWeek: DayOfWeek): Array<DayOfWeek> {
-		let result: Array<DayOfWeek> = [];
+	static getWeekdaysFromFirstDayOfWeek(firstDayOfWeek) {
+		let result = [];
 		let indexOfFirstDayOfWeek = -1;
 		for (let i = 0; i < this.weekdays.length; i++) {
 			let weekday = this.weekdays[i];

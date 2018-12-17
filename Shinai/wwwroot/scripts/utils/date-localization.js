@@ -1,5 +1,4 @@
-import { Dayjs } from 'dayjs';
-import { dayjs, DayOfWeek } from './date.ts';
+import dayjs from 'dayjs';
 
 import 'dayjs/locale/ru';
 import 'dayjs/locale/ja';
@@ -19,24 +18,24 @@ export default class DateLocalizationUtils {
 		'friday': x => x.add(5, 'day')
 	};
 
-	static getCleanLanguage(language: string): string {
+	static getCleanLanguage(language) {
 		let result = language.split('-');
 		return result[0];
 	}
 
-	static formatLocalizedDate(date: Date | Dayjs | string, language: string, format: string) {
+	static formatLocalizedDate(date, language, format) {
 		return dayjs(date).locale(this.getCleanLanguage(language)).format(format);
 	}
 
-	static getLocalizedStartOfWeek(date: Date | Dayjs | string, dayStartOfWeek: DayOfWeek) {
+	static getLocalizedStartOfWeek(date, dayStartOfWeek) {
 		let result = dayjs(date).clone().locale("en");
 		let sunday = result.startOf('week');
-		return this.startOfWeekConvertors[dayStartOfWeek.toString()](sunday);
+		return this.startOfWeekConvertors[dayStartOfWeek](sunday);
 	}
 
-	static getLocalizedEndOfWeek(date: Date | Dayjs | string, dayStartOfWeek: DayOfWeek) {
+	static getLocalizedEndOfWeek(date, dayStartOfWeek) {
 		let result = dayjs(date).clone().locale("en");
 		let saturday = result.endOf('week');
-		return this.startOfWeekConvertors[dayStartOfWeek.toString()](saturday);
+		return this.startOfWeekConvertors[dayStartOfWeek](saturday);
 	}
 }

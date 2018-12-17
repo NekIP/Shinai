@@ -5,6 +5,12 @@ const cssExtractor = new ExtractTextPlugin('style.css', { allChunk: true });
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const autoprefixer = require('autoprefixer');
 
+const pathAliases = {
+	utils: path.resolve(__dirname, 'wwwroot/scripts/utils/'),
+	shared: path.resolve(__dirname, 'wwwroot/scripts/shared/'),
+	components: path.resolve(__dirname, 'wwwroot/components')
+}
+
 const babelLoader = {
 	loader: 'babel-loader',
 	options: {
@@ -29,6 +35,13 @@ const cssLoader = [
 	"postcss-loader",						/* prefixes */
 	"resolve-url-loader"
 ];
+
+const createCssExtractor = () => cssExtractor.extract({
+	fallback: "style-loader",
+	use: [
+		...cssLoader
+	]
+});
 
 /* IMPORTANT: handlers convert code strictly from bottom to top */
 const sassLoader = cssExtractor.extract({
@@ -82,12 +95,7 @@ module.exports = {
 						sass: sassLoader,					/* <style lang="sass"> */
 						js: jsLoader,						/* js with babel translation */
 						i18n: '@kazupon/vue-i18n-loader',	/* localization */
-						css: cssExtractor.extract({
-							fallback: "style-loader",
-							use: [
-								...cssLoader
-							]
-						})
+						css: createCssExtractor()
                     },
 					sourceMap: true
                 }
@@ -99,12 +107,7 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-				loaders: cssExtractor.extract({
-					fallback: "style-loader",
-					use: [
-						...cssLoader
-					]
-				})
+				loaders: createCssExtractor()
             },
             {
 				test: /\.(sass|scss)$/,
@@ -129,10 +132,8 @@ module.exports = {
 			"node_modules",
 			path.resolve(__dirname, "wwwroot")
 		],
-		alias: {
-			utils: path.resolve(__dirname, 'wwwroot/scripts/utils/'),
-			shared: path.resolve(__dirname, 'wwwroot/scripts/shared/')
-		}
+		extensions: [ '.tsx', '.ts', '.js' ],
+		alias: pathAliases
 	},
     plugins: [
         cssExtractor,							/* extract css from js files */

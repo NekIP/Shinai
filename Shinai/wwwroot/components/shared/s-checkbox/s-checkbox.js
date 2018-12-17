@@ -5,10 +5,6 @@ export default {
 		value: {
 			required: true,
 			type: Boolean
-		},
-		callback: {
-			required: false,
-			type: Function
 		}
 	},
 	computed: {
@@ -19,10 +15,9 @@ export default {
 	methods: {
 		onValueChange() {
 			this.value = !this.value;
+			console.log("hello");
 			this.$emit('update:value', this.value);
-			if (this.callback) {
-				this.callback(this.value);
-			}
+			this.$emit('changed', this.value)
 			this.$forceUpdate();
 		}
 	}
